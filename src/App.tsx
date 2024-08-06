@@ -13,10 +13,7 @@ const App: FC = () => {
   return (
     <div className="flex flex-col items-center">
       <Wheel rotation={rotation} />
-      <button onClick={spin} className="mt-4 px-4 py-2 rounded">
-        旋轉
-      </button>
-      <Button onClick={spin} >Button</Button>
+      <Button onClick={spin}>旋轉</Button>
     </div>
   );
 };
