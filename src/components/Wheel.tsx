@@ -1,72 +1,110 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 interface WheelProps {
   rotation: number;
-  segments: number;
+  segments: string;
 }
 
-const Wheel: FC<WheelProps> = ({ rotation, segments = 8 }) => {
-  const segmentAngle = 360 / segments;
+type Lengths = {
+  [key: number]: {
+    borderT: string;
+    borderX: string;
+    top: string;
+    textTop: string;
+    textLeft: string;
+    circleTop: string;
+    circleW: string;
+    circleH: string;
+  };
+};
+
+const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
+  //盤面css設定
+  const lengths: Lengths = {
+    2: {
+      borderT: 'border-t-[0rem]',
+      borderX: 'border-x-[16rem]',
+      top: 'top-[50%]',
+      textTop: 'top-[40%]',
+      textLeft: 'left-[46.75%]',
+      circleTop: 'top-[-16rem]',
+      circleW: 'w-[32rem]',
+      circleH: 'h-[16rem]',
+    },
+    3: {
+      borderT: 'border-t-[8rem]',
+      borderX: `border-x-[${8 * 1.75}rem]`,
+      top: 'top-[25%]',
+      textTop: 'top-[75%]',
+      textLeft: 'left-[50%]',
+      circleTop: 'top-[-7.9rem]',
+      circleW: 'w-[28rem]',
+      circleH: 'h-[8rem]',
+    },
+    4: {
+      borderT: 'border-t-[11.25rem]',
+      borderX: 'border-x-[11.25rem]',
+      top: 'top-[14.5%]',
+      textTop: 'top-[100%]',
+      textLeft: 'left-[50%]',
+      circleTop: 'top-[-4.9rem]',
+      circleW: 'w-[22.5rem]',
+      circleH: 'h-[5rem]',
+    },
+    5: {
+      borderT: `border-t-[${9.25 * 1.375}rem]`,
+      borderX: 'border-x-[9.25rem]',
+      top: 'top-[10%]',
+      textTop: 'top-[125%]',
+      textLeft: 'left-[50%]',
+      circleTop: 'top-[-3.9rem]',
+      circleW: 'w-[18.5rem]',
+      circleH: 'h-[4rem]',
+    },
+    6: {
+      borderT: `border-t-[13.65rem]`,
+      borderX: 'border-x-[7.9rem]',
+      top: 'top-[7%]',
+      textTop: 'top-[150%]',
+      textLeft: 'left-[50%]',
+      circleTop: 'top-[-3.9rem]',
+      circleW: 'w-[15.8rem]',
+      circleH: 'h-[4rem]',
+    },
+    7: {
+      borderT: `border-t-[14.2rem]`,
+      borderX: 'border-x-[6.9rem]',
+      top: 'top-[5.25%]',
+      textTop: 'top-[175%]',
+      textLeft: 'left-[50%]',
+      circleTop: 'top-[-3.9rem]',
+      circleW: 'w-[13.8rem]',
+      circleH: 'h-[4rem]',
+    },
+    8: {
+      borderT: `border-t-[14.6rem]`,
+      borderX: 'border-x-[6rem]',
+      top: 'top-[3.8%]',
+      textTop: 'top-[200%]',
+      textLeft: 'left-[45%]',
+      circleTop: 'top-[-1.9rem]',
+      circleW: 'w-[12rem]',
+      circleH: 'h-[2rem]',
+    },
+  };
   const colors = [
-    'bg-blue-900',
-    'bg-pink-700',
-    'bg-green-700',
-    'bg-yellow-500',
-    'bg-red-500',
-    'bg-purple-500',
-    'bg-orange-500',
-    'bg-teal-500',
+    { bg: 'bg-blue-900', border: 'border-t-blue-900' },
+    { bg: 'bg-pink-700', border: 'border-t-pink-700' },
+    { bg: 'bg-green-700', border: 'border-t-green-700' },
+    { bg: 'bg-yellow-500', border: 'border-t-yellow-500' },
+    { bg: 'bg-red-500', border: 'border-t-red-500' },
+    { bg: 'bg-purple-500', border: 'border-t-purple-500' },
+    { bg: 'bg-orange-500', border: 'border-t-orange-500' },
+    { bg: 'bg-teal-500', border: 'border-t-teal-500' },
   ];
 
-  const getSegmentClass = (segments: number) => {
-    if (segments === 1) {
-      return 'w-full h-full rounded-full';
-    } else if (segments === 2) {
-      return 'w-full h-1/2 rounded-ss-full';
-    } else {
-      return 'w-1/2 h-1/2 rounded-ss-full';
-    }
-  };
-
-  const getSkewY = (segments: number) => {
-    if (segments === 2) {
-      return '0deg';
-    } else if (segments === 3) {
-      return '-30deg';
-    } else if (segments === 4) {
-      return '0deg';
-    } else if (segments === 5) {
-      return '15deg';
-    } else if (segments === 6) {
-      return '30deg';
-    } else if (segments === 7) {
-      return '38.5deg';
-    } else if (segments === 8) {
-      return '45deg';
-    } else {
-      return '0deg';
-    }
-  };
-
-  const textAngle = () => {
-    if (segments === 2) {
-      return 0;
-    } else if (segments === 3) {
-      return 132;
-    } else if (segments === 4) {
-      return 135;
-    } else if (segments === 5) {
-      return 130;
-    } else if (segments === 6) {
-      return 127.5;
-    } else if (segments === 7) {
-      return 125;
-    } else if (segments === 8) {
-      return '45deg';
-    } else {
-      return 0;
-    }
-  };
+  const length = lengths[Number(segments)];
+  const segmentAngle = 360 / Number(segments);
 
   return (
     <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden">
@@ -74,25 +112,54 @@ const Wheel: FC<WheelProps> = ({ rotation, segments = 8 }) => {
         className="w-full h-full transition ease-out"
         style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
       >
-        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-800">
-          {Array.from({ length: segments }).map(
+        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-800 flex justify-center">
+          {Array.from({ length: Number(segments) }).map(
             (_, index) => (
-              console.log(index * segmentAngle),
+              console.log(length),
               (
+                // (
+                //   <div
+                //     className={`absolute`}
+                //     style={{
+                //       transform: `rotate(${index * segmentAngle}deg)`,
+                //       transformOrigin: '50% 100%',
+                //       top: '50%',
+                //     }}
+                //     key={index}
+                //   >
+                //     <div
+                //       className={`border-t-[0rem] border-b-0 border-x-[16rem] border-x-transparent ${
+                //         colors[index % colors.length].border
+                //       }`}
+                //     ></div>
+                //     <div
+                //       className={`absolute right-0 top-[-16rem] w-[32rem] h-[16rem] rounded-t-full ${
+                //         colors[index % colors.length].bg
+                //       }`}
+                //     >
+                //       <div className={`absolute text-white top-[50%] left-[47.5%] rotate-180`}>test</div>
+                //     </div>
+                //   </div>
+                // )
                 <div
-                  key={index}
-                  className={`absolute ${colors[index % colors.length]} ${getSegmentClass(
-                    segments
-                  )} text-white text-2xl flex justify-center items-center`}
+                  className={`absolute ${length?.top}`}
                   style={{
-                    transform: `rotate(${index * segmentAngle}deg) skewY(${getSkewY(segments)}) skewX(153.5deg) ${
-                      segments === 3 ? 'scale(1.325)' : 'scale(.7)'
-                    }`,
-                    transformOrigin: segments > 2 ? '100% 100%' : '50% 100%',
+                    transform: `rotate(${index * segmentAngle}deg)`,
+                    transformOrigin: '50% 100%',
                   }}
+                  key={index}
                 >
-                  <div className='absolute w-full flex justify-center' style={{ transform: `rotate(${textAngle()}deg) skewX(-6deg) ${segments === 3 ? 'scale(0.6)' : ''}` }}>
-                    {`${index} * ${segmentAngle} = ${index * segmentAngle}`}
+                  <div
+                    className={`${length?.borderT} border-b-0 ${length?.borderX} border-x-transparent ${
+                      colors[index % colors.length].border
+                    }`}
+                  ></div>
+                  <div
+                    className={`absolute right-0 ${length?.circleTop} ${length?.circleW} ${
+                      length?.circleH
+                    } rounded-t-full ${colors[index % colors.length].bg}`}
+                  >
+                    <div className={`absolute text-white ${length?.textTop} ${length?.textLeft} rotate-180`}>test</div>
                   </div>
                 </div>
               )
