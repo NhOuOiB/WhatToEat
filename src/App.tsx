@@ -37,8 +37,15 @@ const App: FC = () => {
           )}
         </SelectContent>
       </Select>
+      <div className=" w-6 h-10 relative flex justify-center">
+        <div className="w-0 h-full border border-sky-800 absolute"></div>
+        <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
+        <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.5rem] border-white absolute bottom-1"></div>
+      </div>
       <Wheel rotation={rotation} segments={segments} />
-      <Button className='p-8 text-xl' onClick={spin}>旋轉</Button>
+      <Button className="p-8 text-xl" onClick={spin}>
+        旋轉
+      </Button>
     </div>
   );
 };
