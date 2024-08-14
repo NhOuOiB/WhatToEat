@@ -104,7 +104,7 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
                 <div
                   className={`absolute text-white rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text}`}
                 >
-                  test
+                  {index + 1}
                 </div>
               </div>
             </div>
