@@ -6,32 +6,22 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 const App: FC = () => {
   const [rotation, setRotation] = useState<number>(0);
   const [segments, setSegments] = useState<string>('2');
+  const [selectedItem, setSelectedItem] = useState<number>(0);
 
   const spin = () => {
-    const newRotation = rotation + Math.floor(Math.random() * 360 + 3600);
+    const newRotation = rotation - Math.floor(Math.random() * 360 + 3600);
     setRotation(newRotation);
 
-    // const relativeRotation = newRotation % 360; // 獲取相對於一圈的角度
-    // const itemAngle = 360 / Number(segments); // 每個項目的角度範圍
-    // // const selectedItemIndex = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
-    // const selectedItem = Math.floor(relativeRotation / itemAngle);
-
-    // console.log(`Rotation: ${newRotation}`);
-    // console.log(`Relative Rotation: ${relativeRotation}`);
-    // console.log(relativeRotation);
-    // console.log(relativeRotation / 180);
-    // console.log(`Selected Item: ${relativeRotation > 90 && relativeRotation < 270 ? 2 : 1}`);
-    
-    const relativeRotation = (newRotation) % 360; // 獲取相對於一圈的角度，並考慮起始角度為90度
+    // 計算指針指到的項目
     const itemAngle = 360 / Number(segments); // 每個項目的角度範圍
-    const selectedItem = Math.floor((relativeRotation + 90) / itemAngle); // 計算指針指到的項目索引
+    const relativeRotation = (Math.abs(newRotation) + itemAngle / 2) % 360; // 計算多餘的旋轉角度，+ itemAngle / 2 是因為指針指到正中間
+    const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
-    console.log(segments);
-    console.log(`Rotation: ${newRotation}`);
-    console.log(`Relative Rotation: ${relativeRotation}`);
-    console.log(`Angle: ${itemAngle}`);
-    console.log(`Selected Item: ${selectedItem + 1}`);
-    // console.log(`Selected Item: ${relativeRotation  < 180 ? 1 : 2}`);
+    setSelectedItem(selectedItem + 1);
+  };
+
+  const reset = () => {
+    setRotation(0);
   };
 
   return (
@@ -51,6 +41,7 @@ const App: FC = () => {
           )}
         </SelectContent>
       </Select>
+      <div className={`text-6xl font-bold ${selectedItem === 0 && 'opacity-0'}`}>抽到 {selectedItem} 啦 !</div>
       <div className="flex flex-col items-center gap-1">
         <div className=" w-6 h-10 relative flex justify-center">
           <div className="w-0 h-full border border-sky-800 absolute"></div>
@@ -61,6 +52,9 @@ const App: FC = () => {
       </div>
       <Button className="p-8 text-xl" onClick={spin}>
         旋轉
+      </Button>
+      <Button className="p-8 text-xl" onClick={reset}>
+        重置
       </Button>
     </div>
   );
