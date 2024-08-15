@@ -26,7 +26,7 @@ const App: FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center gap-10">
+    <div className="h-screen flex flex-col justify-center items-center gap-10 bg-gray-200">
       <Select onValueChange={(value) => setSegments(value)} defaultValue={segments}>
         <SelectTrigger className="w-[140px]">
           <SelectValue placeholder="選擇項目數量" />
