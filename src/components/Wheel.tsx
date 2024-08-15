@@ -36,79 +36,67 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
       text: 'top-[100%] text-2xl',
     },
     5: {
-      container: 'top-[10%]',
+      container: 'top-[9.7%]',
       triangle: 'border-t-[12.71875rem] border-x-[9.25rem]',
-      halfCircle: 'top-[-3.9rem] w-[18.5rem] h-[4rem]',
+      halfCircle: 'top-[-3.9697rem] w-[18.5rem] h-[4rem]',
       text: 'top-[125%] text-xl',
     },
     6: {
       container: 'top-[7%]',
       triangle: 'border-t-[13.65rem] border-x-[7.9rem]',
-      halfCircle: 'top-[-3.9rem] w-[15.8rem] h-[4rem]',
+      halfCircle: 'top-[-3.9697rem] w-[15.8rem] h-[4rem]',
       text: 'top-[150%] text-xl',
     },
     7: {
       container: 'top-[5.25%]',
       triangle: 'border-t-[14.2rem] border-x-[6.9rem]',
-      halfCircle: 'top-[-3.9rem] w-[13.8rem] h-[4rem]',
+      halfCircle: 'top-[-3.9697rem] w-[13.8rem] h-[4rem]',
       text: 'top-[175%] text-xl',
     },
     8: {
-      container: 'top-[3.8%]',
-      triangle: 'border-t-[14.5rem] border-x-[6rem]',
-      halfCircle: 'top-[-1.9rem] w-[12rem] h-[2rem]',
+      container: 'top-[4%]',
+      triangle: 'border-t-[14.5rem] border-x-[6.08rem]',
+      halfCircle: 'top-[-1.9697rem] w-[12rem] h-[2rem]',
       text: 'top-[200%] text-xl',
     },
   };
-
-  const colors = [
-    { bg: 'bg-blue-900', border: 'border-t-blue-900' },
-    { bg: 'bg-pink-700', border: 'border-t-pink-700' },
-    { bg: 'bg-green-700', border: 'border-t-green-700' },
-    { bg: 'bg-yellow-500', border: 'border-t-yellow-500' },
-    { bg: 'bg-red-500', border: 'border-t-red-500' },
-    { bg: 'bg-purple-500', border: 'border-t-purple-500' },
-    { bg: 'bg-orange-500', border: 'border-t-orange-500' },
-    { bg: 'bg-teal-500', border: 'border-t-teal-500' },
-  ];
 
   const wheelStyle = wheelStyles[Number(segments)];
   const segmentAngle = 360 / Number(segments);
 
   return (
-    <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden">
+    <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-2xl">
       <div
         className="w-full h-full transition ease-out"
         style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
       >
-        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-800 flex justify-center">
-          {Array.from({ length: Number(segments) }).map((_, index) => (
-            <div
-              className={`absolute ${wheelStyle?.container}`}
-              style={{
-                transform: `rotate(${index * segmentAngle}deg)`,
-                transformOrigin: '50% 100%',
-              }}
-              key={index}
-            >
+        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
+          {Array.from({ length: Number(segments) }).map((_, index) => {
+            const shade = (index + 1) * 100;
+            const borderColor = `border-t-gray-${shade}`;
+            const bgColor = `bg-gray-${shade}`;
+            return (
               <div
-                className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${
-                  colors[index % colors.length].border
-                }`}
-              ></div>
-              <div
-                className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${
-                  colors[index % colors.length].bg
-                }`}
+                className={`absolute ${wheelStyle?.container}`}
+                style={{
+                  transform: `rotate(${index * segmentAngle}deg)`,
+                  transformOrigin: '50% 100%',
+                }}
+                key={index}
               >
-                <div
-                  className={`absolute text-white rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text}`}
-                >
-                  {index + 1}
+                <div className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${borderColor}`}></div>
+                <div className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${bgColor}`}>
+                  <div
+                    className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${
+                      wheelStyle?.text
+                    } ${index > 3 ? 'text-white' : 'text-gray-800'}`}
+                  >
+                    {index + 1}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ const App: FC = () => {
 
   const reset = () => {
     setRotation(0);
+    setSelectedItem(0);
   };
 
   return (
@@ -41,7 +42,9 @@ const App: FC = () => {
           )}
         </SelectContent>
       </Select>
-      <div className={`text-6xl font-bold ${selectedItem === 0 && 'opacity-0'}`}>抽到 {selectedItem} 啦 !</div>
+      <div className={`text-6xl font-bold`}>
+        抽到 <span className={`${selectedItem === 0 && 'opacity-0'}`}>{selectedItem}</span> 啦 !
+      </div>
       <div className="flex flex-col items-center gap-1">
         <div className=" w-6 h-10 relative flex justify-center">
           <div className="w-0 h-full border border-sky-800 absolute"></div>
@@ -50,12 +53,14 @@ const App: FC = () => {
         </div>
         <Wheel rotation={rotation} segments={segments} />
       </div>
-      <Button className="p-8 text-xl" onClick={spin}>
-        旋轉
-      </Button>
-      <Button className="p-8 text-xl" onClick={reset}>
-        重置
-      </Button>
+      <div className='flex gap-6'>
+        <Button className="p-8 text-xl" onClick={spin}>
+          旋轉
+        </Button>
+        <Button className="p-8 text-xl" onClick={reset}>
+          重置
+        </Button>
+      </div>
     </div>
   );
 };
