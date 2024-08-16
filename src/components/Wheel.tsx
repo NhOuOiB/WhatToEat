@@ -76,35 +76,44 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
   ];
 
   return (
-    <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-2xl">
-      <div
-        className="w-full h-full transition ease-out"
-        style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
-      >
-        <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-          {Array.from({ length: Number(segments) }).map((_, index) => {
-            
-            return (
-              <div
-                className={`absolute ${wheelStyle?.container}`}
-                style={{
-                  transform: `rotate(${index * segmentAngle}deg)`,
-                  transformOrigin: '50% 100%',
-                }}
-                key={index}
-              >
-                <div className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${colorVariants[index].border}`}></div>
-                <div className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${colorVariants[index].bg}`}>
+    <div className="flex flex-col items-center gap-1">
+      <div className=" w-6 h-10 relative flex justify-center">
+        <div className="w-0 h-full border border-sky-800 absolute"></div>
+        <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
+        <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.6rem] border-gray-200 absolute bottom-1"></div>
+      </div>
+      <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md">
+        <div
+          className="w-full h-full transition ease-out"
+          style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
+        >
+          <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
+            {Array.from({ length: Number(segments) }).map((_, index) => {
+              return (
+                <div
+                  className={`absolute ${wheelStyle?.container}`}
+                  style={{
+                    transform: `rotate(${index * segmentAngle}deg)`,
+                    transformOrigin: '50% 100%',
+                  }}
+                  key={index}
+                >
                   <div
-                    className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text
-                      } ${colorVariants[index].text}`}
+                    className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${colorVariants[index].border}`}
+                  ></div>
+                  <div
+                    className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${colorVariants[index].bg}`}
                   >
-                    {index + 1}
+                    <div
+                      className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
+                    >
+                      {index + 1}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
