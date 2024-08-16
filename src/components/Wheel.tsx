@@ -1,3 +1,4 @@
+import { CornerDownLeft } from 'lucide-react';
 import { FC } from 'react';
 
 interface WheelProps {
@@ -64,6 +65,17 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
   const wheelStyle = wheelStyles[Number(segments)];
   const segmentAngle = 360 / Number(segments);
 
+  const colorVariants = [
+    { bg: 'bg-gray-100', border: 'border-t-gray-100', text: 'text-gray-900' },
+    { bg: 'bg-gray-200', border: 'border-t-gray-200', text: 'text-gray-900' },
+    { bg: 'bg-gray-300', border: 'border-t-gray-300', text: 'text-gray-900' },
+    { bg: 'bg-gray-400', border: 'border-t-gray-400', text: 'text-gray-900' },
+    { bg: 'bg-gray-500', border: 'border-t-gray-500', text: 'text-gray-100' },
+    { bg: 'bg-gray-600', border: 'border-t-gray-600', text: 'text-gray-100' },
+    { bg: 'bg-gray-700', border: 'border-t-gray-700', text: 'text-gray-100' },
+    { bg: 'bg-gray-800', border: 'border-t-gray-800', text: 'text-gray-100' },
+  ];
+
   return (
     <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-2xl">
       <div
@@ -72,9 +84,7 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
       >
         <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
           {Array.from({ length: Number(segments) }).map((_, index) => {
-            const shade = (index + 1) * 100;
-            const borderColor = `border-t-gray-${shade}`;
-            const bgColor = `bg-gray-${shade}`;
+            
             return (
               <div
                 className={`absolute ${wheelStyle?.container}`}
@@ -84,12 +94,11 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
                 }}
                 key={index}
               >
-                <div className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${borderColor}`}></div>
-                <div className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${bgColor}`}>
+                <div className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${colorVariants[index].border}`}></div>
+                <div className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${colorVariants[index].bg}`}>
                   <div
-                    className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${
-                      wheelStyle?.text
-                    } ${index > 3 ? 'text-white' : 'text-gray-800'}`}
+                    className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text
+                      } ${colorVariants[index].text}`}
                   >
                     {index + 1}
                   </div>
