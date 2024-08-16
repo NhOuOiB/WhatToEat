@@ -1,4 +1,3 @@
-import { CornerDownLeft } from 'lucide-react';
 import { FC } from 'react';
 
 interface WheelProps {
