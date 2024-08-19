@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import Wheel from './components/Wheel';
 import SettingPanel from './components/SettingPanel';
+import WheelPanel from './components/WheelPanel';
 
 const App: FC = () => {
   const [rotation, setRotation] = useState<number>(0);
@@ -25,14 +25,9 @@ const App: FC = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center gap-10 bg-gray-200">
+    <div className="h-screen flex justify-center items-center gap-10 bg-sky-900">
       <SettingPanel spin={spin} reset={reset} setSegments={setSegments} segments={segments} />
-      <div className="flex flex-col justify-center items-center gap-20">
-        <div className={`text-6xl font-bold`}>
-          抽到 <span className={`${selectedItem === 0 && 'opacity-0'}`}>{selectedItem}</span> 啦 !
-        </div>
-        <Wheel rotation={rotation} segments={segments} />
-      </div>
+      <WheelPanel rotation={rotation} segments={segments} selectedItem={selectedItem} />
     </div>
   );
 };
