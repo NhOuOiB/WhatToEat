@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import SettingPanel from './components/SettingPanel';
-import WheelPanel from './components/WheelPanel';
+import SettingPanel from './components/settingPanel/SettingPanel';
+import WheelPanel from './components/wheelPanel/WheelPanel';
 
 const App: FC = () => {
   const [rotation, setRotation] = useState<number>(0);
