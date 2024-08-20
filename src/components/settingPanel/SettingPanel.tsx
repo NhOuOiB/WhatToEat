@@ -2,7 +2,9 @@ import React from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-
+import { PiSpinnerBallDuotone } from 'react-icons/pi';
+import { MdRotateRight } from 'react-icons/md';
+import { LuRotateCw } from 'react-icons/lu';
 interface SettingPanelProps {
   spin: () => void;
   reset: () => void;
@@ -12,11 +14,14 @@ interface SettingPanelProps {
 
 const SettingPanel: React.FC<SettingPanelProps> = ({ spin, reset, setSegments, segments }) => {
   return (
-    <div className="w-1/4 h-5/6 flex flex-col justify-center items-center bg-white rounded-3xl shadow-md">
+    <div className="w-1/5 h-5/6 p-10 grid grid-cols-1 grid-rows-6 bg-[#ffffff] rounded-3xl shadow-md">
+      <div>
+        <Label htmlFor="">轉盤樣式</Label>
+      </div>
       <div>
         <Label htmlFor="">項目數量</Label>
         <Select onValueChange={(value) => setSegments(value)} defaultValue={segments}>
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-3/4 h-[2.4rem]">
             <SelectValue placeholder="選擇項目數量" />
           </SelectTrigger>
           <SelectContent>
@@ -31,12 +36,12 @@ const SettingPanel: React.FC<SettingPanelProps> = ({ spin, reset, setSegments, s
           </SelectContent>
         </Select>
       </div>
-      <div className="flex gap-6">
-        <Button className="p-8 text-xl" onClick={spin}>
-          旋轉
+      <div className="w-full flex justify-center gap-6">
+        <Button className="px-6 py-4 text-2xl" onClick={spin}>
+          <PiSpinnerBallDuotone />
         </Button>
-        <Button className="p-8 text-xl" onClick={reset}>
-          重置
+        <Button className="px-6 py-4 text-2xl" onClick={reset}>
+          <MdRotateRight />
         </Button>
       </div>
     </div>
