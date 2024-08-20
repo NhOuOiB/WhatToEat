@@ -25,14 +25,18 @@ const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, segment
     if (panel) {
       const newCalcX = (e.clientY - panel.y - panel.height / 2) / 20;
       const newCalcY = (e.clientX - panel.x - panel.width / 2) / 15;
+      const percentage = ((e.clientX - panel.x) / panel.width) * 100;
+      console.log(percentage);
       setCalcX(newCalcX);
       setCalcY(newCalcY);
+      panelRef.current?.style.setProperty('--per', `${percentage}%`);
     }
   };
 
   const handleLeave = () => {
     setCalcX(0);
     setCalcY(0);
+    panelRef.current?.style.setProperty('--per', '0%');
   };
 
   return (

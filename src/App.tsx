@@ -25,7 +25,7 @@ const App: FC = () => {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center gap-10 bg-sky-900">
+    <div className="h-screen flex justify-center items-center gap-10 bg-gray-200">
       <SettingPanel spin={spin} reset={reset} setSegments={setSegments} segments={segments} />
       <WheelPanel rotation={rotation} segments={segments} selectedItem={selectedItem} />
     </div>
