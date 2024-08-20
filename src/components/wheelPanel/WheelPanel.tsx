@@ -6,9 +6,10 @@ interface WheelPanelProps {
   rotation: number;
   segments: string;
   selectedItem: number;
+  spin: () => void;
 }
 
-const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, segments }) => {
+const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, segments, spin }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<DOMRect | null>(null);
   const [calcX, setCalcX] = useState(0);
@@ -26,7 +27,6 @@ const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, segment
       const newCalcX = (e.clientY - panel.y - panel.height / 2) / 20;
       const newCalcY = (e.clientX - panel.x - panel.width / 2) / 15;
       const percentage = ((e.clientX - panel.x) / panel.width) * 100;
-      console.log(percentage);
       setCalcX(newCalcX);
       setCalcY(newCalcY);
       panelRef.current?.style.setProperty('--per', `${percentage}%`);
@@ -46,7 +46,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, segment
         <div className={styles.text}>
           抽到 <span className={selectedItem === 0 ? styles.opacity0 : ''}>{selectedItem}</span> 啦 !
         </div>
-        <Wheel rotation={rotation} segments={segments} />
+        <Wheel rotation={rotation} segments={segments} spin={spin} />
       </div>
     </div>
   );
