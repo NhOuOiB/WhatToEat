@@ -19,14 +19,9 @@ const App: FC = () => {
     setSelectedItem(selectedItem + 1);
   };
 
-  const reset = () => {
-    setRotation(0);
-    setSelectedItem(0);
-  };
-
   return (
     <div className="h-screen flex justify-center items-center gap-10 bg-gray-200">
-      <SettingPanel spin={spin} reset={reset} setSegments={setSegments} segments={segments} />
+      <SettingPanel setSegments={setSegments} segments={segments} />
       <WheelPanel rotation={rotation} segments={segments} selectedItem={selectedItem} spin={spin} />
     </div>
   );
