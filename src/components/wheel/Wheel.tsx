@@ -3,6 +3,7 @@ import { FC } from 'react';
 interface WheelProps {
   rotation: number;
   segments: string;
+  spin: () => void;
 }
 
 type wheelStyles = {
@@ -14,7 +15,7 @@ type wheelStyles = {
   };
 };
 
-const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
+const Wheel: FC<WheelProps> = ({ rotation, segments, spin }) => {
   //盤面css設定
   const wheelStyles: wheelStyles = {
     2: {
@@ -77,12 +78,13 @@ const Wheel: FC<WheelProps> = ({ rotation, segments }) => {
 
   return (
     <div className="flex flex-col items-center gap-1">
+       {/* 轉盤指針 */}
       <div className=" w-6 h-10 relative flex justify-center">
         <div className="w-0 h-full border border-sky-800 absolute"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.6rem] border-gray-200 absolute bottom-1"></div>
       </div>
-      <div className="relative w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md">
+      <div className="w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer" onClick={spin}>
         <div
           className="w-full h-full transition ease-out"
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
