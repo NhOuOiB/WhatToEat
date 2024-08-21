@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import SettingPanel from './components/settingPanel/SettingPanel';
 import WheelPanel from './components/wheelPanel/WheelPanel';
 
@@ -19,8 +19,12 @@ const App: FC = () => {
     setSelectedItem(selectedItem + 1);
   };
 
+  useEffect(() => {
+    setSelectedItem(0);
+  }, [segments]);
+
   return (
-    <div className="h-screen flex justify-center items-center gap-10 bg-gray-200">
+    <div className="h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gray-200 px-6 py-2">
       <SettingPanel setSegments={setSegments} segments={segments} />
       <WheelPanel rotation={rotation} segments={segments} selectedItem={selectedItem} spin={spin} />
     </div>

@@ -1,0 +1,13 @@
+/* 滾動條的寬度 */
+::-webkit-scrollbar {
+    width: 5px;         
+    height: 6px;
+}
+
+/* 滾動條的設定 */
+::-webkit-scrollbar-thumb {
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
