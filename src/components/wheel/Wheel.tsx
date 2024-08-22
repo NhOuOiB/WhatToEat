@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { Condition } from '@/types/type';
 
 interface WheelProps {
   rotation: number;
-  segments: string;
+  condition: Condition;
   spin: () => void;
 }
 
@@ -15,7 +16,7 @@ type wheelStyles = {
   };
 };
 
-const Wheel: FC<WheelProps> = ({ rotation, segments, spin }) => {
+const Wheel: FC<WheelProps> = ({ rotation, condition, spin }) => {
   //盤面css設定
   const wheelStyles: wheelStyles = {
     2: {
@@ -62,8 +63,8 @@ const Wheel: FC<WheelProps> = ({ rotation, segments, spin }) => {
     },
   };
 
-  const wheelStyle = wheelStyles[Number(segments)];
-  const segmentAngle = 360 / Number(segments);
+  const wheelStyle = wheelStyles[Number(condition.segments)];
+  const segmentAngle = 360 / Number(condition.segments);
 
   const colorVariants = [
     { bg: 'bg-gray-100', border: 'border-t-gray-100', text: 'text-gray-900' },
@@ -78,7 +79,7 @@ const Wheel: FC<WheelProps> = ({ rotation, segments, spin }) => {
 
   return (
     <div className="flex flex-col items-center gap-1">
-       {/* 轉盤指針 */}
+      {/* 轉盤指針 */}
       <div className=" w-6 h-10 relative flex justify-center">
         <div className="w-0 h-full border border-sky-800 absolute"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
@@ -90,7 +91,7 @@ const Wheel: FC<WheelProps> = ({ rotation, segments, spin }) => {
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {Array.from({ length: Number(segments) }).map((_, index) => {
+            {Array.from({ length: Number(condition.segments) }).map((_, index) => {
               return (
                 <div
                   className={`absolute ${wheelStyle?.container}`}
