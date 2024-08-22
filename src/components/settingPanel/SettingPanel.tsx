@@ -1,16 +1,17 @@
 import React from 'react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import { PiSpinnerBallDuotone } from 'react-icons/pi';
 import { TfiViewList } from 'react-icons/tfi';
+import { Condition } from '@/types/type';
 
 interface SettingPanelProps {
-  setSegments: (segments: string) => void;
-  segments: string;
+  condition: Condition;
+  setCondition: (condition: object) => void;
 }
-
-const SettingPanel: React.FC<SettingPanelProps> = ({ setSegments, segments }) => {
+const SettingPanel: React.FC<SettingPanelProps> = ({ condition, setCondition }) => {
+  console.log(condition.segments);
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-5/6 p-10 flex flex-col gap-4 sm:gap-10 bg-[#ffffff] rounded-3xl shadow-md">
       <div className="flex flex-col gap-4">
@@ -37,12 +38,19 @@ const SettingPanel: React.FC<SettingPanelProps> = ({ setSegments, segments }) =>
           {[...Array(8).keys()].map(
             (i) =>
               i !== 0 && (
-                <Button className="px-6 py-4 text-2xl" onClick={() => setSegments(`${i + 1}`)}>
+                <Button
+                  className={`px-6 py-4 text-2xl ${condition.segments - 1 === i ? 'text-white' : 'text-gray-500'}`}
+                  onClick={() => setCondition({ ...condition, ['segments']: `${i + 1}` })}
+                >
                   {i + 1}
                 </Button>
               )
           )}
         </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <Label htmlFor="count">店家距離</Label>
+        <Slider defaultValue={[33]} max={100} step={10} />
       </div>
     </div>
   );
