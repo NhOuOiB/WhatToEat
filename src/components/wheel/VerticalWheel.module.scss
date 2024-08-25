@@ -1,0 +1,10 @@
+.container {
+  perspective: 999999px;
+  position: relative;
+  transform-style: preserve-3d;
+  @apply w-full h-80 relative flex items-center;
+
+  .wheel {
+    @apply w-full h-40 border flex justify-center items-center rounded-xl text-white absolute bg-black;
+  }
+}
