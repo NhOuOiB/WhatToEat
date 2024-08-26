@@ -13,8 +13,14 @@ interface SettingPanelProps {
   setCondition: React.Dispatch<React.SetStateAction<Condition>>;
   setWheelType: React.Dispatch<React.SetStateAction<string>>;
 }
-const SettingPanel: React.FC<SettingPanelProps> = ({ condition, setCondition, wheelType, setWheelType }) => {
+const SettingPanel: React.FC<SettingPanelProps> = ({
+  condition,
+  setCondition,
+  wheelType,
+  setWheelType,
+}) => {
   const segmentCount = wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20;
+  const aboveSegmentCount = wheelType === 'wheel' ? 1 : wheelType === 'verticalWheel' ? 5 : 10;
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-5/6 p-10 flex flex-col gap-4 sm:gap-10 bg-[#ffffff] rounded-3xl shadow-md">
       <div className="flex flex-col gap-4">
@@ -41,7 +47,9 @@ const SettingPanel: React.FC<SettingPanelProps> = ({ condition, setCondition, wh
             </IconContext.Provider>
           </Button>
           <Button
-            className={`px-6 py-4 text-2xl ${wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''}`}
+            className={`px-6 py-4 text-2xl ${
+              wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''
+            }`}
             onClick={() => {
               setCondition({ ...condition, ['segments']: 10 });
               setWheelType('horizontalWheel');
@@ -63,9 +71,11 @@ const SettingPanel: React.FC<SettingPanelProps> = ({ condition, setCondition, wh
         <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 min-[2560px]:grid-cols-8 gap-2">
           {[...Array(segmentCount).keys()].map(
             (i) =>
-              i !== 0 && (
+              i + 1 > aboveSegmentCount && (
                 <Button
-                  className={`px-6 py-4 text-2xl ${condition.segments - 1 === i ? 'text-white' : 'text-gray-500'}`}
+                  className={`px-6 py-4 text-2xl ${
+                    condition.segments - 1 === i ? 'text-white' : 'text-gray-500'
+                  }`}
                   onClick={() => setCondition({ ...condition, ['segments']: i + 1 })}
                   key={i}
                 >
