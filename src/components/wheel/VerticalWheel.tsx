@@ -12,7 +12,7 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({ condition }) => {
   const rotate = (Math.random() * 360) + (360 * 5)
   return (
     <div className="w-3/4 h-2/3 flex justify-center items-center bg-black">
-      <div className={style.container} style={{transform: `rotateX(${rotate}deg)`}}>
+      <div className={style.container} style={{transform: ` rotateY(-15deg)`}}>
         {Array.from({ length: condition.segments }).map((_, index) => {
           return (
             <div
