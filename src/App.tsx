@@ -6,8 +6,11 @@ import HorizontalWheelPanel from './components/wheelPanel/HorizontalWheelPanel.t
 import { Condition } from './types/type.ts';
 
 const App: FC = () => {
-  const [condition, setCondition] = useState<Condition>({ segments: 2, distance: 2000 });
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
+  const [condition, setCondition] = useState<Condition>({
+    segments: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 11,
+    distance: 2000,
+  });
 
   // Wheel
   const [rotation, setRotation] = useState<number>(0);
@@ -38,7 +41,12 @@ const App: FC = () => {
         setWheelType={setWheelType}
       />
       {wheelType === 'wheel' ? (
-        <WheelPanel rotation={rotation} condition={condition} selectedItem={selectedItem} spin={spin} />
+        <WheelPanel
+          rotation={rotation}
+          condition={condition}
+          selectedItem={selectedItem}
+          spin={spin}
+        />
       ) : wheelType === 'verticalWheel' ? (
         <VerticalWheelPanel condition={condition} />
       ) : (
