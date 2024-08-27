@@ -6,7 +6,7 @@ interface HorizontalWheelProps {
 }
 
 const HorizontalWheel: React.FC<HorizontalWheelProps> = ({ condition }) => {
-  return <div>HorizontalWheel</div>;
+  return <div>開發中...</div>;
 };
 
 export default HorizontalWheel;
