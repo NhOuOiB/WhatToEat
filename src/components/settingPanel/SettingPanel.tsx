@@ -51,7 +51,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
               wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''
             }`}
             onClick={() => {
-              setCondition({ ...condition, ['segments']: 10 });
+              setCondition({ ...condition, ['segments']: 11 });
               setWheelType('horizontalWheel');
             }}
           >
