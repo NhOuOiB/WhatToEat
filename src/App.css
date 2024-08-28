@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap);
+
+body{
+    font-family: 'LXGW WenKai Mono TC', monospace;
+}
+
 /* 滾動條的寬度 */
 ::-webkit-scrollbar {
     width: 5px;         
