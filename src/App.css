@@ -6,7 +6,7 @@ body{
 
 /* 滾動條的寬度 */
 ::-webkit-scrollbar {
-    width: 5px;         
+    width: 10px;         
     height: 6px;
 }
 
@@ -16,4 +16,16 @@ body{
     background-clip: padding-box;
     border: 1px solid #bbb;
     border-radius: 5px;
+}
+
+/* full page scroll */
+.snap-y-mandatory {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+.snap-start {
+    scroll-snap-align: start;
 }
