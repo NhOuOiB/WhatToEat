@@ -4,6 +4,8 @@ import WheelPanel from '../components/wheelPanel/WheelPanel';
 import VerticalWheelPanel from '../components/wheelPanel/VerticalWheelPanel.tsx';
 import HorizontalWheelPanel from '../components/wheelPanel/HorizontalWheelPanel.tsx';
 import { Condition } from '../types/type.ts';
+import axios from 'axios';
+import { google_key } from '../../utils/config.ts';
 
 const FirstPage: FC = () => {
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
@@ -28,11 +30,76 @@ const FirstPage: FC = () => {
     setSelectedItem(selectedItem + 1);
   };
 
+  function showPosition(position: GeolocationPosition) {
+    console.log('緯度: ' + position.coords.latitude);
+    console.log('經度: ' + position.coords.longitude);
+    // 在這裡您可以將 position.coords.latitude 和 position.coords.longitude 傳給 Axios 請求
+  }
+
+  function showError(error: GeolocationPositionError) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        console.log('使用者拒絕提供位置資訊。');
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.log('無法取得位置資訊。');
+        break;
+      case error.TIMEOUT:
+        console.log('取得位置資訊逾時。');
+        break;
+    }
+  }
+
+  const getLocation = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      console.log('瀏覽器不支援地理定位。');
+    }
+  };
+
+    const fetchData = async () => {
+    getLocation();
+  
+    const params = {
+      includedTypes: ['restaurant'],
+      maxResultCount: 10,
+      locationRestriction: {
+        circle: {
+          center: location,
+          radius: 1000.0,
+        },
+      },
+      rankPreference: 'POPULARITY', // 依照熱門程度排名
+    };
+  
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': google_key,
+      'X-Goog-FieldMask': 'places.displayName,places.formattedAddress', // 可自訂要顯示的欄位
+    };
+  
+    const response = await axios.get(
+      'https://places.googleapis.com/v1/places:searchNearby',
+      {
+        params,
+        headers,
+      }
+    );
+    console.log(response.data);
+  };
+
   useEffect(() => {
     setSelectedItem(0);
   }, [condition.segments]);
   return (
-    <div className="h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gray-200 px-6 py-2">
+    <div className="w-full h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gray-200 px-6 py-2 snap-start">
+      <div
+        className="p-2 border border-gray-800 rounded-lg cursor-pointer shadow-md hover:bg-gray-800 hover:text-white hover:shadow-xl trnasition duration-500 hover:scale-110"
+        onClick={fetchData}
+      >
+        click
+      </div>
       <SettingPanel
         condition={condition}
         setCondition={setCondition}
