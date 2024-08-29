@@ -26,12 +26,8 @@ const App: FC = () => {
 
   return (
     <div className="snap-y-mandatory" ref={containerRef}>
-      <div className="snap-start">
         <FirstPage />
-      </div>
-      <div className="snap-start">
         <SecondPage />
-      </div>
     </div>
   );
 };
