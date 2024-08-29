@@ -1,0 +1,1 @@
+export const google_key = import.meta.env.VITE_GOOGLE_KEY;
