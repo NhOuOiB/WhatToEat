@@ -30,9 +30,14 @@ const FirstPage: FC = () => {
     setSelectedItem(selectedItem + 1);
   };
 
+  // Google Places API
+
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
+
   function showPosition(position: GeolocationPosition) {
     console.log('緯度: ' + position.coords.latitude);
     console.log('經度: ' + position.coords.longitude);
+    setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude });
     // 在這裡您可以將 position.coords.latitude 和 position.coords.longitude 傳給 Axios 請求
   }
 
@@ -58,10 +63,10 @@ const FirstPage: FC = () => {
     }
   };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
     getLocation();
-  
-    const params = {
+    console.log(location);
+        const data = {
       includedTypes: ['restaurant'],
       maxResultCount: 10,
       locationRestriction: {
@@ -72,17 +77,17 @@ const FirstPage: FC = () => {
       },
       rankPreference: 'POPULARITY', // 依照熱門程度排名
     };
-  
+    
     const headers = {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': google_key,
-      'X-Goog-FieldMask': 'places.displayName,places.formattedAddress', // 可自訂要顯示的欄位
+      'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
     };
-  
-    const response = await axios.get(
+    
+    const response = await axios.post(
       'https://places.googleapis.com/v1/places:searchNearby',
+      data,
       {
-        params,
         headers,
       }
     );
