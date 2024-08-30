@@ -86,13 +86,16 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.6rem] border-gray-200 absolute bottom-1"></div>
       </div>
-      <div className="w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer" onClick={spin}>
+      <div
+        className="w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
+        onClick={spin}
+      >
         <div
           className="w-full h-full transition ease-out"
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {places?.map((place, index) => {
+            {Array.from({ length: condition.segments }).map((place, index) => {
               return (
                 <div
                   className={`absolute ${wheelStyle?.container}`}
@@ -111,7 +114,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
                     <div
                       className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
                     >
-                      {place?.displayName.text.split(' ')[0].split('-')[0]}
+                      {places?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
                     </div>
                   </div>
                 </div>
