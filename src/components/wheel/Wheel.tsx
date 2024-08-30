@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Condition } from '@/types/type';
+import { Condition, Place } from '@/types/type';
 
 interface WheelProps {
   rotation: number;
   condition: Condition;
   spin: () => void;
+  places: Place[];
 }
 
 type wheelStyles = {
@@ -16,7 +17,7 @@ type wheelStyles = {
   };
 };
 
-const Wheel: FC<WheelProps> = ({ rotation, condition, spin }) => {
+const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
   //盤面css設定
   const wheelStyles: wheelStyles = {
     2: {
@@ -91,7 +92,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin }) => {
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {Array.from({ length: Number(condition.segments) }).map((_, index) => {
+            {places?.map((place, index) => {
               return (
                 <div
                   className={`absolute ${wheelStyle?.container}`}
@@ -110,7 +111,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin }) => {
                     <div
                       className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
                     >
-                      {index + 1}
+                      {place?.displayName.text.split(' ')[0].split('-')[0]}
                     </div>
                   </div>
                 </div>

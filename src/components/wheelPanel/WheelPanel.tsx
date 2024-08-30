@@ -1,16 +1,23 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Wheel from '../wheel/Wheel';
 import styles from './WheelPanel.module.scss';
-import { Condition } from '@/types/type';
+import { Condition, Place } from '@/types/type';
 
 interface WheelPanelProps {
   rotation: number;
   condition: Condition;
   selectedItem: number;
   spin: () => void;
+  places: Place[];
 }
 
-const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, condition, spin }) => {
+const WheelPanel: React.FC<WheelPanelProps> = ({
+  rotation,
+  selectedItem,
+  condition,
+  spin,
+  places,
+}) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<DOMRect | null>(null);
   const [calcX, setCalcX] = useState(0);
@@ -41,13 +48,25 @@ const WheelPanel: React.FC<WheelPanelProps> = ({ rotation, selectedItem, conditi
   };
 
   return (
-    <div className={styles.container} onMouseMove={handleMove} onMouseLeave={handleLeave} ref={panelRef}>
-      <div className={styles.wheelPanel} style={{ transform: `rotateX(${calcX}deg) rotateY(${calcY}deg)` }}>
+    <div
+      className={styles.container}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      ref={panelRef}
+    >
+      <div
+        className={styles.wheelPanel}
+        style={{ transform: `rotateX(${calcX}deg) rotateY(${calcY}deg)` }}
+      >
         <div className={styles.transparentBg}></div>
         <div className={styles.text}>
-          抽到 <span className={selectedItem === 0 ? styles.opacity0 : ''}>{selectedItem}</span> 啦 !
+          今天就吃
+          <p className={`w-96 text-5xl flex justify-center text-sky-950 ${selectedItem === -1 && styles.opacity0}`}>
+            {places[selectedItem].displayName.text.split(' ')[0].split('-')[0]}
+          </p>
+           !
         </div>
-        <Wheel rotation={rotation} condition={condition} spin={spin} />
+        <Wheel rotation={rotation} condition={condition} spin={spin} places={places} />
       </div>
     </div>
   );
