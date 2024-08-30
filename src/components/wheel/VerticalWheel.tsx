@@ -30,8 +30,7 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({
     <div className={style.container}>
       <div className={style.blur}></div>
       <div className={style.wheel} style={{ transform: `rotateX(${rotateDeg}deg)` }} ref={wheelRef}>
-        {places?.map((place, index) => {
-          console.log(places[index]);
+        {Array.from({ length: condition.segments }).map((place, index) => {
           return (
             <div
               className={style.leaf}
@@ -39,7 +38,7 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({
               key={index}
             >
               <p className="text-3xl font-extrabold">
-                {place?.displayName.text.split(' ')[0].split('-')[0]}
+                {places?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
               </p>
             </div>
           );
