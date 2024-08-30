@@ -68,7 +68,269 @@ const FirstPage: FC = () => {
 
   // Google Places API
 
-  const [places, setPlaces] = useState<Place[]>([]);
+  const [places, setPlaces] = useState<Place[]>([
+    {
+      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區建一路92號',
+      rating: 4.3,
+      displayName: {
+        text: '我家牛排 中和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'brunch_restaurant',
+        'breakfast_restaurant',
+        'chinese_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '234台灣新北市永和區永和路二段284號',
+      rating: 3.8,
+      displayName: {
+        text: '世界豆漿大王',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['restaurant', 'cafe', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區中安街85號B1',
+      rating: 4.6,
+      displayName: {
+        text: "BUNA CAF'E 布納咖啡館 中和公園館",
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區信義路5巷4號',
+      rating: 4.3,
+      displayName: {
+        text: '品都串燒 永和',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'barbecue_restaurant',
+        'korean_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '108台灣台北市萬華區寶興街163號',
+      rating: 4.1,
+      displayName: {
+        text: '玖佰號 火鍋/烤豬五花 專門店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'sushi_restaurant',
+        'japanese_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '235029台灣新北市中和區橋和路5號',
+      rating: 4.2,
+      displayName: {
+        text: 'くら寿司 藏壽司 中和橋和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區保平路18巷1號',
+      rating: 4.3,
+      displayName: {
+        text: '阿爸の芋圓 樂華店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'fast_food_restaurant',
+        'hamburger_restaurant',
+        'brunch_restaurant',
+        'american_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '108台灣台北市萬華區萬大路215號',
+      rating: 3.8,
+      displayName: {
+        text: '麥當勞-台北萬大二餐廳（設有得來速）',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['chinese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區永和路一段46號',
+      rating: 4.1,
+      displayName: {
+        text: '五草車中華麵食館',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區板南路661號',
+      rating: 4.7,
+      displayName: {
+        text: '西堤牛排 中和板南店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區橋和路3號1樓',
+      rating: 4.4,
+      displayName: {
+        text: '涮乃葉 中和台科廣場店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'thai_restaurant',
+        'restaurant',
+        'store',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '234台灣新北市永和區復興街87號',
+      rating: 4,
+      displayName: {
+        text: '北蘭阿姨商行',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區竹林路14號',
+      rating: 4.4,
+      displayName: {
+        text: '小時厚牛排-新北永和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區永貞路274號1樓',
+      rating: 4.7,
+      displayName: {
+        text: '狂一鍋－中和永貞店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'fast_food_restaurant',
+        'hamburger_restaurant',
+        'brunch_restaurant',
+        'american_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '235台灣新北市中和區中山路二段583號1樓',
+      rating: 3.8,
+      displayName: {
+        text: '麥當勞-中和中山餐廳',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'cafe',
+        'brunch_restaurant',
+        'coffee_shop',
+        'restaurant',
+        'store',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '234台灣新北市永和區水源街21巷2號',
+      rating: 4.3,
+      displayName: {
+        text: '自由溫室咖啡廳',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區永和路二段116號5樓',
+      rating: 4.5,
+      displayName: {
+        text: '築間幸福鍋物 新北永和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'vegetarian_restaurant',
+        'vegan_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '235台灣新北市中和區中山路二段427號咖啡廳1樓&3樓',
+      rating: 4.4,
+      displayName: {
+        text: '崇德發蔬食餐廳.咖啡廳',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'fast_food_restaurant',
+        'hamburger_restaurant',
+        'brunch_restaurant',
+        'american_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '234台灣新北市永和區永和路二段170號',
+      rating: 3.9,
+      displayName: {
+        text: '麥當勞-永和餐廳',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      types: [
+        'fast_food_restaurant',
+        'hamburger_restaurant',
+        'brunch_restaurant',
+        'american_restaurant',
+        'restaurant',
+        'food',
+        'point_of_interest',
+        'establishment',
+      ],
+      formattedAddress: '235台灣新北市中和區中和路38號',
+      rating: 3.5,
+      displayName: {
+        text: '麥當勞-中和餐廳',
+        languageCode: 'zh-TW',
+      },
+    },
+  ]);
 
   const fetchPlaces = async () => {
     const location = await getLocation();
@@ -83,7 +345,7 @@ const FirstPage: FC = () => {
         'art_gallery',
         'museum',
       ],
-      maxResultCount: condition.segments,
+      maxResultCount: 20,
       locationRestriction: {
         circle: {
           center: location,
@@ -99,43 +361,15 @@ const FirstPage: FC = () => {
       'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
     };
 
-    const response = await axios.post(
-      'https://places.googleapis.com/v1/places:searchNearby',
-      data,
-      {
-        headers,
-      }
-    );
+    // const response = await axios.post(
+    //   'https://places.googleapis.com/v1/places:searchNearby',
+    //   data,
+    //   {
+    //     headers,
+    //   }
+    // );
     // setPlaces(response.data.places);
-    setPlaces([
-      {
-        types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
-        formattedAddress: '235台灣新北市中和區建一路92號',
-        rating: 4.3,
-        displayName: {
-          text: '我家牛排 中和店',
-          languageCode: 'zh-TW',
-        },
-      },
-      {
-        types: [
-          'brunch_restaurant',
-          'breakfast_restaurant',
-          'chinese_restaurant',
-          'restaurant',
-          'point_of_interest',
-          'food',
-          'establishment',
-        ],
-        formattedAddress: '234台灣新北市永和區永和路二段284號',
-        rating: 3.8,
-        displayName: {
-          text: '世界豆漿大王',
-          languageCode: 'zh-TW',
-        },
-      },
-    ]);
-    // console.log(response.data.places);
+    
   };
 
   useEffect(() => {
