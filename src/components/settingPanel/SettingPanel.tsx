@@ -60,10 +60,20 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <Label htmlFor="">轉盤內容</Label>
+        <Label htmlFor="">優先順序</Label>
         <div className="grid grid-cols-4 gap-2">
-          <Button className="px-6 py-4 text-md">美食</Button>
-          <Button className="px-6 py-4 text-md">店家</Button>
+          <Button
+            className="px-6 py-4 text-md"
+            onClick={() => setCondition({ ...condition, ['rankPreference']: 'POPULARITY' })}
+          >
+            評分
+          </Button>
+          <Button
+            className="px-6 py-4 text-md"
+            onClick={() => setCondition({ ...condition, ['rankPreference']: 'DISTANCE' })}
+          >
+            距離
+          </Button>
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -93,7 +103,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Slider
           value={[condition.distance]}
           max={10000}
-          step={100}
+          step={500}
           onValueChange={(value) => setCondition({ ...condition, ['distance']: value[0] })}
         />
       </div>
