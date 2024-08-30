@@ -1,11 +1,12 @@
 import React from 'react';
-import { Condition } from '@/types/type';
+import { Condition, Place } from '@/types/type';
 
 interface HorizontalWheelProps {
   condition: Condition;
+  places: Place[];
 }
 
-const HorizontalWheel: React.FC<HorizontalWheelProps> = ({ condition }) => {
+const HorizontalWheel: React.FC<HorizontalWheelProps> = ({ condition, places }) => {
   return <div>開發中...</div>;
 };
 
