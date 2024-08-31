@@ -4,8 +4,8 @@ import WheelPanel from '../components/wheelPanel/WheelPanel';
 import VerticalWheelPanel from '../components/wheelPanel/VerticalWheelPanel.tsx';
 import HorizontalWheelPanel from '../components/wheelPanel/HorizontalWheelPanel.tsx';
 import { Condition } from '../types/type.ts';
-import axios from 'axios';
-import { google_key } from '../../utils/config.ts';
+// import axios from 'axios';
+// import { google_key } from '../../utils/config.ts';
 import { Place } from '../types/type.ts';
 
 const FirstPage: FC = () => {
@@ -334,41 +334,43 @@ const FirstPage: FC = () => {
 
   const fetchPlaces = async () => {
     const location = await getLocation();
-    const data = {
-      includedTypes: ['restaurant'],
-      excludedTypes: [
-        'supermarket',
-        'park',
-        'zoo',
-        'amusement_park',
-        'aquarium',
-        'art_gallery',
-        'museum',
-      ],
-      maxResultCount: 20,
-      locationRestriction: {
-        circle: {
-          center: location,
-          radius: condition.distance,
-        },
-      },
-      rankPreference: 'POPULARITY', // 依照熱門程度排名
-    };
+    console.log(location);
+    // const data = {
+    //   includedTypes: ['restaurant'],
+    //   excludedTypes: [
+    //     'supermarket',
+    //     'park',
+    //     'zoo',
+    //     'amusement_park',
+    //     'aquarium',
+    //     'art_gallery',
+    //     'museum',
+    //   ],
+    //   maxResultCount: 20,
+    //   locationRestriction: {
+    //     circle: {
+    //       center: location,
+    //       radius: condition.distance,
+    //     },
+    //   },
+    //   rankPreference: 'POPULARITY', // 依照熱門程度排名
+    // };
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'X-Goog-Api-Key': google_key,
-      'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
-    };
+    // const headers = {
+    //   'Content-Type': 'application/json',
+    //   'X-Goog-Api-Key': google_key,
+    //   'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
+    // };
 
-    const response = await axios.post(
-      'https://places.googleapis.com/v1/places:searchNearby',
-      data,
-      {
-        headers,
-      }
-    );
-    setPlaces(response.data.places);
+    // const response = await axios.post(
+    //   'https://places.googleapis.com/v1/places:searchNearby',
+    //   data,
+    //   {
+    //     headers,
+    //   }
+    // );
+    // setPlaces(response.data.places);
+    setPlaces(places);
     
   };
 
