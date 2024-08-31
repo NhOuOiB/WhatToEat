@@ -6,7 +6,7 @@ interface HorizontalWheelProps {
   places: Place[];
 }
 
-const HorizontalWheel: React.FC<HorizontalWheelProps> = ({ condition, places }) => {
+const HorizontalWheel: React.FC<HorizontalWheelProps> = () => {
   return <div>開發中...</div>;
 };
 

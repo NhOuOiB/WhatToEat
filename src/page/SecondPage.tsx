@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import FirstPage from './FirstPage';
 
-const SecondPage = () => {
+const SecondPage: FC = () => {
   return <FirstPage />;
 };
 

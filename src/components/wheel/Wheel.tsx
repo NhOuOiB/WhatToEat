@@ -95,7 +95,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {Array.from({ length: condition.segments }).map((place, index) => {
+            {Array.from({ length: condition.segments }).map((_, index) => {
               return (
                 <div
                   className={`absolute ${wheelStyle?.container}`}

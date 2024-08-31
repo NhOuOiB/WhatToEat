@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import VerticalWheel from '../wheel/VerticalWheel';
 import { Condition, Place } from '@/types/type';
 import style from './VerticalWheelPanel.module.scss';

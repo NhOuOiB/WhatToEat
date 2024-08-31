@@ -361,14 +361,14 @@ const FirstPage: FC = () => {
       'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
     };
 
-    // const response = await axios.post(
-    //   'https://places.googleapis.com/v1/places:searchNearby',
-    //   data,
-    //   {
-    //     headers,
-    //   }
-    // );
-    // setPlaces(response.data.places);
+    const response = await axios.post(
+      'https://places.googleapis.com/v1/places:searchNearby',
+      data,
+      {
+        headers,
+      }
+    );
+    setPlaces(response.data.places);
     
   };
 
