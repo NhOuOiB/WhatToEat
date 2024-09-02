@@ -32,7 +32,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Label htmlFor="">轉盤樣式</Label>
         <div className="grid grid-cols-2 gap-2">
           <Button
-            className={`px-6 py-4 text-3xl ${wheelType !== 'wheel' && 'text-gray-500'}`}
+            className={`px-6 py-4 text-3xl relative ${wheelType !== 'wheel' && 'text-gray-500'}`}
             onClick={() => {
               setCondition({ ...condition, ['segments']: 2 });
               setWheelType('wheel');
