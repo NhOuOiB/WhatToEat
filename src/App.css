@@ -1,33 +1,39 @@
 @import url(https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap);
 @import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
 
-body{
-    font-family: 'LXGW WenKai Mono TC', monospace;
-    font-family: "Yuji Syuku", serif;
+body {
+  font-family: 'LXGW WenKai Mono TC', monospace;
+  font-family: 'Yuji Syuku', serif;
 }
 
 /* 滾動條的寬度 */
 ::-webkit-scrollbar {
-    width: 10px;         
-    height: 6px;
+  width: 10px;
+  height: 6px;
 }
 
 /* 滾動條的設定 */
 ::-webkit-scrollbar-thumb {
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #bbb;
-    border-radius: 5px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* full page scroll */
 .snap-y-mandatory {
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
 .snap-start {
-    scroll-snap-align: start;
+  scroll-snap-align: start;
 }
