@@ -8,7 +8,7 @@ interface WheelPanelProps {
   condition: Condition;
   selectedItem: number;
   spin: () => void;
-  places: Place[];
+  selectedPlaces: Place[];
   specialMode: boolean;
 }
 
@@ -17,7 +17,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
   selectedItem,
   condition,
   spin,
-  places,
+  selectedPlaces,
   specialMode,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -68,11 +68,11 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
               selectedItem === -1 && styles.opacity0
             }`}
           >
-            {places[selectedItem].displayName.text.split(' ')[0].split('-')[0]}
+            {selectedPlaces?.[selectedItem]?.displayName.text.split(' ')[0].split('-')[0]}
           </p>
           !
         </div>
-        <Wheel rotation={rotation} condition={condition} spin={spin} places={places} />
+        <Wheel rotation={rotation} condition={condition} spin={spin} selectedPlaces={selectedPlaces} />
       </div>
     </div>
   );
