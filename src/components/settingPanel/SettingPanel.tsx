@@ -23,9 +23,11 @@ interface SettingPanelProps {
   wheelType: string;
   specialMode: boolean;
   places: Place[];
+  selectedPlaces: Place[];
   setCondition: React.Dispatch<React.SetStateAction<Condition>>;
   setWheelType: React.Dispatch<React.SetStateAction<string>>;
   setSpecialMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedPlaces: React.Dispatch<React.SetStateAction<Place[]>>;
 }
 const SettingPanel: React.FC<SettingPanelProps> = ({
   condition,
@@ -35,9 +37,12 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   specialMode,
   setSpecialMode,
   places,
+  selectedPlaces,
+  setSelectedPlaces,
 }) => {
   const segmentCount = wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20;
   const aboveSegmentCount = wheelType === 'wheel' ? 1 : wheelType === 'verticalWheel' ? 5 : 10;
+  console.log(selectedPlaces);
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md">
       <div className="flex flex-col gap-4 sm:gap-10">
@@ -49,7 +54,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 wheelType === 'wheel' && !specialMode && 'text-white'
               }`}
               onClick={() => {
-                setCondition({ ...condition, ['segments']: 2 });
+                setCondition({ ...condition, ['min']: 2, ['max']: 8 });
                 setWheelType('wheel');
                 if (wheelType === 'wheel') setSpecialMode(!specialMode);
               }}
@@ -65,7 +70,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 wheelType !== 'verticalWheel' ? 'text-gray-500' : ''
               }`}
               onClick={() => {
-                setCondition({ ...condition, ['segments']: 6 });
+                setCondition({ ...condition, ['min']: 6, ['max']: 10 });
                 setWheelType('verticalWheel');
               }}
             >
@@ -78,7 +83,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''
               }`}
               onClick={() => {
-                setCondition({ ...condition, ['segments']: 11 });
+                setCondition({ ...condition, ['min']: 10, ['max']: 20 });
                 setWheelType('horizontalWheel');
               }}
             >
@@ -142,18 +147,45 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
       </div>
       <Dialog>
         <DialogTrigger>
-          <Button className="w-full mb-4">挑選店家</Button>
+          <div className="w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md">
+            挑選店家
+          </div>
         </DialogTrigger>
-        <DialogContent className='h-[50rem]'>
-          <DialogHeader className='overflow-hidden'>
-            <DialogTitle>挑選喜歡的店家</DialogTitle>
-            <DialogDescription className='h-full flex flex-col items-center gap-2 overflow-scroll'>
-              {places.map((item) => (
-                <Button className={`w-2/3 flex justify-between`}>
-                  <Checkbox className='bg-white text-gray-500'/>
-                  {item.displayName.text}
-                </Button>
-              ))}
+        <DialogContent className="h-[52rem]">
+          <DialogHeader className="overflow-hidden">
+            <DialogTitle className=''>
+              挑選喜歡的店家{' '}
+              <span className="text-sm text-gray-600">
+                (至少 {condition.min} ~ {condition.max} 家)
+              </span>
+            </DialogTitle>
+            <DialogDescription className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
+              {places.map((item) => {
+                const selected = selectedPlaces.some((place) => place.id === item.id);
+                return (
+                  <div
+                    className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border  ${
+                      selectedPlaces.length === condition.max && !selected
+                        ? 'bg-gray-300 text-gray-500 border-transparent'
+                        : !selected
+                        ? 'bg-white text-gray-800 border border-gray-400'
+                        : 'bg-gray-900 text-white border-transparent'
+                    }`}
+                    onClick={() => {
+                      if (selectedPlaces.some((place) => place.id === item.id)) {
+                        setSelectedPlaces(selectedPlaces.filter((place) => place.id !== item.id));
+                      } else {
+                        if (selectedPlaces.length === condition.max) return;
+                        setSelectedPlaces([...selectedPlaces, item]);
+                      }
+                    }}
+                    key={item.id}
+                  >
+                    <Checkbox className={`bg-white text-gray-500`} checked={selected} />
+                    {item.displayName.text}
+                  </div>
+                );
+              })}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
