@@ -1,5 +1,7 @@
 export interface Condition {
   segments: number;
+  min: number;
+  max: number;
   distance: number;
   rankPreference: string;
 }
