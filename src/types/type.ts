@@ -5,6 +5,7 @@ export interface Condition {
 }
 
 export interface Place {
+  id: string;
   types: string[];
   formattedAddress: string;
   rating: number;

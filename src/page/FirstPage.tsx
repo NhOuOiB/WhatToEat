@@ -71,7 +71,8 @@ const FirstPage: FC = () => {
 
   const [places, setPlaces] = useState<Place[]>([
     {
-      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJKZrwuYACaDQRQRNBQ36-eoQ',
+      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '235台灣新北市中和區建一路92號',
       rating: 4.3,
       displayName: {
@@ -80,13 +81,14 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJMSvxi-epQjQR6kLpzDTtNLQ',
       types: [
         'brunch_restaurant',
         'breakfast_restaurant',
         'chinese_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區永和路二段284號',
@@ -97,7 +99,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['restaurant', 'cafe', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJheiMcwapQjQR-tHQmvZa5XY',
+      types: ['restaurant', 'cafe', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '235台灣新北市中和區中安街85號B1',
       rating: 4.6,
       displayName: {
@@ -106,7 +109,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJdW4lapapQjQRaJC3AjqdGbI',
+      types: ['japanese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '234台灣新北市永和區信義路5巷4號',
       rating: 4.3,
       displayName: {
@@ -115,12 +119,13 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJ25_ZtLWpQjQRaGGzvUBvduw',
       types: [
         'barbecue_restaurant',
         'korean_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '108台灣台北市萬華區寶興街163號',
@@ -131,12 +136,13 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJ2TeOC-upQjQRrNp_hWdYEX0',
       types: [
         'sushi_restaurant',
         'japanese_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '235029台灣新北市中和區橋和路5號',
@@ -147,7 +153,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJaSiY_9ypQjQRFpJ-BCmLrVE',
+      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '234台灣新北市永和區保平路18巷1號',
       rating: 4.3,
       displayName: {
@@ -156,14 +163,15 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJRZ0k6LCpQjQR6ECASSDTf50',
       types: [
         'fast_food_restaurant',
-        'hamburger_restaurant',
         'brunch_restaurant',
+        'hamburger_restaurant',
         'american_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '108台灣台北市萬華區萬大路215號',
@@ -174,7 +182,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['chinese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJk1KfRt2pQjQRDWMUgDGxhzo',
+      types: ['chinese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '234台灣新北市永和區永和路一段46號',
       rating: 4.1,
       displayName: {
@@ -183,7 +192,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJE2gr0iqoQjQReUD33kMutgA',
+      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '235台灣新北市中和區板南路661號',
       rating: 4.7,
       displayName: {
@@ -192,7 +202,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJiYJnn_6pQjQRlU8dbEd3nSM',
+      types: ['japanese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '235台灣新北市中和區橋和路3號1樓',
       rating: 4.4,
       displayName: {
@@ -201,12 +212,13 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJr-BYBeupQjQRX7ElhKUm5mU',
       types: [
         'thai_restaurant',
         'restaurant',
+        'point_of_interest',
         'store',
         'food',
-        'point_of_interest',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區復興街87號',
@@ -217,7 +229,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJXVBM2MSpQjQRvI6suxrddWI',
+      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '234台灣新北市永和區竹林路14號',
       rating: 4.4,
       displayName: {
@@ -226,7 +239,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJQaBhKiapQjQRj_-J97ZELXo',
+      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '235台灣新北市中和區永貞路274號1樓',
       rating: 4.7,
       displayName: {
@@ -235,14 +249,15 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJI57DZqcCaDQR-eUT5MUPEK8',
       types: [
         'fast_food_restaurant',
-        'hamburger_restaurant',
         'brunch_restaurant',
+        'hamburger_restaurant',
         'american_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '235台灣新北市中和區中山路二段583號1樓',
@@ -253,14 +268,15 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJSTQjAN2pQjQRI_eRnd_itIs',
       types: [
         'cafe',
-        'brunch_restaurant',
         'coffee_shop',
+        'brunch_restaurant',
         'restaurant',
+        'point_of_interest',
         'store',
         'food',
-        'point_of_interest',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區水源街21巷2號',
@@ -271,7 +287,8 @@ const FirstPage: FC = () => {
       },
     },
     {
-      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      id: 'ChIJ8aDWZy-pQjQR61DvkDGRP7A',
+      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
       formattedAddress: '234台灣新北市永和區永和路二段116號5樓',
       rating: 4.5,
       displayName: {
@@ -280,12 +297,13 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJx3TSH3OpQjQRTp45cxQTy-k',
       types: [
         'vegetarian_restaurant',
         'vegan_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '235台灣新北市中和區中山路二段427號咖啡廳1樓&3樓',
@@ -296,14 +314,15 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJ1dJLaOqpQjQRGgH-GnpnQdQ',
       types: [
         'fast_food_restaurant',
-        'hamburger_restaurant',
         'brunch_restaurant',
+        'hamburger_restaurant',
         'american_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區永和路二段170號',
@@ -314,14 +333,15 @@ const FirstPage: FC = () => {
       },
     },
     {
+      id: 'ChIJV3oxq9epQjQR7bVgz_E6z54',
       types: [
         'fast_food_restaurant',
-        'hamburger_restaurant',
         'brunch_restaurant',
+        'hamburger_restaurant',
         'american_restaurant',
         'restaurant',
-        'food',
         'point_of_interest',
+        'food',
         'establishment',
       ],
       formattedAddress: '235台灣新北市中和區中和路38號',
@@ -360,7 +380,8 @@ const FirstPage: FC = () => {
     // const headers = {
     //   'Content-Type': 'application/json',
     //   'X-Goog-Api-Key': google_key,
-    //   'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.types,places.rating', // 可自訂要顯示的欄位
+    //   'X-Goog-FieldMask':
+    //     'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.photos', // 可自訂要顯示的欄位
     // };
 
     // const response = await axios.post(
@@ -394,6 +415,7 @@ const FirstPage: FC = () => {
         setWheelType={setWheelType}
         specialMode={specialMode}
         setSpecialMode={setSpecialMode}
+        places={places}
       />
       {wheelType === 'wheel' ? (
         <WheelPanel
