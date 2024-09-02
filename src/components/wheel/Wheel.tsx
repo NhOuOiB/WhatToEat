@@ -5,7 +5,7 @@ interface WheelProps {
   rotation: number;
   condition: Condition;
   spin: () => void;
-  places: Place[];
+  selectedPlaces: Place[];
 }
 
 type wheelStyles = {
@@ -17,7 +17,7 @@ type wheelStyles = {
   };
 };
 
-const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
+const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) => {
   //盤面css設定
   const wheelStyles: wheelStyles = {
     2: {
@@ -64,8 +64,8 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
     },
   };
 
-  const wheelStyle = wheelStyles[Number(condition.segments)];
-  const segmentAngle = 360 / Number(condition.segments);
+  const wheelStyle = wheelStyles[Number(selectedPlaces?.length)];
+  const segmentAngle = 360 / Number(selectedPlaces?.length);
 
   const colorVariants = [
     { bg: 'bg-gray-100', border: 'border-t-gray-100', text: 'text-gray-900' },
@@ -95,7 +95,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {Array.from({ length: condition.segments }).map((_, index) => {
+            {Array.from({ length: selectedPlaces?.length }).map((_, index) => {
               return (
                 <div
                   className={`absolute ${wheelStyle?.container}`}
@@ -114,7 +114,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, places }) => {
                     <div
                       className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
                     >
-                      {places?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
+                      {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
                     </div>
                   </div>
                 </div>
