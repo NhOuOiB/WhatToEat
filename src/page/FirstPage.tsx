@@ -372,7 +372,6 @@ const FirstPage: FC = () => {
     // );
     // setPlaces(response.data.places);
     setPlaces(places);
-    
   };
 
   useEffect(() => {
@@ -382,6 +381,10 @@ const FirstPage: FC = () => {
   useEffect(() => {
     setSelectedItem(0);
   }, [condition.segments]);
+
+  useEffect(() => {
+    setSpecialMode(false);
+  }, [wheelType]);
   return (
     <div className="w-full h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gray-200 px-6 py-2 snap-start">
       <SettingPanel

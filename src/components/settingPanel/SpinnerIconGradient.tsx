@@ -21,7 +21,7 @@ export const SpinnerIconGradient: React.FC<Props> = ({ className, specialMode })
       </svg>
 
       <PiSpinnerBallDuotone
-        className={`absolute transition ${specialMode ? 'opacity-100' : 'opacity-0'} ${className}`}
+        className={className}
         style={{
           fill: 'url(#icon-gradient)',
         }}

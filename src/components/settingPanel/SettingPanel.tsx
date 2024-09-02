@@ -32,17 +32,20 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Label htmlFor="">轉盤樣式</Label>
         <div className="grid grid-cols-2 gap-2">
           <Button
-            className={`px-6 py-4 text-3xl relative ${wheelType !== 'wheel' && 'text-gray-500'}`}
+            className={`px-6 py-4 text-3xl relative text-gray-500 ${
+              wheelType === 'wheel' && !specialMode && 'text-white'
+            }`}
             onClick={() => {
               setCondition({ ...condition, ['segments']: 2 });
               setWheelType('wheel');
               if (wheelType === 'wheel') setSpecialMode(!specialMode);
             }}
           >
-            <SpinnerIconGradient specialMode={specialMode} />
-            <IconContext.Provider value={{ className: `transition ${!specialMode ? 'opacity-100' : 'opacity-0'}` }}>
+            {wheelType === 'wheel' && specialMode ? (
+              <SpinnerIconGradient specialMode={specialMode} />
+            ) : (
               <PiSpinnerBallDuotone />
-            </IconContext.Provider>
+            )}
           </Button>
           <Button
             className={`px-6 py-4 text-2xl ${wheelType !== 'verticalWheel' ? 'text-gray-500' : ''}`}
