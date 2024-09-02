@@ -9,6 +9,7 @@ interface WheelPanelProps {
   selectedItem: number;
   spin: () => void;
   places: Place[];
+  specialMode: boolean;
 }
 
 const WheelPanel: React.FC<WheelPanelProps> = ({
@@ -17,6 +18,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
   condition,
   spin,
   places,
+  specialMode,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<DOMRect | null>(null);
@@ -50,21 +52,25 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
   return (
     <div
       className={styles.container}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
+      onMouseMove={specialMode ? handleMove : undefined}
+      onMouseLeave={specialMode ? handleLeave : undefined}
       ref={panelRef}
     >
       <div
         className={styles.wheelPanel}
         style={{ transform: `rotateX(${calcX}deg) rotateY(${calcY}deg)` }}
       >
-        <div className={styles.transparentBg}></div>
+        <div className={specialMode ? styles.transparentBg : 'absolute'}></div>
         <div className={styles.text}>
           今天就吃
-          <p className={`w-96 text-5xl flex justify-center text-sky-950 ${selectedItem === -1 && styles.opacity0}`}>
+          <p
+            className={`w-96 text-5xl flex justify-center text-sky-950 ${
+              selectedItem === -1 && styles.opacity0
+            }`}
+          >
             {places[selectedItem].displayName.text.split(' ')[0].split('-')[0]}
           </p>
-           !
+          !
         </div>
         <Wheel rotation={rotation} condition={condition} spin={spin} places={places} />
       </div>

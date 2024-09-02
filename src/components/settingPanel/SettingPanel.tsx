@@ -6,18 +6,23 @@ import { PiSpinnerBallDuotone } from 'react-icons/pi';
 import { Condition } from '@/types/type';
 import { BiCarousel } from 'react-icons/bi';
 import { IconContext } from 'react-icons';
+import { SpinnerIconGradient } from './SpinnerIconGradient';
 
 interface SettingPanelProps {
   condition: Condition;
   wheelType: string;
+  specialMode: boolean;
   setCondition: React.Dispatch<React.SetStateAction<Condition>>;
   setWheelType: React.Dispatch<React.SetStateAction<string>>;
+  setSpecialMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const SettingPanel: React.FC<SettingPanelProps> = ({
   condition,
   setCondition,
   wheelType,
   setWheelType,
+  specialMode,
+  setSpecialMode,
 }) => {
   const segmentCount = wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20;
   const aboveSegmentCount = wheelType === 'wheel' ? 1 : wheelType === 'verticalWheel' ? 5 : 10;
@@ -27,13 +32,17 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Label htmlFor="">轉盤樣式</Label>
         <div className="grid grid-cols-2 gap-2">
           <Button
-            className={`px-6 py-4 text-3xl ${wheelType !== 'wheel' ? 'text-gray-500' : ''}`}
+            className={`px-6 py-4 text-3xl ${wheelType !== 'wheel' && 'text-gray-500'}`}
             onClick={() => {
               setCondition({ ...condition, ['segments']: 2 });
               setWheelType('wheel');
+              if (wheelType === 'wheel') setSpecialMode(!specialMode);
             }}
           >
-            <PiSpinnerBallDuotone />
+            <SpinnerIconGradient specialMode={specialMode} />
+            <IconContext.Provider value={{ className: `transition ${!specialMode ? 'opacity-100' : 'opacity-0'}` }}>
+              <PiSpinnerBallDuotone />
+            </IconContext.Provider>
           </Button>
           <Button
             className={`px-6 py-4 text-2xl ${wheelType !== 'verticalWheel' ? 'text-gray-500' : ''}`}
@@ -63,13 +72,17 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Label htmlFor="">優先順序</Label>
         <div className="grid grid-cols-4 gap-2">
           <Button
-            className="px-6 py-4 text-md"
+            className={`px-6 py-4 text-md ${
+              condition.rankPreference !== 'POPULARITY' && 'text-gray-500'
+            }`}
             onClick={() => setCondition({ ...condition, ['rankPreference']: 'POPULARITY' })}
           >
             評分
           </Button>
           <Button
-            className="px-6 py-4 text-md"
+            className={`px-6 py-4 text-md ${
+              condition.rankPreference !== 'DISTANCE' && 'text-gray-500'
+            }`}
             onClick={() => setCondition({ ...condition, ['rankPreference']: 'DISTANCE' })}
           >
             距離
@@ -103,6 +116,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <Slider
           value={[condition.distance]}
           max={10000}
+          min={500}
           step={500}
           onValueChange={(value) => setCondition({ ...condition, ['distance']: value[0] })}
         />

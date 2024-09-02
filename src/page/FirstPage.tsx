@@ -10,6 +10,7 @@ import { Place } from '../types/type.ts';
 
 const FirstPage: FC = () => {
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
+  const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
     segments: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 11,
     distance: 2000,
@@ -388,6 +389,8 @@ const FirstPage: FC = () => {
         setCondition={setCondition}
         wheelType={wheelType}
         setWheelType={setWheelType}
+        specialMode={specialMode}
+        setSpecialMode={setSpecialMode}
       />
       {wheelType === 'wheel' ? (
         <WheelPanel
@@ -396,6 +399,7 @@ const FirstPage: FC = () => {
           selectedItem={selectedItem}
           spin={spin}
           places={places}
+          specialMode={specialMode}
         />
       ) : wheelType === 'verticalWheel' ? (
         <VerticalWheelPanel condition={condition} places={places} />
