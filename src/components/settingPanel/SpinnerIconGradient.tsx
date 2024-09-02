@@ -3,10 +3,9 @@ import { PiSpinnerBallDuotone } from 'react-icons/pi';
 
 interface Props {
   className?: string;
-  specialMode: boolean;
 }
 
-export const SpinnerIconGradient: React.FC<Props> = ({ className, specialMode }) => {
+export const SpinnerIconGradient: React.FC<Props> = ({ className }) => {
   return (
     <>
       <svg width="0" height="0">

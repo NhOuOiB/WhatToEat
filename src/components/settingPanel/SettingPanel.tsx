@@ -42,7 +42,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
             }}
           >
             {wheelType === 'wheel' && specialMode ? (
-              <SpinnerIconGradient specialMode={specialMode} />
+              <SpinnerIconGradient />
             ) : (
               <PiSpinnerBallDuotone />
             )}
