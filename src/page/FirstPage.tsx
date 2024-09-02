@@ -13,6 +13,8 @@ const FirstPage: FC = () => {
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
     segments: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 11,
+    min: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 10,
+    max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20,
     distance: 2000,
     rankPreference: 'POPULARITY',
   });
@@ -352,6 +354,7 @@ const FirstPage: FC = () => {
       },
     },
   ]);
+  const [selectedPlaces, setSelectedPlaces] = useState<Place[]>([]);
 
   const fetchPlaces = async () => {
     const location = await getLocation();
@@ -416,6 +419,8 @@ const FirstPage: FC = () => {
         specialMode={specialMode}
         setSpecialMode={setSpecialMode}
         places={places}
+        selectedPlaces={selectedPlaces}
+        setSelectedPlaces={setSelectedPlaces}
       />
       {wheelType === 'wheel' ? (
         <WheelPanel
@@ -423,7 +428,7 @@ const FirstPage: FC = () => {
           condition={condition}
           selectedItem={selectedItem}
           spin={spin}
-          places={places}
+          selectedPlaces={selectedPlaces}
           specialMode={specialMode}
         />
       ) : wheelType === 'verticalWheel' ? (
