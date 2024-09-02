@@ -1,7 +1,9 @@
 @import url(https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
 
 body{
     font-family: 'LXGW WenKai Mono TC', monospace;
+    font-family: "Yuji Syuku", serif;
 }
 
 /* 滾動條的寬度 */
