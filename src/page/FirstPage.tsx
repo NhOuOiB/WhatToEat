@@ -12,9 +12,8 @@ const FirstPage: FC = () => {
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
-    segments: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 11,
     min: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 10,
-    max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20,
+    max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 11 : 20,
     distance: 2000,
     rankPreference: 'POPULARITY',
   });
@@ -28,7 +27,7 @@ const FirstPage: FC = () => {
     setRotation(newRotation);
 
     // 計算指針指到的項目
-    const itemAngle = 360 / Number(condition.segments); // 每個項目的角度範圍
+    const itemAngle = 360 / Number(selectedPlaces.length); // 每個項目的角度範圍
     const relativeRotation = (Math.abs(newRotation) + itemAngle / 2) % 360; // 計算多餘的旋轉角度，+ itemAngle / 2 是因為指針指到正中間
     const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
@@ -395,7 +394,10 @@ const FirstPage: FC = () => {
     //   }
     // );
     // setPlaces(response.data.places);
-    setPlaces(places);
+    // setPlaces([]);
+    setTimeout(() => {
+      setPlaces(places);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -403,14 +405,14 @@ const FirstPage: FC = () => {
   }, [condition]);
 
   useEffect(() => {
-    setSelectedItem(0);
-  }, [condition.segments]);
+    setSelectedItem(-1);
+  }, [selectedPlaces.length]);
 
   useEffect(() => {
     setSpecialMode(false);
   }, [wheelType]);
   return (
-    <div className="w-full h-screen flex flex-col md:flex-row justify-center items-center gap-10 bg-gray-200 px-6 py-2 snap-start">
+    <div className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start">
       <SettingPanel
         condition={condition}
         setCondition={setCondition}
@@ -432,7 +434,7 @@ const FirstPage: FC = () => {
           specialMode={specialMode}
         />
       ) : wheelType === 'verticalWheel' ? (
-        <VerticalWheelPanel condition={condition} places={places} />
+        <VerticalWheelPanel selectedPlaces={selectedPlaces} condition={condition} />
       ) : (
         <HorizontalWheelPanel condition={condition} places={places} />
       )}
