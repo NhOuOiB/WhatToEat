@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Place } from '@/types/type';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface SettingPanelProps {
   condition: Condition;
@@ -40,12 +41,9 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   selectedPlaces,
   setSelectedPlaces,
 }) => {
-  const segmentCount = wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20;
-  const aboveSegmentCount = wheelType === 'wheel' ? 1 : wheelType === 'verticalWheel' ? 5 : 10;
-  console.log(selectedPlaces);
   return (
-    <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md">
-      <div className="flex flex-col gap-4 sm:gap-10">
+    <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md ">
+      <div className="flex flex-col gap-8 sm:gap-10">
         <div className="flex flex-col gap-4">
           <Label htmlFor="">轉盤樣式</Label>
           <div className="grid grid-cols-2 gap-2">
@@ -113,25 +111,6 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <Label htmlFor="count">項目數量</Label>
-          <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 min-[2560px]:grid-cols-8 gap-2">
-            {[...Array(segmentCount).keys()].map(
-              (i) =>
-                i + 1 > aboveSegmentCount && (
-                  <Button
-                    className={`px-6 py-4 text-xl ${
-                      condition.segments - 1 === i ? 'text-white' : 'text-gray-500'
-                    }`}
-                    onClick={() => setCondition({ ...condition, ['segments']: i + 1 })}
-                    key={i}
-                  >
-                    {i + 1}
-                  </Button>
-                )
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <Label htmlFor="count">店家距離</Label>
             <span className="text-sm">{condition.distance} m</span>
@@ -146,46 +125,61 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         </div>
       </div>
       <Dialog>
-        <DialogTrigger>
-          <div className="w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md">
-            挑選店家
-          </div>
+        <DialogTrigger
+          className={`w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md ${
+            selectedPlaces.length < condition.min &&
+            'animate-bounce'
+          }`}
+        >
+          挑選店家
         </DialogTrigger>
         <DialogContent className="h-[52rem]">
           <DialogHeader className="overflow-hidden">
-            <DialogTitle className=''>
+            <DialogTitle className="">
               挑選喜歡的店家{' '}
               <span className="text-sm text-gray-600">
                 (至少 {condition.min} ~ {condition.max} 家)
               </span>
             </DialogTitle>
             <DialogDescription className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
-              {places.map((item) => {
-                const selected = selectedPlaces.some((place) => place.id === item.id);
-                return (
-                  <div
-                    className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border  ${
-                      selectedPlaces.length === condition.max && !selected
-                        ? 'bg-gray-300 text-gray-500 border-transparent'
-                        : !selected
-                        ? 'bg-white text-gray-800 border border-gray-400'
-                        : 'bg-gray-900 text-white border-transparent'
-                    }`}
-                    onClick={() => {
-                      if (selectedPlaces.some((place) => place.id === item.id)) {
-                        setSelectedPlaces(selectedPlaces.filter((place) => place.id !== item.id));
-                      } else {
-                        if (selectedPlaces.length === condition.max) return;
-                        setSelectedPlaces([...selectedPlaces, item]);
-                      }
-                    }}
-                    key={item.id}
-                  >
-                    <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                    {item.displayName.text}
-                  </div>
-                );
-              })}
+              {places.length === 0
+                ? Array.from({ length: 20 }).map((_, index) => (
+                    <div
+                      className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
+                      key={index}
+                    >
+                      <Checkbox className={`bg-white text-gray-500`} />
+                      <Skeleton key={index} className="w-5/6 h-5" />
+                    </div>
+                  ))
+                : places.map((item) => {
+                    const selected = selectedPlaces.some((place) => place.id === item.id);
+                    return (
+                      <div
+                        className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border  ${
+                          selectedPlaces.length === condition.max && !selected
+                            ? 'bg-gray-300 text-gray-500 border-transparent'
+                            : !selected
+                            ? 'bg-white text-gray-800 border border-gray-400'
+                            : 'bg-gray-900 text-white border-transparent'
+                        }`}
+                        onClick={() => {
+                          if (selectedPlaces.some((place) => place.id === item.id)) {
+                            setSelectedPlaces(
+                              selectedPlaces.filter((place) => place.id !== item.id)
+                            );
+                          } else {
+                            if (selectedPlaces.length === condition.max) return;
+                            setSelectedPlaces([...selectedPlaces, item]);
+                          }
+                        }}
+                        key={item.id}
+                      >
+                        <Checkbox className={`bg-white text-gray-500`} checked={selected} />
+                        {item.displayName.text}
+                      </div>
+                    );
+                  })}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
