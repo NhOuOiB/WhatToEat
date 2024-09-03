@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Condition, Place } from '@/types/type';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface WheelProps {
   rotation: number;
@@ -88,38 +89,44 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
       </div>
       <div
         className="w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
-        onClick={spin}
+        onClick={() => {
+          if (selectedPlaces.length >= condition.min) spin();
+        }}
       >
         <div
           className="w-full h-full transition ease-out"
           style={{ transform: `rotate(${rotation}deg)`, transitionDuration: '3s' }}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
-            {Array.from({ length: selectedPlaces?.length }).map((_, index) => {
-              return (
-                <div
-                  className={`absolute ${wheelStyle?.container}`}
-                  style={{
-                    transform: `rotate(${index * segmentAngle}deg)`,
-                    transformOrigin: '50% 100%',
-                  }}
-                  key={index}
-                >
+            {selectedPlaces.length < condition.min ? (
+              <Skeleton className="w-full h-full rounded-full bg-gray-100" />
+            ) : (
+              Array.from({ length: selectedPlaces?.length }).map((_, index) => {
+                return (
                   <div
-                    className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${colorVariants[index].border}`}
-                  ></div>
-                  <div
-                    className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${colorVariants[index].bg}`}
+                    className={`absolute ${wheelStyle?.container}`}
+                    style={{
+                      transform: `rotate(${index * segmentAngle}deg)`,
+                      transformOrigin: '50% 100%',
+                    }}
+                    key={index}
                   >
                     <div
-                      className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
+                      className={`border-b-0 border-x-transparent ${wheelStyle?.triangle} ${colorVariants[index].border}`}
+                    ></div>
+                    <div
+                      className={`absolute right-0 rounded-t-full ${wheelStyle?.halfCircle} ${colorVariants[index].bg}`}
                     >
-                      {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
+                      <div
+                        className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
+                      >
+                        {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </div>
