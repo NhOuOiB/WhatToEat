@@ -49,6 +49,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
     panelRef.current?.style.setProperty('--per', '0%');
   };
 
+  console.log(selectedItem);
   return (
     <div
       className={styles.container}
@@ -64,7 +65,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
         <div className={styles.text}>
           今天就吃
           <p
-            className={`w-96 text-5xl flex justify-center text-sky-950 ${
+            className={`w-48 text-2xl md:w-96 md:text-5xl flex justify-center text-sky-950 ${
               selectedItem === -1 && styles.opacity0
             }`}
           >
