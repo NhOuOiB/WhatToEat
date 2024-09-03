@@ -25,7 +25,7 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div className="snap-y-mandatory" ref={containerRef}>
+    <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
         <FirstPage />
         <SecondPage />
     </div>
