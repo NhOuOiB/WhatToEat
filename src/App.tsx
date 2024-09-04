@@ -7,6 +7,23 @@ const App: FC = () => {
   // 讓滾輪更平順
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      containerRef.current?.scrollBy({
+        top: event.deltaY,
+        behavior: 'smooth',
+      });
+    };
+
+    const container = containerRef.current;
+    container?.addEventListener('wheel', handleWheel);
+
+    return () => {
+      container?.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   // 取得使用者位置
   const [location, setLocation] = useState<{ latitude: number; longitude: number }>({
     latitude: 0,
@@ -46,23 +63,6 @@ const App: FC = () => {
         throw new Error('瀏覽器不支援地理定位。');
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      containerRef.current?.scrollBy({
-        top: event.deltaY,
-        behavior: 'smooth',
-      });
-    };
-
-    const container = containerRef.current;
-    container?.addEventListener('wheel', handleWheel);
-
-    return () => {
-      container?.removeEventListener('wheel', handleWheel);
-    };
   }, []);
 
   return (
