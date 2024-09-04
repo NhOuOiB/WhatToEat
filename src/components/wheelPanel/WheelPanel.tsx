@@ -65,7 +65,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
         <div className={styles.text}>
           今天就吃
           <p
-            className={`w-48 text-2xl md:w-96 md:text-5xl flex justify-center text-sky-950 ${
+            className={`w-48 text-2xl sm:w-96 sm:text-5xl md:w-48 md:text-2xl xl:w-96 xl:text-5xl flex justify-center text-sky-950 ${
               selectedItem === -1 && styles.opacity0
             }`}
           >
