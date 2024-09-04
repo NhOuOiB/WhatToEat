@@ -1,13 +1,14 @@
-import { FC,useEffect,useRef } from 'react';
-import { APIProvider, Map, AdvancedMarker, InfoWindow } from '@vis.gl/react-google-maps';
-import { google_key, map_id } from '../../utils/config';
+import { FC, useEffect, useRef } from 'react';
+import { APIProvider } from '@vis.gl/react-google-maps';
+import { google_key } from '../../utils/config';
+import CustomMap from '@/components/map/CustomMap';
+
 interface Props {
   location: { latitude: number; longitude: number };
 }
 
 const SecondPage: FC<Props> = ({ location }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
       event.stopPropagation();
@@ -27,25 +28,12 @@ const SecondPage: FC<Props> = ({ location }) => {
 
   return (
     <div className="h-screen snap-start flex justify-center items-center bg-gray-600">
-      <div className="w-1/2 h-3/5 border border-white shadow-md shadow-white" ref={mapContainerRef}>
+      <div
+        className="w-full h-3/5 md:w-3/4 md:h-3/5 xl:w-1/2 xl:h-3/5 border border-white shadow-md shadow-white"
+        ref={mapContainerRef}
+      >
         <APIProvider apiKey={google_key}>
-          <Map
-            // style={{ width: '100%', height: '100%' }}
-            defaultCenter={{ lat: location.latitude, lng: location.longitude }}
-            defaultZoom={15}
-            colorScheme="DARK"
-            mapId={map_id}
-            options={{
-              disableDefaultUI: true,
-              fullscreenControl: true,
-              streetViewControl: true,
-              zoomControl: true,
-            }}
-          >
-            <AdvancedMarker position={{ lat: location.latitude, lng: location.longitude }}>
-              <img src="/egg.svg" alt="Egg" width={32} height={32} />
-            </AdvancedMarker>
-          </Map>
+          <CustomMap location={location} />
         </APIProvider>
       </div>
     </div>
