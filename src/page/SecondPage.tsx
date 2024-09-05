@@ -2,12 +2,15 @@ import { FC, useEffect, useRef } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { google_key } from '../../utils/config';
 import CustomMap from '@/components/map/CustomMap';
+import { Place } from '@/types/type';
 
 interface Props {
   location: { latitude: number; longitude: number };
+  selectedPlaces: Place[];
+  selectedItem: number;
 }
 
-const SecondPage: FC<Props> = ({ location }) => {
+const SecondPage: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -29,11 +32,11 @@ const SecondPage: FC<Props> = ({ location }) => {
   return (
     <div className="h-screen snap-start flex justify-center items-center bg-gray-600">
       <div
-        className="w-full h-3/5 md:w-3/4 md:h-3/5 xl:w-1/2 xl:h-3/5 border border-white shadow-md shadow-white"
+        className="w-11/12 h-5/6 md:w-3/4 md:h-3/5 xl:w-1/2 xl:h-3/5 border border-white shadow-md shadow-white"
         ref={mapContainerRef}
       >
         <APIProvider apiKey={google_key}>
-          <CustomMap location={location} />
+          <CustomMap location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem}/>
         </APIProvider>
       </div>
     </div>
