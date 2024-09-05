@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Map, AdvancedMarker, InfoWindow } from '@vis.gl/react-google-maps';
+import { Map, AdvancedMarker } from '@vis.gl/react-google-maps';
 import { map_id } from '../../../utils/config';
 import { useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { Skeleton } from '@/components/ui/skeleton';
