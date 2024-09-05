@@ -7,9 +7,15 @@ interface VerticalWheelPanelProps {
   condition: Condition;
   selectedPlaces: Place[];
   setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
+  secondPageRef: React.RefObject<HTMLDivElement>;
 }
 
-const VerticalWheelPanel: React.FC<VerticalWheelPanelProps> = ({ condition, selectedPlaces, setSelectedItem }) => {
+const VerticalWheelPanel: React.FC<VerticalWheelPanelProps> = ({
+  condition,
+  selectedPlaces,
+  setSelectedItem,
+  secondPageRef,
+}) => {
   const [rotateDeg, setRotateDeg] = React.useState(0);
   const itemAngle = 360 / selectedPlaces.length;
   const spin = () => {
@@ -19,6 +25,10 @@ const VerticalWheelPanel: React.FC<VerticalWheelPanelProps> = ({ condition, sele
 
     setRotateDeg(newRotateDeg);
     setSelectedItem(Math.abs((newRotateDeg / itemAngle) % selectedPlaces.length));
+
+    setTimeout(() => {
+      secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 5000);
   };
 
   return (
