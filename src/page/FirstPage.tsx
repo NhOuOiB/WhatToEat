@@ -14,9 +14,17 @@ interface Props {
   setSelectedPlaces: React.Dispatch<React.SetStateAction<Place[]>>;
   selectedItem: number;
   setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
+  secondPageRef: React.RefObject<HTMLDivElement>;
 }
 
-const FirstPage: FC<Props> = ({ location, selectedPlaces, setSelectedPlaces, selectedItem, setSelectedItem }) => {
+const FirstPage: FC<Props> = ({
+  location,
+  selectedPlaces,
+  setSelectedPlaces,
+  selectedItem,
+  setSelectedItem,
+  secondPageRef,
+}) => {
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
@@ -28,7 +36,6 @@ const FirstPage: FC<Props> = ({ location, selectedPlaces, setSelectedPlaces, sel
 
   // Wheel
   const [rotation, setRotation] = useState<number>(0);
-  
 
   const spin = () => {
     const newRotation = rotation - Math.floor(Math.random() * 360 + 3600);
@@ -40,6 +47,10 @@ const FirstPage: FC<Props> = ({ location, selectedPlaces, setSelectedPlaces, sel
     const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
     setSelectedItem(selectedItem);
+    
+    setTimeout(() => {
+      secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 4000);
   };
 
   // Google Places API
@@ -508,7 +519,12 @@ const FirstPage: FC<Props> = ({ location, selectedPlaces, setSelectedPlaces, sel
           specialMode={specialMode}
         />
       ) : wheelType === 'verticalWheel' ? (
-        <VerticalWheelPanel selectedPlaces={selectedPlaces} condition={condition} setSelectedItem={setSelectedItem}/>
+        <VerticalWheelPanel
+          selectedPlaces={selectedPlaces}
+          condition={condition}
+          setSelectedItem={setSelectedItem}
+          secondPageRef={secondPageRef}
+        />
       ) : (
         <HorizontalWheelPanel condition={condition} places={places} />
       )}
