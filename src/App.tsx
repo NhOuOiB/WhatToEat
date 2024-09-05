@@ -7,6 +7,7 @@ import { Place } from './types/type';
 const App: FC = () => {
   // 讓滾輪更平順
   const containerRef = useRef<HTMLDivElement>(null);
+  const secondPageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -78,8 +79,9 @@ const App: FC = () => {
         setSelectedPlaces={setSelectedPlaces}
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
+        secondPageRef={secondPageRef}
       />
-      <SecondPage location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem} />
+      <SecondPage location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem} secondPageRef={secondPageRef} />
     </div>
   );
 };
