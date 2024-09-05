@@ -10,7 +10,7 @@
     @apply w-full h-fit relative flex items-center;
 
     .leaf {
-      @apply w-full h-40 border-y border-[#09384e] text-[#09384e] flex justify-center items-center absolute bg-[#f5f2e2];
+      @apply w-full h-40 border-y border-[#09384e] text-[#09384e] flex justify-center items-center absolute bg-[#f5f2e2] text-center px-4;
     }
   }
 }

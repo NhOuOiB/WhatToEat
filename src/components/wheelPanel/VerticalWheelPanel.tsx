@@ -6,16 +6,19 @@ import style from './VerticalWheelPanel.module.scss';
 interface VerticalWheelPanelProps {
   condition: Condition;
   selectedPlaces: Place[];
+  setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const VerticalWheelPanel: React.FC<VerticalWheelPanelProps> = ({ condition, selectedPlaces }) => {
+const VerticalWheelPanel: React.FC<VerticalWheelPanelProps> = ({ condition, selectedPlaces, setSelectedItem }) => {
   const [rotateDeg, setRotateDeg] = React.useState(0);
   const itemAngle = 360 / selectedPlaces.length;
   const spin = () => {
     let randomDeg = Math.random() * 360 + 360 * 5;
     randomDeg -= randomDeg % itemAngle;
+    const newRotateDeg = rotateDeg - randomDeg;
 
-    setRotateDeg(rotateDeg - randomDeg);
+    setRotateDeg(newRotateDeg);
+    setSelectedItem(Math.abs((newRotateDeg / itemAngle) % selectedPlaces.length));
   };
 
   return (
