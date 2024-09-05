@@ -2,6 +2,7 @@ import { FC, useState, useEffect, useRef } from 'react';
 import FirstPage from './page/FirstPage';
 import SecondPage from './page/SecondPage';
 import './App.css';
+import { Place } from './types/type';
 
 const App: FC = () => {
   // 讓滾輪更平順
@@ -29,6 +30,10 @@ const App: FC = () => {
     latitude: 0,
     longitude: 0,
   });
+
+  // 選中的店家
+  const [selectedItem, setSelectedItem] = useState<number>(-1);
+  const [selectedPlaces, setSelectedPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -67,8 +72,14 @@ const App: FC = () => {
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
-      <FirstPage location={location} />
-      <SecondPage location={location} />
+      <FirstPage
+        location={location}
+        selectedPlaces={selectedPlaces}
+        setSelectedPlaces={setSelectedPlaces}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
+      <SecondPage location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem} />
     </div>
   );
 };
