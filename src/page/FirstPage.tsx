@@ -4,15 +4,19 @@ import WheelPanel from '../components/wheelPanel/WheelPanel';
 import VerticalWheelPanel from '../components/wheelPanel/VerticalWheelPanel.tsx';
 import HorizontalWheelPanel from '../components/wheelPanel/HorizontalWheelPanel.tsx';
 import { Condition } from '../types/type.ts';
-// import axios from 'axios';
-// import { google_key } from '../../utils/config.ts';
+import axios from 'axios';
+import { google_key } from '../../utils/config.ts';
 import { Place } from '../types/type.ts';
 
 interface Props {
-  location : { latitude: number; longitude: number };
+  location: { latitude: number; longitude: number };
+  selectedPlaces: Place[];
+  setSelectedPlaces: React.Dispatch<React.SetStateAction<Place[]>>;
+  selectedItem: number;
+  setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const FirstPage: FC<Props> = ({ location }) => {
+const FirstPage: FC<Props> = ({ location, selectedPlaces, setSelectedPlaces, selectedItem, setSelectedItem }) => {
   const [wheelType, setWheelType] = useState<string>('verticalWheel');
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
@@ -24,7 +28,7 @@ const FirstPage: FC<Props> = ({ location }) => {
 
   // Wheel
   const [rotation, setRotation] = useState<number>(0);
-  const [selectedItem, setSelectedItem] = useState<number>(-1);
+  
 
   const spin = () => {
     const newRotation = rotation - Math.floor(Math.random() * 360 + 3600);
@@ -43,9 +47,16 @@ const FirstPage: FC<Props> = ({ location }) => {
   const [places, setPlaces] = useState<Place[]>([
     {
       id: 'ChIJKZrwuYACaDQRQRNBQ36-eoQ',
-      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
+      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '235台灣新北市中和區建一路92號',
+      location: {
+        latitude: 25.000949499999997,
+        longitude: 121.4879079,
+      },
       rating: 4.3,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '我家牛排 中和店',
         languageCode: 'zh-TW',
@@ -58,22 +69,70 @@ const FirstPage: FC<Props> = ({ location }) => {
         'breakfast_restaurant',
         'chinese_restaurant',
         'restaurant',
-        'point_of_interest',
         'food',
+        'point_of_interest',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區永和路二段284號',
+      location: {
+        latitude: 25.0154903,
+        longitude: 121.51611449999999,
+      },
       rating: 3.8,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '世界豆漿大王',
         languageCode: 'zh-TW',
       },
     },
     {
+      id: 'ChIJ9b45QOupQjQRRokt23BLGwE',
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區竹林路39巷13號',
+      location: {
+        latitude: 25.0146663,
+        longitude: 121.5184932,
+      },
+      rating: 4.1,
+      regularOpeningHours: {
+        openNow: true,
+      },
+      displayName: {
+        text: '竹林雞肉-永和總店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      id: 'ChIJJ4OSAAOpQjQRkEw6XR1eEFg',
+      types: ['korean_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區永利路47號1 樓',
+      location: {
+        latitude: 25.0052079,
+        longitude: 121.51927819999999,
+      },
+      rating: 4.2,
+      regularOpeningHours: {
+        openNow: true,
+      },
+      displayName: {
+        text: '打爆豬韓式燒肉吃到飽新北永和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
       id: 'ChIJheiMcwapQjQR-tHQmvZa5XY',
-      types: ['restaurant', 'cafe', 'point_of_interest', 'food', 'establishment'],
+      types: ['restaurant', 'cafe', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '235台灣新北市中和區中安街85號B1',
+      location: {
+        latitude: 25.001476099999998,
+        longitude: 121.51264470000001,
+      },
       rating: 4.6,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: "BUNA CAF'E 布納咖啡館 中和公園館",
         languageCode: 'zh-TW',
@@ -81,28 +140,18 @@ const FirstPage: FC<Props> = ({ location }) => {
     },
     {
       id: 'ChIJdW4lapapQjQRaJC3AjqdGbI',
-      types: ['japanese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
+      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '234台灣新北市永和區信義路5巷4號',
+      location: {
+        latitude: 25.011696699999998,
+        longitude: 121.5143852,
+      },
       rating: 4.3,
+      regularOpeningHours: {
+        openNow: false,
+      },
       displayName: {
         text: '品都串燒 永和',
-        languageCode: 'zh-TW',
-      },
-    },
-    {
-      id: 'ChIJ25_ZtLWpQjQRaGGzvUBvduw',
-      types: [
-        'barbecue_restaurant',
-        'korean_restaurant',
-        'restaurant',
-        'point_of_interest',
-        'food',
-        'establishment',
-      ],
-      formattedAddress: '108台灣台北市萬華區寶興街163號',
-      rating: 4.1,
-      displayName: {
-        text: '玖佰號 火鍋/烤豬五花 專門店',
         languageCode: 'zh-TW',
       },
     },
@@ -112,12 +161,19 @@ const FirstPage: FC<Props> = ({ location }) => {
         'sushi_restaurant',
         'japanese_restaurant',
         'restaurant',
-        'point_of_interest',
         'food',
+        'point_of_interest',
         'establishment',
       ],
       formattedAddress: '235029台灣新北市中和區橋和路5號',
+      location: {
+        latitude: 25.005253500000002,
+        longitude: 121.4883687,
+      },
       rating: 4.2,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: 'くら寿司 藏壽司 中和橋和店',
         languageCode: 'zh-TW',
@@ -125,60 +181,52 @@ const FirstPage: FC<Props> = ({ location }) => {
     },
     {
       id: 'ChIJaSiY_9ypQjQRFpJ-BCmLrVE',
-      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '234台灣新北市永和區保平路18巷1號',
+      location: {
+        latitude: 25.0076477,
+        longitude: 121.51233649999999,
+      },
       rating: 4.3,
+      regularOpeningHours: {
+        openNow: false,
+      },
       displayName: {
         text: '阿爸の芋圓 樂華店',
         languageCode: 'zh-TW',
       },
     },
     {
-      id: 'ChIJRZ0k6LCpQjQR6ECASSDTf50',
-      types: [
-        'fast_food_restaurant',
-        'brunch_restaurant',
-        'hamburger_restaurant',
-        'american_restaurant',
-        'restaurant',
-        'point_of_interest',
-        'food',
-        'establishment',
-      ],
-      formattedAddress: '108台灣台北市萬華區萬大路215號',
-      rating: 3.8,
+      id: 'ChIJUzP_O-GpQjQRx6eg6q6pzfA',
+      types: ['chinese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區智光街22號',
+      location: {
+        latitude: 24.9992341,
+        longitude: 121.51807060000002,
+      },
+      rating: 4.2,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
-        text: '麥當勞-台北萬大二餐廳（設有得來速）',
+        text: '客家小館',
         languageCode: 'zh-TW',
       },
     },
     {
       id: 'ChIJk1KfRt2pQjQRDWMUgDGxhzo',
-      types: ['chinese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
+      types: ['chinese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '234台灣新北市永和區永和路一段46號',
+      location: {
+        latitude: 25.0056945,
+        longitude: 121.51313100000002,
+      },
       rating: 4.1,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '五草車中華麵食館',
-        languageCode: 'zh-TW',
-      },
-    },
-    {
-      id: 'ChIJE2gr0iqoQjQReUD33kMutgA',
-      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
-      formattedAddress: '235台灣新北市中和區板南路661號',
-      rating: 4.7,
-      displayName: {
-        text: '西堤牛排 中和板南店',
-        languageCode: 'zh-TW',
-      },
-    },
-    {
-      id: 'ChIJiYJnn_6pQjQRlU8dbEd3nSM',
-      types: ['japanese_restaurant', 'restaurant', 'point_of_interest', 'food', 'establishment'],
-      formattedAddress: '235台灣新北市中和區橋和路3號1樓',
-      rating: 4.4,
-      displayName: {
-        text: '涮乃葉 中和台科廣場店',
         languageCode: 'zh-TW',
       },
     },
@@ -187,54 +235,107 @@ const FirstPage: FC<Props> = ({ location }) => {
       types: [
         'thai_restaurant',
         'restaurant',
+        'food',
         'point_of_interest',
         'store',
-        'food',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區復興街87號',
+      location: {
+        latitude: 25.014046300000004,
+        longitude: 121.51763,
+      },
       rating: 4,
+      regularOpeningHours: {
+        openNow: false,
+      },
       displayName: {
         text: '北蘭阿姨商行',
         languageCode: 'zh-TW',
       },
     },
     {
-      id: 'ChIJXVBM2MSpQjQRvI6suxrddWI',
-      types: ['steak_house', 'restaurant', 'point_of_interest', 'food', 'establishment'],
-      formattedAddress: '234台灣新北市永和區竹林路14號',
+      id: 'ChIJiYJnn_6pQjQRlU8dbEd3nSM',
+      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '235台灣新北市中和區橋和路3號1樓',
+      location: {
+        latitude: 25.0052162,
+        longitude: 121.4880738,
+      },
       rating: 4.4,
+      regularOpeningHours: {
+        openNow: true,
+      },
+      displayName: {
+        text: '涮乃葉 中和台科廣場店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
+      id: 'ChIJXVBM2MSpQjQRvI6suxrddWI',
+      types: ['steak_house', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區竹林路14號',
+      location: {
+        latitude: 25.0148337,
+        longitude: 121.5164528,
+      },
+      rating: 4.4,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '小時厚牛排-新北永和店',
         languageCode: 'zh-TW',
       },
     },
     {
+      id: 'ChIJY8aFMtSpQjQRmGBfwwleOjw',
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區福和路214號1樓',
+      location: {
+        latitude: 25.0077467,
+        longitude: 121.51951160000002,
+      },
+      rating: 4.4,
+      regularOpeningHours: {
+        openNow: true,
+      },
+      displayName: {
+        text: '雞湯大叔 永和店',
+        languageCode: 'zh-TW',
+      },
+    },
+    {
       id: 'ChIJQaBhKiapQjQRj_-J97ZELXo',
-      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
       formattedAddress: '235台灣新北市中和區永貞路274號1樓',
+      location: {
+        latitude: 25.003869899999998,
+        longitude: 121.5135437,
+      },
       rating: 4.7,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '狂一鍋－中和永貞店',
         languageCode: 'zh-TW',
       },
     },
     {
-      id: 'ChIJI57DZqcCaDQR-eUT5MUPEK8',
-      types: [
-        'fast_food_restaurant',
-        'brunch_restaurant',
-        'hamburger_restaurant',
-        'american_restaurant',
-        'restaurant',
-        'point_of_interest',
-        'food',
-        'establishment',
-      ],
-      formattedAddress: '235台灣新北市中和區中山路二段583號1樓',
-      rating: 3.8,
+      id: 'ChIJbbhQmGypQjQRL2G_iL8cDw0',
+      types: ['japanese_restaurant', 'restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區得和路131號',
+      location: {
+        latitude: 25.0003915,
+        longitude: 121.51903079999998,
+      },
+      rating: 4.9,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
-        text: '麥當勞-中和中山餐廳',
+        text: '一樂漁場生魚片丼飯專賣店',
         languageCode: 'zh-TW',
       },
     },
@@ -242,45 +343,59 @@ const FirstPage: FC<Props> = ({ location }) => {
       id: 'ChIJSTQjAN2pQjQRI_eRnd_itIs',
       types: [
         'cafe',
-        'coffee_shop',
         'brunch_restaurant',
+        'coffee_shop',
         'restaurant',
+        'food',
         'point_of_interest',
         'store',
-        'food',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區水源街21巷2號',
+      location: {
+        latitude: 25.0043786,
+        longitude: 121.5113037,
+      },
       rating: 4.3,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '自由溫室咖啡廳',
         languageCode: 'zh-TW',
       },
     },
     {
-      id: 'ChIJ8aDWZy-pQjQR61DvkDGRP7A',
-      types: ['restaurant', 'point_of_interest', 'food', 'establishment'],
-      formattedAddress: '234台灣新北市永和區永和路二段116號5樓',
-      rating: 4.5,
+      id: 'ChIJIb0vcpepQjQR6RTqks9oVTw',
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區復興街72號1樓',
+      location: {
+        latitude: 25.0134075,
+        longitude: 121.51714159999997,
+      },
+      rating: 4.4,
+      regularOpeningHours: {
+        openNow: false,
+      },
       displayName: {
-        text: '築間幸福鍋物 新北永和店',
+        text: '宋朝',
         languageCode: 'zh-TW',
       },
     },
     {
-      id: 'ChIJx3TSH3OpQjQRTp45cxQTy-k',
-      types: [
-        'vegetarian_restaurant',
-        'vegan_restaurant',
-        'restaurant',
-        'point_of_interest',
-        'food',
-        'establishment',
-      ],
-      formattedAddress: '235台灣新北市中和區中山路二段427號咖啡廳1樓&3樓',
-      rating: 4.4,
+      id: 'ChIJ8aDWZy-pQjQR61DvkDGRP7A',
+      types: ['restaurant', 'food', 'point_of_interest', 'establishment'],
+      formattedAddress: '234台灣新北市永和區永和路二段116號5樓',
+      location: {
+        latitude: 25.011953,
+        longitude: 121.51524909999999,
+      },
+      rating: 4.5,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
-        text: '崇德發蔬食餐廳.咖啡廳',
+        text: '築間幸福鍋物 新北永和店',
         languageCode: 'zh-TW',
       },
     },
@@ -292,38 +407,25 @@ const FirstPage: FC<Props> = ({ location }) => {
         'hamburger_restaurant',
         'american_restaurant',
         'restaurant',
-        'point_of_interest',
         'food',
+        'point_of_interest',
         'establishment',
       ],
       formattedAddress: '234台灣新北市永和區永和路二段170號',
+      location: {
+        latitude: 25.013170799999997,
+        longitude: 121.51550599999999,
+      },
       rating: 3.9,
+      regularOpeningHours: {
+        openNow: true,
+      },
       displayName: {
         text: '麥當勞-永和餐廳',
         languageCode: 'zh-TW',
       },
     },
-    {
-      id: 'ChIJV3oxq9epQjQR7bVgz_E6z54',
-      types: [
-        'fast_food_restaurant',
-        'brunch_restaurant',
-        'hamburger_restaurant',
-        'american_restaurant',
-        'restaurant',
-        'point_of_interest',
-        'food',
-        'establishment',
-      ],
-      formattedAddress: '235台灣新北市中和區中和路38號',
-      rating: 3.5,
-      displayName: {
-        text: '麥當勞-中和餐廳',
-        languageCode: 'zh-TW',
-      },
-    },
   ]);
-  const [selectedPlaces, setSelectedPlaces] = useState<Place[]>([]);
 
   const fetchPlaces = async () => {
     console.log(location);
@@ -352,7 +454,7 @@ const FirstPage: FC<Props> = ({ location }) => {
     //   'Content-Type': 'application/json',
     //   'X-Goog-Api-Key': google_key,
     //   'X-Goog-FieldMask':
-    //     'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.photos', // 可自訂要顯示的欄位
+    //     'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.photos,places.location,places.regularOpeningHours.openNow', // 可自訂要顯示的欄位
     // };
 
     // const response = await axios.post(
@@ -364,14 +466,14 @@ const FirstPage: FC<Props> = ({ location }) => {
     // );
     // setPlaces(response.data.places);
     // setPlaces([]);
-    setTimeout(() => {
-      setPlaces(places);
-    }, 1000);
+    // setTimeout(() => {
+    //   setPlaces(places);
+    // }, 1000);
   };
 
-  useEffect(() => {
-    fetchPlaces();
-  }, [condition]);
+  // useEffect(() => {
+  //   fetchPlaces();
+  // }, [condition]);
 
   useEffect(() => {
     setSelectedItem(-1);
@@ -379,6 +481,8 @@ const FirstPage: FC<Props> = ({ location }) => {
 
   useEffect(() => {
     setSpecialMode(false);
+    setRotation(0);
+    setSelectedItem(-1);
   }, [wheelType]);
   return (
     <div className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start">
@@ -392,6 +496,7 @@ const FirstPage: FC<Props> = ({ location }) => {
         places={places}
         selectedPlaces={selectedPlaces}
         setSelectedPlaces={setSelectedPlaces}
+        fetchPlaces={fetchPlaces}
       />
       {wheelType === 'wheel' ? (
         <WheelPanel
@@ -403,7 +508,7 @@ const FirstPage: FC<Props> = ({ location }) => {
           specialMode={specialMode}
         />
       ) : wheelType === 'verticalWheel' ? (
-        <VerticalWheelPanel selectedPlaces={selectedPlaces} condition={condition} />
+        <VerticalWheelPanel selectedPlaces={selectedPlaces} condition={condition} setSelectedItem={setSelectedItem}/>
       ) : (
         <HorizontalWheelPanel condition={condition} places={places} />
       )}
