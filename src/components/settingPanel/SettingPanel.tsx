@@ -157,8 +157,11 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 : places.map((item) => {
                     const selected = selectedPlaces.some((place) => place.id === item.id);
                     return (
-                      <div className="w-2/3 flex justify-center items-center gap-2 relative" key={item.id}>
-                        {item.regularOpeningHours.openNow ? (
+                      <div
+                        className="w-2/3 flex justify-center items-center gap-2 relative"
+                        key={item.id}
+                      >
+                        {item.regularOpeningHours?.openNow ? (
                           <span className="absolute flex justify-center items-center h-full w-2 left-0">
                             <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
@@ -189,7 +192,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                           key={item.id}
                         >
                           <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                          {item.displayName.text}
+                          {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
                         </div>
                       </div>
                     );

@@ -47,7 +47,7 @@ const FirstPage: FC<Props> = ({
     const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
     setSelectedItem(selectedItem);
-    
+
     setTimeout(() => {
       secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 4000);
@@ -440,42 +440,43 @@ const FirstPage: FC<Props> = ({
 
   const fetchPlaces = async () => {
     console.log(location);
-    // const data = {
-    //   includedTypes: ['restaurant'],
-    //   excludedTypes: [
-    //     'supermarket',
-    //     'park',
-    //     'zoo',
-    //     'amusement_park',
-    //     'aquarium',
-    //     'art_gallery',
-    //     'museum',
-    //   ],
-    //   maxResultCount: 20,
-    //   locationRestriction: {
-    //     circle: {
-    //       center: location,
-    //       radius: condition.distance,
-    //     },
-    //   },
-    //   rankPreference: 'POPULARITY', // 依照熱門程度排名
-    // };
+    const data = {
+      includedTypes: ['restaurant'],
+      excludedTypes: [
+        'supermarket',
+        'park',
+        'zoo',
+        'amusement_park',
+        'aquarium',
+        'art_gallery',
+        'museum',
+      ],
+      maxResultCount: 20,
+      locationRestriction: {
+        circle: {
+          center: location,
+          radius: condition.distance,
+        },
+      },
+      rankPreference: 'POPULARITY', // 依照熱門程度排名
+    };
 
-    // const headers = {
-    //   'Content-Type': 'application/json',
-    //   'X-Goog-Api-Key': google_key,
-    //   'X-Goog-FieldMask':
-    //     'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.photos,places.location,places.regularOpeningHours.openNow', // 可自訂要顯示的欄位
-    // };
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': google_key,
+      'X-Goog-FieldMask':
+        'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.photos,places.location,places.regularOpeningHours.openNow', // 可自訂要顯示的欄位
+    };
 
-    // const response = await axios.post(
-    //   'https://places.googleapis.com/v1/places:searchNearby',
-    //   data,
-    //   {
-    //     headers,
-    //   }
-    // );
-    // setPlaces(response.data.places);
+    const response = await axios.post(
+      'https://places.googleapis.com/v1/places:searchNearby',
+      data,
+      {
+        headers,
+      }
+    );
+    setPlaces(response.data.places);
+    setSelectedPlaces([]);
     // setPlaces([]);
     // setTimeout(() => {
     //   setPlaces(places);
