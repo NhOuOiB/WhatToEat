@@ -14,4 +14,11 @@ export interface Place {
     text: string;
     languageCode: string;
   };
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+  regularOpeningHours: {
+    openNow: boolean;
+  };
 }
