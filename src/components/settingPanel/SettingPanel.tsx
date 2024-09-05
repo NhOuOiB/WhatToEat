@@ -29,6 +29,7 @@ interface SettingPanelProps {
   setWheelType: React.Dispatch<React.SetStateAction<string>>;
   setSpecialMode: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedPlaces: React.Dispatch<React.SetStateAction<Place[]>>;
+  fetchPlaces: () => void;
 }
 const SettingPanel: React.FC<SettingPanelProps> = ({
   condition,
@@ -40,6 +41,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   places,
   selectedPlaces,
   setSelectedPlaces,
+  fetchPlaces,
 }) => {
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md ">
@@ -127,9 +129,9 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
       <Dialog>
         <DialogTrigger
           className={`w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md ${
-            selectedPlaces.length < condition.min &&
-            'animate-bounce'
+            selectedPlaces.length < condition.min && 'animate-bounce'
           }`}
+          onClick={fetchPlaces}
         >
           挑選店家
         </DialogTrigger>
@@ -155,28 +157,40 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 : places.map((item) => {
                     const selected = selectedPlaces.some((place) => place.id === item.id);
                     return (
-                      <div
-                        className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border  ${
-                          selectedPlaces.length === condition.max && !selected
-                            ? 'bg-gray-300 text-gray-500 border-transparent'
-                            : !selected
-                            ? 'bg-white text-gray-800 border border-gray-400'
-                            : 'bg-gray-900 text-white border-transparent'
-                        }`}
-                        onClick={() => {
-                          if (selectedPlaces.some((place) => place.id === item.id)) {
-                            setSelectedPlaces(
-                              selectedPlaces.filter((place) => place.id !== item.id)
-                            );
-                          } else {
-                            if (selectedPlaces.length === condition.max) return;
-                            setSelectedPlaces([...selectedPlaces, item]);
-                          }
-                        }}
-                        key={item.id}
-                      >
-                        <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                        {item.displayName.text}
+                      <div className="w-2/3 flex justify-center items-center gap-2 relative" key={item.id}>
+                        {item.regularOpeningHours.openNow ? (
+                          <span className="absolute flex justify-center items-center h-full w-2 left-0">
+                            <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
+                          </span>
+                        ) : (
+                          <span className="absolute flex h-full w-2 left-0">
+                            <span className="relative inline-flex rounded-l h-full w-full bg-gray-400"></span>
+                          </span>
+                        )}
+                        <div
+                          className={`w-full md:w-full flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border ${
+                            selectedPlaces.length === condition.max && !selected
+                              ? 'bg-gray-300 text-gray-500 border-transparent'
+                              : !selected
+                              ? 'bg-white text-gray-800 border border-gray-400'
+                              : 'bg-gray-900 text-white border-transparent'
+                          }`}
+                          onClick={() => {
+                            if (selectedPlaces.some((place) => place.id === item.id)) {
+                              setSelectedPlaces(
+                                selectedPlaces.filter((place) => place.id !== item.id)
+                              );
+                            } else {
+                              if (selectedPlaces.length === condition.max) return;
+                              setSelectedPlaces([...selectedPlaces, item]);
+                            }
+                          }}
+                          key={item.id}
+                        >
+                          <Checkbox className={`bg-white text-gray-500`} checked={selected} />
+                          {item.displayName.text}
+                        </div>
                       </div>
                     );
                   })}
