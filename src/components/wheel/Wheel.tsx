@@ -99,7 +99,15 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-100 flex justify-center">
             {selectedPlaces.length < condition.min ? (
-              <Skeleton className="w-full h-full rounded-full bg-gray-100" />
+              <div
+                className="w-full h-full flex justify-center items-center relative"
+                style={{ transform: `rotate(${360 - rotation % 360}deg)` }}
+              >
+                <div className="absolute text-5xl z-10">
+                  還差 {condition.min - selectedPlaces.length} 家
+                </div>
+                <Skeleton className="w-full h-full rounded-full bg-gray-100" />
+              </div>
             ) : (
               Array.from({ length: selectedPlaces?.length }).map((_, index) => {
                 return (
