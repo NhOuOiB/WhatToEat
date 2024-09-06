@@ -47,6 +47,7 @@ const App: FC = () => {
                 longitude: position.coords.longitude,
               };
               setLocation(location);
+              resolve(location);
             },
             (error) => {
               switch (error.code) {
