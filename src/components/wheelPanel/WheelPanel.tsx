@@ -49,7 +49,6 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
     panelRef.current?.style.setProperty('--per', '0%');
   };
 
-  console.log(selectedItem);
   return (
     <div
       className={styles.container}
