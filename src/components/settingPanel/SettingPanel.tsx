@@ -192,7 +192,9 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                           key={item.id}
                         >
                           <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                          {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
+                          <p className="truncate w-48 text-right">
+                            {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
+                          </p>
                         </div>
                       </div>
                     );
