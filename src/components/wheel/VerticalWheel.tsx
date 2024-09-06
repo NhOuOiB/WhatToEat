@@ -45,7 +45,7 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({
                 }}
                 key={index}
               >
-                <p className="text-3xl font-extrabold">
+                <p className="text-3xl font-extrabold px-4">
                   {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
                 </p>
               </div>
