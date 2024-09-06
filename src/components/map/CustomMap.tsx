@@ -24,6 +24,7 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
     // 當地圖庫加載完成後，apiIsLoaded 將為 true，並且可以使用全局的 `google.maps` 命名空間。
   }, [apiIsLoaded]);
   const selectedPlace = selectedPlaces[selectedItem];
+  console.log(map_id);
   return (
     <>
       {apiIsLoaded ? (
