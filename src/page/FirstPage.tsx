@@ -94,16 +94,14 @@ const FirstPage: FC<Props> = ({
       }
     );
     setPlaces(response.data.places);
-    setSelectedPlaces([]);
-    // setPlaces([]);
-    // setTimeout(() => {
-    //   setPlaces(places);
-    // }, 1000);
-  };
 
-  // useEffect(() => {
-  //   fetchPlaces();
-  // }, [condition]);
+    // 檢查新地點是否重複
+    const filteredPlaces = response.data.places.filter((place: Place) => 
+      selectedPlaces.some((selectedPlace) => selectedPlace.id === place.id)
+    );
+    setSelectedPlaces(filteredPlaces);
+
+  };
 
   useEffect(() => {
     setSelectedItem(-1);
