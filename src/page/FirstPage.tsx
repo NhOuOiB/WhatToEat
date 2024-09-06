@@ -29,7 +29,7 @@ const FirstPage: FC<Props> = ({
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
     min: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 10,
-    max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 11 : 20,
+    max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20,
     distance: 2000,
     rankPreference: 'POPULARITY',
   });
@@ -76,7 +76,7 @@ const FirstPage: FC<Props> = ({
           radius: condition.distance,
         },
       },
-      rankPreference: 'POPULARITY', // 依照熱門程度排名
+      rankPreference: condition.rankPreference, // 依照熱門程度排名
     };
 
     const headers = {
@@ -96,7 +96,7 @@ const FirstPage: FC<Props> = ({
     setPlaces(response.data.places);
 
     // 檢查新地點是否重複
-    const filteredPlaces = response.data.places.filter((place: Place) => 
+    const filteredPlaces = response?.data?.places?.filter((place: Place) => 
       selectedPlaces.some((selectedPlace) => selectedPlace.id === place.id)
     );
     setSelectedPlaces(filteredPlaces);
