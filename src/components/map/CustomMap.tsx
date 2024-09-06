@@ -50,7 +50,7 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
                 lng: selectedPlace.location.longitude,
               }}
             >
-              <img src="/egg.svg" alt="Egg" width={32} height={32} />
+              <img src="/egg.svg" alt="Egg" width={36} height={36} />
             </AdvancedMarker>
           )}
         </Map>
