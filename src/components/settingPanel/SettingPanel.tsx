@@ -143,7 +143,8 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 (至少 {condition.min} ~ {condition.max} 家)
               </span>
             </DialogTitle>
-            <DialogDescription className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
+            <DialogDescription></DialogDescription>
+            <div className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
               {places.length === 0
                 ? Array.from({ length: 20 }).map((_, index) => (
                     <div
@@ -192,14 +193,12 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                           key={item.id}
                         >
                           <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                          <p className="truncate w-48 text-right">
-                            {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
-                          </p>
+                          {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
                         </div>
                       </div>
                     );
                   })}
-            </DialogDescription>
+            </div>
           </DialogHeader>
         </DialogContent>
       </Dialog>
