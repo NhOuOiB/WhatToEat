@@ -38,6 +38,7 @@ const FirstPage: FC<Props> = ({
   const [rotation, setRotation] = useState<number>(0);
 
   const spin = () => {
+    setSelectedItem(-1);
     const newRotation = rotation - Math.floor(Math.random() * 360 + 3600);
     setRotation(newRotation);
 
@@ -46,7 +47,9 @@ const FirstPage: FC<Props> = ({
     const relativeRotation = (Math.abs(newRotation) + itemAngle / 2) % 360; // 計算多餘的旋轉角度，+ itemAngle / 2 是因為指針指到正中間
     const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
-    setSelectedItem(selectedItem);
+    setTimeout(() => {
+      setSelectedItem(selectedItem);
+    }, 3000);
 
     setTimeout(() => {
       secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -96,11 +99,10 @@ const FirstPage: FC<Props> = ({
     setPlaces(response.data.places);
 
     // 檢查新地點是否重複
-    const filteredPlaces = response?.data?.places?.filter((place: Place) => 
+    const filteredPlaces = response?.data?.places?.filter((place: Place) =>
       selectedPlaces.some((selectedPlace) => selectedPlace.id === place.id)
     );
     setSelectedPlaces(filteredPlaces);
-
   };
 
   useEffect(() => {
