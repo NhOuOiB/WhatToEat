@@ -29,7 +29,7 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({
   }, [selectedPlaces.length]);
   return (
     <div className={style.container}>
-      <div className={style.cover}>
+      <div className={`${style.cover} ${condition.min - selectedPlaces?.length <= 0 && 'opacity-0' }`}>
         <div className="absolute text-3xl z-10">
           還差 {condition.min - selectedPlaces?.length} 家
         </div>
