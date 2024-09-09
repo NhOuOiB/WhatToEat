@@ -21,48 +21,48 @@ type wheelStyles = {
 const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) => {
   //盤面css設定
   const wheelStyles: wheelStyles = {
-    2: {
-      container: 'top-[50%]',
-      triangle: 'border-t-[0rem] border-x-[16rem]',
-      halfCircle: 'top-[-16rem] w-[32rem] h-[16rem]',
-      text: 'top-[45%] text-3xl',
-    },
-    3: {
-      container: 'top-[25%]',
-      triangle: 'border-t-[8rem] border-x-[14rem]',
-      halfCircle: 'top-[-7.9rem] w-[28rem] h-[8rem]',
-      text: 'top-[75%] text-2xl',
-    },
-    4: {
-      container: 'top-[14.5%]',
-      triangle: 'border-t-[11.25rem] border-x-[11.25rem]',
-      halfCircle: 'top-[-4.9rem] w-[22.5rem] h-[5rem]',
-      text: 'top-[100%] text-2xl',
-    },
-    5: {
-      container: 'top-[9.7%]',
-      triangle: 'border-t-[12.71875rem] border-x-[9.25rem]',
-      halfCircle: 'top-[-3.9697rem] w-[18.5rem] h-[4rem]',
-      text: 'top-[125%] text-xl',
-    },
-    6: {
-      container: 'top-[7%]',
-      triangle: 'border-t-[13.65rem] border-x-[7.9rem]',
-      halfCircle: 'top-[-3.9697rem] w-[15.8rem] h-[4rem]',
-      text: 'top-[150%] text-xl',
-    },
-    7: {
-      container: 'top-[5.25%]',
-      triangle: 'border-t-[14.2rem] border-x-[6.9rem]',
-      halfCircle: 'top-[-3.9697rem] w-[13.8rem] h-[4rem]',
-      text: 'top-[175%] text-xl',
-    },
-    8: {
-      container: 'top-[4%]',
-      triangle: 'border-t-[14.5rem] border-x-[6.08rem]',
-      halfCircle: 'top-[-1.9697rem] w-[12rem] h-[2rem]',
-      text: 'top-[200%] text-xl',
-    },
+                2: {
+          container: 'lg: xl:top-[50%]',
+          triangle: 'xl:border-t-[0rem] xl:border-x-[16rem]',
+          halfCircle: 'xl:top-[-16rem] xl:w-[32rem] xl:h-[16rem]',
+          text: 'xl:top-[45%] xl:text-3xl',
+        },
+        3: {
+          container: 'xl:top-[25%]',
+          triangle: 'xl:border-t-[8rem] xl:border-x-[14rem]',
+          halfCircle: 'xl:top-[-7.9rem] xl:w-[28rem] xl:h-[8rem]',
+          text: 'xl:top-[75%] xl:text-2xl',
+        },
+        4: {
+          container: 'xl:top-[14.5%]',
+          triangle: 'xl:border-t-[11.25rem] xl:border-x-[11.25rem]',
+          halfCircle: 'xl:top-[-4.9rem] xl:w-[22.5rem] xl:h-[5rem]',
+          text: 'xl:top-[100%] xl:text-2xl',
+        },
+        5: {
+          container: 'xl:top-[9.7%]',
+          triangle: 'xl:border-t-[12.71875rem] xl:border-x-[9.25rem]',
+          halfCircle: 'xl:top-[-3.9697rem] xl:w-[18.5rem] xl:h-[4rem]',
+          text: 'xl:top-[125%] xl:text-xl',
+        },
+        6: {
+          container: 'xl:top-[7%]',
+          triangle: 'xl:border-t-[13.65rem] xl:border-x-[7.9rem]',
+          halfCircle: 'xl:top-[-3.9697rem] xl:w-[15.8rem] xl:h-[4rem]',
+          text: 'xl:top-[150%] xl:text-xl',
+        },
+        7: {
+          container: 'xl:top-[5.25%]',
+          triangle: 'xl:border-t-[14.2rem] xl:border-x-[6.9rem]',
+          halfCircle: 'xl:top-[-3.9697rem] xl:w-[13.8rem] xl:h-[4rem]',
+          text: 'xl:top-[175%] xl:text-xl',
+        },
+        8: {
+          container: 'xl:top-[4%]',
+          triangle: 'xl:border-t-[14.5rem] xl:border-x-[6.08rem]',
+          halfCircle: 'xl:top-[-1.9697rem] xl:w-[12rem] xl:h-[2rem]',
+          text: 'xl:top-[200%] xl:text-xl',
+        },
   };
 
   const wheelStyle = wheelStyles[Number(selectedPlaces?.length)];
@@ -88,7 +88,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.6rem] border-gray-200 absolute bottom-1"></div>
       </div>
       <div
-        className="w-[32rem] h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
+        className="w-[22rem] h-[22rem] sm:w-[32rem] sm:h-[32rem] md:w-[22rem] md:h-[22rem] lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
         onClick={() => {
           if (selectedPlaces.length >= condition.min) spin();
         }}
@@ -101,7 +101,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
             {selectedPlaces?.length < condition.min ? (
               <div
                 className="w-full h-full flex justify-center items-center relative"
-                style={{ transform: `rotate(${360 - rotation % 360}deg)` }}
+                style={{ transform: `rotate(${360 - (rotation % 360)}deg)` }}
               >
                 <div className="absolute text-5xl z-10">
                   還差 {condition.min - selectedPlaces?.length} 家
@@ -128,7 +128,7 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
                       <div
                         className={`absolute rotate-180  left-[50%] transform translate-x-[-50%] font-bold ${wheelStyle?.text} ${colorVariants[index].text}`}
                       >
-                        {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
+                        {selectedPlaces?.[index]?.displayName?.text?.replace(/[-:：()（）].*$/, '')}
                       </div>
                     </div>
                   </div>
