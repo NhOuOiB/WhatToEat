@@ -36,28 +36,6 @@ const VerticalWheel: React.FC<VerticalWheelProps> = ({
         <Skeleton className="w-full h-full bg-yellow-50" />
       </div>
       <div className={style.wheel} style={{ transform: `rotateX(${rotateDeg}deg)` }} ref={wheelRef}>
-        {/* {selectedPlaces.length < condition.min ? (
-          <div className={style.leaf}>
-            <div className='absolute text-3xl z-10'>還差 {condition.min - selectedPlaces.length} 家</div>
-            <Skeleton className="w-full h-full bg-yellow-50" />
-          </div>
-        ) : (
-          Array.from({ length: selectedPlaces.length }).map((_, index) => {
-            return (
-              <div
-                className={style.leaf}
-                style={{
-                  transform: `rotateX(${index * itemAngle}deg) translateZ(${translateZ}px) `,
-                }}
-                key={index}
-              >
-                <p className="text-3xl font-extrabold px-4">
-                  {selectedPlaces?.[index]?.displayName.text.split(' ')[0].split('-')[0]}
-                </p>
-              </div>
-            );
-          })
-        )} */}
         {Array.from({ length: selectedPlaces.length }).map((_, index) => {
           return (
             <div
