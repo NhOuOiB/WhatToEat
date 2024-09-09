@@ -64,15 +64,20 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
         <div className={styles.text}>
           今天就吃
           <p
-            className={`w-48 text-2xl sm:w-96 sm:text-5xl md:w-48 md:text-2xl xl:w-96 xl:text-5xl flex justify-center text-sky-950 ${
+            className={`w-48 text-2xl sm:w-96 sm:text-5xl md:w-48 md:text-2xl xl:w-96 xl:text-4xl text-sky-950 truncate text-center ${
               selectedItem === -1 && styles.opacity0
             }`}
           >
-            {selectedPlaces?.[selectedItem]?.displayName.text.split(' ')[0].split('-')[0]}
+            {selectedPlaces?.[selectedItem]?.displayName?.text?.replace(/[-:：()（）].*$/, '')}
           </p>
           !
         </div>
-        <Wheel rotation={rotation} condition={condition} spin={spin} selectedPlaces={selectedPlaces} />
+        <Wheel
+          rotation={rotation}
+          condition={condition}
+          spin={spin}
+          selectedPlaces={selectedPlaces}
+        />
       </div>
     </div>
   );
