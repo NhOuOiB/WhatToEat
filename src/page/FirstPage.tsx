@@ -25,13 +25,14 @@ const FirstPage: FC<Props> = ({
   setSelectedItem,
   secondPageRef,
 }) => {
-  const [wheelType, setWheelType] = useState<string>('verticalWheel');
+  const [wheelType, setWheelType] = useState<string>('wheel');
   const [specialMode, setSpecialMode] = useState<boolean>(false);
   const [condition, setCondition] = useState<Condition>({
     min: wheelType === 'wheel' ? 2 : wheelType === 'verticalWheel' ? 6 : 10,
     max: wheelType === 'wheel' ? 8 : wheelType === 'verticalWheel' ? 10 : 20,
     distance: 2000,
     rankPreference: 'POPULARITY',
+    includedTypes: 'restaurant',
   });
 
   // Wheel
@@ -62,7 +63,7 @@ const FirstPage: FC<Props> = ({
 
   const fetchPlaces = async () => {
     const data = {
-      includedTypes: ['restaurant'],
+      includedTypes: [condition.includedTypes],
       excludedTypes: [
         'supermarket',
         'park',
@@ -96,18 +97,19 @@ const FirstPage: FC<Props> = ({
         headers,
       }
     );
+    console.log(response.data.places);
     setPlaces(response.data.places);
 
     // 檢查新地點是否重複
     const filteredPlaces = response?.data?.places?.filter((place: Place) =>
-      selectedPlaces.some((selectedPlace) => selectedPlace.id === place.id)
+      selectedPlaces?.some((selectedPlace) => selectedPlace?.id === place?.id)
     );
     setSelectedPlaces(filteredPlaces);
   };
 
   useEffect(() => {
     setSelectedItem(-1);
-  }, [selectedPlaces.length]);
+  }, [selectedPlaces?.length]);
 
   useEffect(() => {
     setSpecialMode(false);
