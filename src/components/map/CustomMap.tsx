@@ -1,5 +1,5 @@
-import { FC, useEffect } from 'react';
-import { Map, AdvancedMarker } from '@vis.gl/react-google-maps';
+import { FC, useState, useEffect } from 'react';
+import { Map, AdvancedMarker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { map_id } from '../../../utils/config';
 import { useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
+  // Google Maps API
   const apiIsLoaded = useApiIsLoaded();
 
   useEffect(() => {
@@ -21,14 +22,42 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
     }
 
     console.log('API 已加載，可以使用 google.maps 了');
-    // 當地圖庫加載完成後，apiIsLoaded 將為 true，並且可以使用全局的 `google.maps` 命名空間。
   }, [apiIsLoaded]);
-  const selectedPlace = selectedPlaces[selectedItem];
+
+  const selectedPlace = selectedPlaces?.[selectedItem];
+
+  // Directions
+  const map = useMap();
+  const routesLibrary = useMapsLibrary('routes');
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>();
+  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
+
+  useEffect(() => {
+    if (!map || !routesLibrary) return;
+    setDirectionsService(new routesLibrary.DirectionsService());
+    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map, markerOptions: { visible: false } }));
+  }, [map, routesLibrary]);
+
+  useEffect(() => {
+    if (!directionsService || !directionsRenderer || !selectedPlace) return;
+
+    directionsService
+      .route({
+        origin: { lat: location?.latitude, lng: location?.longitude },
+        destination: {
+          lat: selectedPlace?.location?.latitude,
+          lng: selectedPlace?.location?.longitude,
+        },
+        travelMode: google.maps.TravelMode.WALKING,
+      })
+      .then((response) => {
+        directionsRenderer.setDirections(response);
+      });
+  }, [directionsService, directionsRenderer, location, selectedPlace]);
   return (
     <>
       {apiIsLoaded ? (
         <Map
-          // style={{ width: '100%', height: '100%' }}
           defaultCenter={{ lat: location.latitude, lng: location.longitude }}
           defaultZoom={15}
           colorScheme="DARK"
@@ -39,6 +68,7 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
             streetViewControl: true,
             zoomControl: true,
           }}
+          renderingType="RASTER"
         >
           <AdvancedMarker position={{ lat: location.latitude, lng: location.longitude }}>
             <img src="/duck_walking.gif" alt="Egg" width={32} height={32} />
