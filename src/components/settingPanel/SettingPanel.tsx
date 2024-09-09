@@ -43,6 +43,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   setSelectedPlaces,
   fetchPlaces,
 }) => {
+  console.log(places);
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md ">
       <div className="flex flex-col gap-8 sm:gap-10">
@@ -113,6 +114,29 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
           </div>
         </div>
         <div className="flex flex-col gap-4">
+          <Label htmlFor="">美食類型</Label>
+          <div className="grid grid-cols-4 gap-2">
+            {['ramen_restaurant', 'sushi_restaurant', 'korean_restaurant', 'chinese_restaurant', 'italian_restaurant', 'coffee_shop'].map((type, index) => (
+              <Button
+                className={`px-6 py-4 text-md ${
+                  condition.includedTypes !== type && 'text-gray-500'
+                }`}
+                onClick={() => {
+                  if (condition.includedTypes === type) {
+                    setCondition({ ...condition, ['includedTypes']: 'restaurant' });
+                    return;
+                  } else {
+                    setCondition({ ...condition, ['includedTypes']: type });
+                  }
+                }}
+                key={index}
+              >
+                {type.split('_')[0]}
+              </Button>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <Label htmlFor="count">店家距離</Label>
             <span className="text-sm">{condition.distance} m</span>
@@ -129,7 +153,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
       <Dialog>
         <DialogTrigger
           className={`w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md ${
-            selectedPlaces.length < condition.min && 'animate-bounce'
+            selectedPlaces?.length < condition.min && 'animate-bounce'
           }`}
           onClick={fetchPlaces}
         >
@@ -143,64 +167,69 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 (至少 {condition.min} ~ {condition.max} 家)
               </span>
             </DialogTitle>
-            <DialogDescription></DialogDescription>
-            <div className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
-              {places.length === 0
-                ? Array.from({ length: 20 }).map((_, index) => (
-                    <div
-                      className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
-                      key={index}
-                    >
-                      <Checkbox className={`bg-white text-gray-500`} />
-                      <Skeleton key={index} className="w-5/6 h-5" />
-                    </div>
-                  ))
-                : places.map((item) => {
-                    const selected = selectedPlaces.some((place) => place.id === item.id);
-                    return (
+            {places ? (
+              <div className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
+                {places?.length === 0
+                  ? Array.from({ length: 20 }).map((_, index) => (
                       <div
-                        className="w-2/3 flex justify-center items-center gap-2 relative"
-                        key={item.id}
+                        className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
+                        key={index}
                       >
-                        {item.regularOpeningHours?.openNow ? (
-                          <span className="absolute flex justify-center items-center h-full w-2 left-0">
-                            <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
-                          </span>
-                        ) : (
-                          <span className="absolute flex h-full w-2 left-0">
-                            <span className="relative inline-flex rounded-l h-full w-full bg-gray-400"></span>
-                          </span>
-                        )}
+                        <Checkbox className={`bg-white text-gray-500`} />
+                        <Skeleton key={index} className="w-5/6 h-5" />
+                      </div>
+                    ))
+                  : places?.map((item) => {
+                      const selected = selectedPlaces.some((place) => place.id === item.id);
+                      return (
                         <div
-                          className={`w-full md:w-full flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border ${
-                            selectedPlaces.length === condition.max && !selected
-                              ? 'bg-gray-300 text-gray-500 border-transparent'
-                              : !selected
-                              ? 'bg-white text-gray-800 border border-gray-400'
-                              : 'bg-gray-900 text-white border-transparent'
-                          }`}
-                          onClick={() => {
-                            if (selectedPlaces.some((place) => place.id === item.id)) {
-                              setSelectedPlaces(
-                                selectedPlaces.filter((place) => place.id !== item.id)
-                              );
-                            } else {
-                              if (selectedPlaces.length === condition.max) return;
-                              setSelectedPlaces([...selectedPlaces, item]);
-                            }
-                          }}
+                          className="w-2/3 flex justify-center items-center gap-2 relative"
                           key={item.id}
                         >
-                          <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                          <p className="w-48 text-sm text-right truncate">
-                            {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
-                          </p>
+                          {item.regularOpeningHours?.openNow ? (
+                            <span className="absolute flex justify-center items-center h-full w-2 left-0">
+                              <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
+                            </span>
+                          ) : (
+                            <span className="absolute flex h-full w-2 left-0">
+                              <span className="relative inline-flex rounded-l h-full w-full bg-gray-400"></span>
+                            </span>
+                          )}
+                          <div
+                            className={`w-full md:w-full flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border ${
+                              selectedPlaces.length === condition.max && !selected
+                                ? 'bg-gray-300 text-gray-500 border-transparent'
+                                : !selected
+                                ? 'bg-white text-gray-800 border border-gray-400'
+                                : 'bg-gray-900 text-white border-transparent'
+                            }`}
+                            onClick={() => {
+                              if (selectedPlaces.some((place) => place.id === item.id)) {
+                                setSelectedPlaces(
+                                  selectedPlaces.filter((place) => place.id !== item.id)
+                                );
+                              } else {
+                                if (selectedPlaces.length === condition.max) return;
+                                setSelectedPlaces([...selectedPlaces, item]);
+                              }
+                            }}
+                            key={item.id}
+                          >
+                            <Checkbox className={`bg-white text-gray-500`} checked={selected} />
+                            <p className="w-48 text-sm text-right truncate">
+                              {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-            </div>
+                      );
+                    })}
+              </div>
+            ) : (
+              <DialogDescription className="h-full flex justify-center items-center text-2xl">
+                此範圍沒有店家
+              </DialogDescription>
+            )}
           </DialogHeader>
         </DialogContent>
       </Dialog>
