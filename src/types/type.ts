@@ -3,6 +3,7 @@ export interface Condition {
   max: number;
   distance: number;
   rankPreference: string;
+  includedTypes: string;
 }
 
 export interface Place {
