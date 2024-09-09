@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -44,6 +44,20 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   fetchPlaces,
 }) => {
   console.log(places);
+  const restaurantTypes = useMemo(
+    () => [
+      { includedTypes: 'ramen_restaurant', chinese: '拉麵' },
+      { includedTypes: 'sushi_restaurant', chinese: '壽司' },
+      { includedTypes: 'fast_food_restaurant', chinese: '速食' },
+      { includedTypes: 'coffee_shop', chinese: '咖啡' },
+      { includedTypes: 'ice_cream_shop', chinese: '咖啡' },
+      { includedTypes: 'thai_restaurant', chinese: '泰式' },
+      { includedTypes: 'korean_restaurant', chinese: '韓式' },
+      { includedTypes: 'chinese_restaurant', chinese: '中式' },
+      { includedTypes: 'italian_restaurant', chinese: '義式' },
+    ],
+    []
+  );
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md ">
       <div className="flex flex-col gap-8 sm:gap-10">
@@ -116,22 +130,22 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         <div className="flex flex-col gap-4">
           <Label htmlFor="">美食類型</Label>
           <div className="grid grid-cols-4 gap-2">
-            {['ramen_restaurant', 'sushi_restaurant', 'korean_restaurant', 'chinese_restaurant', 'italian_restaurant', 'coffee_shop'].map((type, index) => (
+            {restaurantTypes.map((type, index) => (
               <Button
                 className={`px-6 py-4 text-md ${
-                  condition.includedTypes !== type && 'text-gray-500'
+                  condition.includedTypes !== type.includedTypes && 'text-gray-500'
                 }`}
                 onClick={() => {
-                  if (condition.includedTypes === type) {
+                  if (condition.includedTypes === type.includedTypes) {
                     setCondition({ ...condition, ['includedTypes']: 'restaurant' });
                     return;
                   } else {
-                    setCondition({ ...condition, ['includedTypes']: type });
+                    setCondition({ ...condition, ['includedTypes']: type.includedTypes });
                   }
                 }}
                 key={index}
               >
-                {type.split('_')[0]}
+                {type.chinese}
               </Button>
             ))}
           </div>
