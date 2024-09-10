@@ -1,6 +1,7 @@
 import { FC, useState, useEffect, useRef } from 'react';
 import FirstPage from './page/FirstPage';
 import SecondPage from './page/SecondPage';
+import ThirdPage from './page/ThirdPage';
 import './App.css';
 import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -84,6 +85,7 @@ const App: FC = () => {
         secondPageRef={secondPageRef}
       />
       <SecondPage location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem} secondPageRef={secondPageRef} />
+      <ThirdPage />
       <SpeedInsights />
     </div>
   );
