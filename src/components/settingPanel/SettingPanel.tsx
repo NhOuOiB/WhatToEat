@@ -43,14 +43,12 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
   setSelectedPlaces,
   fetchPlaces,
 }) => {
-  console.log(places);
   const restaurantTypes = useMemo(
     () => [
       { includedTypes: 'ramen_restaurant', chinese: '拉麵' },
       { includedTypes: 'sushi_restaurant', chinese: '壽司' },
       { includedTypes: 'fast_food_restaurant', chinese: '速食' },
       { includedTypes: 'coffee_shop', chinese: '咖啡' },
-      { includedTypes: 'ice_cream_shop', chinese: '咖啡' },
       { includedTypes: 'thai_restaurant', chinese: '泰式' },
       { includedTypes: 'korean_restaurant', chinese: '韓式' },
       { includedTypes: 'chinese_restaurant', chinese: '中式' },
@@ -129,7 +127,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         </div>
         <div className="flex flex-col gap-4">
           <Label htmlFor="">美食類型</Label>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {restaurantTypes.map((type, index) => (
               <Button
                 className={`px-6 py-4 text-md ${
@@ -186,7 +184,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                 {places?.length === 0
                   ? Array.from({ length: 20 }).map((_, index) => (
                       <div
-                        className={`w-full md:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
+                        className={`w-full sm:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
                         key={index}
                       >
                         <Checkbox className={`bg-white text-gray-500`} />
@@ -197,7 +195,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
                       const selected = selectedPlaces.some((place) => place.id === item.id);
                       return (
                         <div
-                          className="w-2/3 flex justify-center items-center gap-2 relative"
+                          className="w-full sm:w-2/3 flex justify-center items-center gap-2 relative"
                           key={item.id}
                         >
                           {item.regularOpeningHours?.openNow ? (
