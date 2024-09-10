@@ -35,7 +35,9 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
   useEffect(() => {
     if (!map || !routesLibrary) return;
     setDirectionsService(new routesLibrary.DirectionsService());
-    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map, markerOptions: { visible: false } }));
+    setDirectionsRenderer(
+      new routesLibrary.DirectionsRenderer({ map, markerOptions: { visible: false } })
+    );
   }, [map, routesLibrary]);
 
   useEffect(() => {
@@ -62,12 +64,10 @@ const CustomMap: FC<Props> = ({ location, selectedPlaces, selectedItem }) => {
           defaultZoom={15}
           colorScheme="DARK"
           mapId={map_id}
-          options={{
-            disableDefaultUI: true,
-            fullscreenControl: true,
-            streetViewControl: true,
-            zoomControl: true,
-          }}
+          disableDefaultUI={true}
+          fullscreenControl={true}
+          streetViewControl={true}
+          zoomControl={true}
           renderingType="RASTER"
         >
           <AdvancedMarker position={{ lat: location.latitude, lng: location.longitude }}>
