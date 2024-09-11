@@ -171,7 +171,7 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
         >
           挑選店家
         </DialogTrigger>
-        <DialogContent className="h-[52rem]">
+        <DialogContent className="h-screen sm:h-[52rem]">
           <DialogHeader className="overflow-hidden">
             <DialogTitle className="">
               挑選喜歡的店家{' '}
