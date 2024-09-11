@@ -11,22 +11,22 @@ const App: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const secondPageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      containerRef.current?.scrollBy({
-        top: event.deltaY,
-        behavior: 'smooth',
-      });
-    };
+  // useEffect(() => {
+  //   const handleWheel = (event: WheelEvent) => {
+  //     event.preventDefault();
+  //     containerRef.current?.scrollBy({
+  //       top: event.deltaY,
+  //       behavior: 'smooth',
+  //     });
+  //   };
 
-    const container = containerRef.current;
-    container?.addEventListener('wheel', handleWheel);
+  //   const container = containerRef.current;
+  //   container?.addEventListener('wheel', handleWheel);
 
-    return () => {
-      container?.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
+  //   return () => {
+  //     container?.removeEventListener('wheel', handleWheel);
+  //   };
+  // }, []);
 
   // 取得使用者位置
   const [location, setLocation] = useState<{ latitude: number; longitude: number }>({
