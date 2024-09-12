@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { nutritionix_id, nutritionix_key } from '../../utils/config.ts';
+import axios from 'axios';
 
 const localizer = momentLocalizer(moment);
 
@@ -19,9 +21,28 @@ const ThirdPage = () => {
       food: '牛肉麵',
     },
   ];
+
+  console.log(nutritionix_id);
+  console.log(nutritionix_key);
+
+  useEffect(() => {
+    (async () => {
+      const result = await axios.get(
+        `https://trackapi.nutritionix.com/v2/search/instant?query=apple`,
+        {
+          headers: {
+            'x-app-id': nutritionix_id,
+            'x-app-key': nutritionix_key,
+          },
+        }
+      );
+      console.log(result);
+    })();
+  }, []);
+
   return (
     <div className="h-screen snap-start flex flex-col md:flex-row justify-center items-center sm:gap-6">
-      <div className="w-5/6 sm:w-2/3 md:w-5/12 h-screen sm:h-2/3 border rounded-xl p-4">
+      <div className="w-5/6 sm:w-2/3 md:w-5/12 h-screen sm:h-2/3 border shadow rounded-xl p-4">
         <Calendar
           localizer={localizer}
           views={['month', 'week']}
