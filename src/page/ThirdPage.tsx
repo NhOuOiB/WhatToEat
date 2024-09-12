@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { nutritionix_id, nutritionix_key } from '../../utils/config.ts';
 import axios from 'axios';
+import { Input } from '@/components/ui/input';
 
 const localizer = momentLocalizer(moment);
 
@@ -21,22 +22,29 @@ const ThirdPage = () => {
       food: '牛肉麵',
     },
   ];
+  const [searchText, setSearchText] = React.useState('');
 
-  console.log(nutritionix_id);
-  console.log(nutritionix_key);
+  const handleChange = (e) => {
+    const timeout = setTimeout(() => {
+      if (timeout) clearTimeout(timeout);
+      console.log(e.target.value);
+      setSearchText(e.target.value);
+    }, 1500);
+    timeout;
+  };
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get(
-        `https://trackapi.nutritionix.com/v2/search/instant?query=apple`,
-        {
-          headers: {
-            'x-app-id': nutritionix_id,
-            'x-app-key': nutritionix_key,
-          },
-        }
-      );
-      console.log(result);
+      // const result = await axios.get(
+      //   `https://trackapi.nutritionix.com/v2/search/instant?query=apple`,
+      //   {
+      //     headers: {
+      //       'x-app-id': nutritionix_id,
+      //       'x-app-key': nutritionix_key,
+      //     },
+      //   }
+      // );
+      // console.log(result);
     })();
   }, []);
 
@@ -57,7 +65,9 @@ const ThirdPage = () => {
         />
       </div>
       <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
-        <div className="w-full h-1/4 border rounded-xl"></div>
+        <div className="w-full h-1/4 border rounded-xl flex justify-center items-center">
+          <Input className="w-80" onChangeCapture={handleChange} value={searchText} />
+        </div>
         <div className="w-full h-2/3 border rounded-xl"></div>
       </div>
     </div>
