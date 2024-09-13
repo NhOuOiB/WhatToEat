@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { nutritionix_id, nutritionix_key } from '../../utils/config.ts';
 import axios from 'axios';
+import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { VscLoading } from 'react-icons/vsc';
 
 const localizer = momentLocalizer(moment);
 
@@ -22,31 +24,42 @@ const ThirdPage = () => {
       food: '牛肉麵',
     },
   ];
-  const [searchText, setSearchText] = React.useState('');
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  const [searchResult, setSearchResult] = useState<{ food_name: ''; nf_calories: '' }[]>([]);
+  const [searching, setSearching] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [show, setShow] = useState<boolean>(false);
 
-  const handleChange = (e) => {
-    const timeout = setTimeout(() => {
-      if (timeout) clearTimeout(timeout);
-      console.log(e.target.value);
-      setSearchText(e.target.value);
-    }, 1500);
-    timeout;
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearching(true);
+    setSearchValue(e.target.value);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(() => {
+      fetchData(e.target.value);
+    }, 2000);
   };
 
-  useEffect(() => {
-    (async () => {
-      // const result = await axios.get(
-      //   `https://trackapi.nutritionix.com/v2/search/instant?query=apple`,
-      //   {
-      //     headers: {
-      //       'x-app-id': nutritionix_id,
-      //       'x-app-key': nutritionix_key,
-      //     },
-      //   }
-      // );
-      // console.log(result);
-    })();
-  }, []);
+  const fetchData = async (query: string) => {
+    try {
+      console.log(query);
+      const result = await axios.get(
+        `https://trackapi.nutritionix.com/v2/search/instant?query=${query}`,
+        {
+          headers: {
+            'x-app-id': nutritionix_id,
+            'x-app-key': nutritionix_key,
+          },
+        }
+      );
+      setSearchResult(result.data.branded);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    setSearching(false);
+  };
 
   return (
     <div className="h-screen snap-start flex flex-col md:flex-row justify-center items-center sm:gap-6">
@@ -65,10 +78,50 @@ const ThirdPage = () => {
         />
       </div>
       <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
-        <div className="w-full h-1/4 border rounded-xl flex justify-center items-center">
-          <Input className="w-80" onChangeCapture={handleChange} value={searchText} />
+        <div className="w-full h-1/5 border rounded-xl flex justify-center items-center">
+          <div className="relative">
+            <Label htmlFor="search">搜詢食物熱量</Label>
+            <Input
+              id="search"
+              className="w-96 mb-1"
+              onChange={handleSearchChange}
+              onFocus={() => setShow(true)}
+              onBlur={() => setShow(false)}
+              placeholder="輸入食物名稱 ( 英文 )"
+              value={searchValue}
+            />
+            {searchValue?.length > 0 && show && (
+              <div
+                className={`w-full ${
+                  searchResult.length > 5 && 'max-h-[calc(14rem+2px)] overflow-auto'
+                } bg-white border rounded-md p-1 pb-0 absolute flex flex-col`}
+              >
+                {searchResult?.length > 0 && !searching ? (
+                  searchResult.map((item, i) => (
+                    <div className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1">
+                      <p className="w-48 truncate">{item.food_name}</p>
+                      <p>{item.nf_calories} kcal</p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="w-full h-10 border rounded-md flex justify-center items-center px-3 text-sm transition mb-1">
+                    <div className="animate-spin">
+                      <VscLoading />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-        <div className="w-full h-2/3 border rounded-xl"></div>
+        <div className="w-full h-full border rounded-xl p-2">
+          <Label htmlFor="title">標題</Label>
+          <Input
+            id="title"
+            className="w-80 mb-1"
+            placeholder="輸入食物名稱或是早餐、午餐、晚餐"
+          />
+        </div>
       </div>
     </div>
   );
