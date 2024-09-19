@@ -5,6 +5,10 @@ import ThirdPage from './page/ThirdPage';
 import './App.css';
 import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore/lite';
+import { firebaseConfig } from '../utils/config';
+import { getDatabase, ref, child, get, onValue } from 'firebase/database';
 
 const App: FC = () => {
   // 讓滾輪更平順
@@ -73,6 +77,18 @@ const App: FC = () => {
       }
     })();
   }, []);
+
+  // Firebase
+  const app = initializeApp(JSON.parse(firebaseConfig));
+  const db = getDatabase(app);
+
+  const dbRef = ref(db, 'record');
+
+  onValue(dbRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+  });
+  
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
