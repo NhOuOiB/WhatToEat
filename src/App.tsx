@@ -6,9 +6,8 @@ import './App.css';
 import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, setDoc } from 'firebase/firestore/lite';
 import { firebaseConfig } from '../utils/config';
-import { getDatabase, ref, child, get, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue } from 'firebase/database';
 
 const App: FC = () => {
   // 讓滾輪更平順
