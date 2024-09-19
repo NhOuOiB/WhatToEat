@@ -6,6 +6,11 @@ import axios from 'axios';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { VscLoading } from 'react-icons/vsc';
+import { Calendar as DatePicker } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { IoMdAdd } from 'react-icons/io';
 
 const localizer = momentLocalizer(moment);
 
@@ -29,6 +34,7 @@ const ThirdPage = () => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [show, setShow] = useState<boolean>(false);
+  const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearching(true);
@@ -44,7 +50,6 @@ const ThirdPage = () => {
 
   const fetchData = async (query: string) => {
     try {
-      console.log(query);
       const result = await axios.get(
         `https://trackapi.nutritionix.com/v2/search/instant?query=${query}`,
         {
@@ -114,13 +119,49 @@ const ThirdPage = () => {
             )}
           </div>
         </div>
-        <div className="w-full h-full border rounded-xl p-2">
-          <Label htmlFor="title">標題</Label>
-          <Input
-            id="title"
-            className="w-80 mb-1"
-            placeholder="輸入食物名稱或是早餐、午餐、晚餐"
-          />
+        <div className="w-full h-full border rounded-xl p-2 grid grid-cols-2 gap-2">
+          <div className="w-full h-full bg-slate-300 flex flex-col justify-between items-center py-4">
+            <div className="w-full flex flex-col items-center px-8">
+              <div className='w-full'>
+                <Label htmlFor="title">標題</Label>
+                <Input
+                  id="title"
+                  className="w-full mb-1"
+                  placeholder="輸入食物名稱或是早餐、午餐、晚餐"
+                />
+              </div>
+              <div className='w-full'>
+                <Label htmlFor="title">卡路里</Label>
+                <Input id="title" className="w-full mb-1" placeholder="輸入食物熱量" />
+              </div>
+              <div className="w-full flex flex-col justify-center gap-1">
+                <Label htmlFor="title" className="text-sm">
+                  時間
+                </Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'w-full justify-start text-left mb-1',
+                        !date && 'text-muted-foreground'
+                      )}
+                    >
+                      {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
+                      {date ? moment(date).format(`YYYY-MM-DD`) : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <DatePicker mode="single" selected={date} onSelect={setDate} initialFocus />
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+            <Button className='w-20'>
+              <IoMdAdd />
+            </Button>
+          </div>
+          <div className="w-full h-full bg-slate-300"></div>
         </div>
       </div>
     </div>
