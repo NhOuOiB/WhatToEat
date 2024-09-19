@@ -103,7 +103,7 @@ const ThirdPage = () => {
               >
                 {searchResult?.length > 0 && !searching ? (
                   searchResult.map((item, i) => (
-                    <div className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1">
+                    <div className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1" key={i}>
                       <p className="w-48 truncate">{item.food_name}</p>
                       <p>{item.nf_calories} kcal</p>
                     </div>
