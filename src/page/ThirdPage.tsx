@@ -38,7 +38,7 @@ const ThirdPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [show, setShow] = useState<boolean>(false);
   const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
-  const [newData, setNewData] = useState<{ title: ''; calories: '' }>({title: '', calories: ''});
+  const [newData, setNewData] = useState<{ title: ''; calories: '' }>({ title: '', calories: '' });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearching(true);
@@ -48,11 +48,11 @@ const ThirdPage = () => {
     }
 
     timeout = setTimeout(() => {
-      fetchData(e.target.value);
+      fetchCaloriesData(e.target.value);
     }, 2000);
   };
 
-  const fetchData = async (query: string) => {
+  const fetchCaloriesData = async (query: string) => {
     try {
       const result = await axios.get(
         `https://trackapi.nutritionix.com/v2/search/instant?query=${query}`,
@@ -73,9 +73,9 @@ const ThirdPage = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewData({
       ...newData,
-      [event.target.name]: event.target.value,
+      [event.target.id]: event.target.value,
     });
-  }
+  };
 
   // firebase
   const db = getDatabase();
@@ -84,15 +84,32 @@ const ThirdPage = () => {
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     console.log(data);
+    // setNewData(data);
   });
 
-  const setData = () => {
+  const addRecord = () => {
+    if (!newData || newData.title === '' || newData.calories === '' || !date) {
+      console.log('Please fill in the title, calories and date.');
+      return;
+    }
+
     const newKey = push(child(dbRef, '/records/')).key;
+    if (!newKey) {
+      console.error('Failed to generate a new key for the record.');
+      return;
+    }
+
     set(ref(db, `/records/${newKey}`), {
-      title: 'title',
-      calories: 100,
-      date: '2024-09-11',
-    });
+      title: newData.title,
+      calories: newData.calories,
+      date: date,
+    })
+      .then(() => {
+        setNewData({ title: '', calories: '' });
+      })
+      .catch((error) => {
+        console.error('Error writing new message to Firebase Database', error);
+      });
   };
 
   return (
@@ -164,15 +181,20 @@ const ThirdPage = () => {
                 />
               </div>
               <div className="w-full">
-                <Label htmlFor="title">卡路里</Label>
-                <Input id="title" className="w-full mb-1" placeholder="輸入食物熱量" onChange={handleChange}/>
+                <Label htmlFor="calories">卡路里</Label>
+                <Input
+                  id="calories"
+                  className="w-full mb-1"
+                  placeholder="輸入食物熱量"
+                  onChange={handleChange}
+                />
               </div>
               <div className="w-full flex flex-col justify-center gap-1">
-                <Label htmlFor="title" className="text-sm">
+                <Label htmlFor="time" className="text-sm">
                   時間
                 </Label>
                 <Popover>
-                  <PopoverTrigger asChild>
+                  <PopoverTrigger asChild id="time">
                     <Button
                       variant={'outline'}
                       className={cn(
@@ -190,7 +212,7 @@ const ThirdPage = () => {
                 </Popover>
               </div>
             </div>
-            <Button className="w-20">
+            <Button className="w-20" onClick={addRecord}>
               <IoMdAdd />
             </Button>
           </div>
