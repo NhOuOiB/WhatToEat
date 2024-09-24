@@ -12,6 +12,9 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { IoMdAdd } from 'react-icons/io';
 
+// firebase
+import { getDatabase, ref, onValue, set, push, child } from 'firebase/database';
+
 const localizer = momentLocalizer(moment);
 
 const ThirdPage = () => {
@@ -35,6 +38,7 @@ const ThirdPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [show, setShow] = useState<boolean>(false);
   const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
+  const [newData, setNewData] = useState<{ title: ''; calories: '' }>({title: '', calories: ''});
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearching(true);
@@ -64,6 +68,31 @@ const ThirdPage = () => {
       console.error('Error fetching data:', error);
     }
     setSearching(false);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewData({
+      ...newData,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  // firebase
+  const db = getDatabase();
+  const dbRef = ref(db, '/records/');
+
+  onValue(dbRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+  });
+
+  const setData = () => {
+    const newKey = push(child(dbRef, '/records/')).key;
+    set(ref(db, `/records/${newKey}`), {
+      title: 'title',
+      calories: 100,
+      date: '2024-09-11',
+    });
   };
 
   return (
@@ -103,7 +132,10 @@ const ThirdPage = () => {
               >
                 {searchResult?.length > 0 && !searching ? (
                   searchResult.map((item, i) => (
-                    <div className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1" key={i}>
+                    <div
+                      className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1"
+                      key={i}
+                    >
                       <p className="w-48 truncate">{item.food_name}</p>
                       <p>{item.nf_calories} kcal</p>
                     </div>
@@ -122,17 +154,18 @@ const ThirdPage = () => {
         <div className="w-full h-full border rounded-xl p-2 grid grid-cols-2 gap-2">
           <div className="w-full h-full bg-slate-300 flex flex-col justify-between items-center py-4">
             <div className="w-full flex flex-col items-center px-8">
-              <div className='w-full'>
+              <div className="w-full">
                 <Label htmlFor="title">標題</Label>
                 <Input
                   id="title"
                   className="w-full mb-1"
                   placeholder="輸入食物名稱或是早餐、午餐、晚餐"
+                  onChange={handleChange}
                 />
               </div>
-              <div className='w-full'>
+              <div className="w-full">
                 <Label htmlFor="title">卡路里</Label>
-                <Input id="title" className="w-full mb-1" placeholder="輸入食物熱量" />
+                <Input id="title" className="w-full mb-1" placeholder="輸入食物熱量" onChange={handleChange}/>
               </div>
               <div className="w-full flex flex-col justify-center gap-1">
                 <Label htmlFor="title" className="text-sm">
@@ -157,7 +190,7 @@ const ThirdPage = () => {
                 </Popover>
               </div>
             </div>
-            <Button className='w-20'>
+            <Button className="w-20">
               <IoMdAdd />
             </Button>
           </div>
