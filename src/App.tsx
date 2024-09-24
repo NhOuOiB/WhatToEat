@@ -81,13 +81,7 @@ const App: FC = () => {
   const app = initializeApp(JSON.parse(firebaseConfig));
   const db = getDatabase(app);
 
-  const dbRef = ref(db, 'record');
-
-  onValue(dbRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-  });
-  
+  console.log(db);
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
