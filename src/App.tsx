@@ -81,8 +81,6 @@ const App: FC = () => {
   const app = initializeApp(JSON.parse(firebaseConfig));
   const db = getDatabase(app);
 
-  console.log(db);
-
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
       <FirstPage
