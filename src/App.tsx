@@ -5,9 +5,7 @@ import ThirdPage from './page/ThirdPage';
 import './App.css';
 import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../utils/config';
-import { getDatabase, ref, onValue } from 'firebase/database';
+
 
 const App: FC = () => {
   // 讓滾輪更平順
@@ -76,10 +74,6 @@ const App: FC = () => {
       }
     })();
   }, []);
-
-  // Firebase
-  const app = initializeApp(JSON.parse(firebaseConfig));
-  const db = getDatabase(app);
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
