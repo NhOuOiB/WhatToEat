@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { nutritionix_id, nutritionix_key } from '../../utils/config.ts';
@@ -9,29 +9,21 @@ import { VscLoading } from 'react-icons/vsc';
 import { Calendar as DatePicker } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+// 外加timepicker
+import { TimePickerInput } from '@/components/ui/time-picker-input.tsx';
+import { Clock, Calendar as CalendarIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { IoMdAdd } from 'react-icons/io';
 
 // firebase
-import { getDatabase, ref, onValue, set, push, child } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../utils/config.ts';
+import { getDatabase, ref, set, push, child, get } from 'firebase/database';
 
 const localizer = momentLocalizer(moment);
 
 const ThirdPage = () => {
-  const event = [
-    {
-      start: moment('2024-09-11T10:00:00').toDate(),
-      end: moment('2024-09-11T10:00:00').toDate(),
-      title: '午餐',
-      food: '牛肉麵',
-    },
-    {
-      start: moment('2024-09-11T10:00:00').toDate(),
-      end: moment('2024-09-11T10:00:00').toDate(),
-      title: '晚餐',
-      food: '牛肉麵',
-    },
-  ];
   let timeout: ReturnType<typeof setTimeout> | null = null;
   const [searchResult, setSearchResult] = useState<{ food_name: ''; nf_calories: '' }[]>([]);
   const [searching, setSearching] = useState<boolean>(false);
@@ -39,7 +31,12 @@ const ThirdPage = () => {
   const [show, setShow] = useState<boolean>(false);
   const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
   const [newData, setNewData] = useState<{ title: ''; calories: '' }>({ title: '', calories: '' });
+  const [event, setEvent] = useState<{ start: ''; end: ''; title: ''; calories: '' }[]>([]);
 
+  // timepicker
+  const minuteRef = React.useRef<HTMLInputElement>(null);
+  const hourRef = React.useRef<HTMLInputElement>(null);
+  
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearching(true);
     setSearchValue(e.target.value);
@@ -78,14 +75,21 @@ const ThirdPage = () => {
   };
 
   // firebase
-  const db = getDatabase();
-  const dbRef = ref(db, '/records/');
+  const app = initializeApp(JSON.parse(firebaseConfig));
+  const db = getDatabase(app);
+  const dbRef = ref(db, 'records');
 
-  onValue(dbRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-    // setNewData(data);
-  });
+  useEffect(() => {
+    get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        // setEvent(snapshot.val());
+      } else {
+        console.log('No data available');
+      }
+    });
+  }),
+    [];
 
   const addRecord = () => {
     if (!newData || newData.title === '' || newData.calories === '' || !date) {
@@ -94,15 +98,17 @@ const ThirdPage = () => {
     }
 
     const newKey = push(child(dbRef, '/records/')).key;
+    console.log(newKey);
     if (!newKey) {
       console.error('Failed to generate a new key for the record.');
       return;
     }
-
-    set(ref(db, `/records/${newKey}`), {
+    console.log(date);
+    set(ref(db, `records/${newKey}`), {
       title: newData.title,
       calories: newData.calories,
-      date: date,
+      start: moment(date).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(date).format('YYYY-MM-DD HH:mm:ss'),
     })
       .then(() => {
         setNewData({ title: '', calories: '' });
@@ -178,6 +184,7 @@ const ThirdPage = () => {
                   className="w-full mb-1"
                   placeholder="輸入食物名稱或是早餐、午餐、晚餐"
                   onChange={handleChange}
+                  value={newData.title}
                 />
               </div>
               <div className="w-full">
@@ -187,10 +194,11 @@ const ThirdPage = () => {
                   className="w-full mb-1"
                   placeholder="輸入食物熱量"
                   onChange={handleChange}
+                  value={newData.calories}
                 />
               </div>
               <div className="w-full flex flex-col justify-center gap-1">
-                <Label htmlFor="time" className="text-sm">
+                <Label htmlFor="time" className="text-sm font-bold">
                   時間
                 </Label>
                 <Popover>
@@ -198,16 +206,42 @@ const ThirdPage = () => {
                     <Button
                       variant={'outline'}
                       className={cn(
-                        'w-full justify-start text-left mb-1',
+                        'w-full justify-start text-left mb-1 font-bold',
                         !date && 'text-muted-foreground'
                       )}
                     >
-                      {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-                      {date ? moment(date).format(`YYYY-MM-DD`) : <span>Pick a date</span>}
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date ? moment(date).format(`YYYY-MM-DD HH:mm`) : <span>Pick a date</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
                     <DatePicker mode="single" selected={date} onSelect={setDate} initialFocus />
+                    <hr className="mx-4 my-0" />
+                    <div className="px-4 my-4 flex justify-between">
+                      <div className="flex gap-2 items-center">
+                        <Clock className="h-5 w-5" />
+                        <p className="text-sm font-medium">Time</p>
+                      </div>
+                      <div className="font-medium">
+                        <div className="flex items-center gap-2">
+                          <TimePickerInput
+                            picker="hours"
+                            date={date}
+                            setDate={setDate}
+                            ref={hourRef}
+                            onRightFocus={() => minuteRef.current?.focus()}
+                          />
+                          <span>:</span>
+                          <TimePickerInput
+                            picker="minutes"
+                            date={date}
+                            setDate={setDate}
+                            ref={minuteRef}
+                            onLeftFocus={() => hourRef.current?.focus()}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </PopoverContent>
                 </Popover>
               </div>
