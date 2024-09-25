@@ -82,8 +82,8 @@ const ThirdPage = () => {
   useEffect(() => {
     get(dbRef).then((snapshot) => {
       if (snapshot.exists()) {
-        console.log(snapshot.val());
-        // setEvent(snapshot.val());
+        const data = snapshot.val();
+        setEvent(Object.values(data));
       } else {
         console.log('No data available');
       }
@@ -105,6 +105,7 @@ const ThirdPage = () => {
     }
     console.log(date);
     set(ref(db, `records/${newKey}`), {
+      id: newKey,
       title: newData.title,
       calories: newData.calories,
       start: moment(date).format('YYYY-MM-DD HH:mm:ss'),
@@ -198,7 +199,7 @@ const ThirdPage = () => {
                 />
               </div>
               <div className="w-full flex flex-col justify-center gap-1">
-                <Label htmlFor="time" className="text-sm font-bold">
+                <Label htmlFor="time" className="text-sm">
                   時間
                 </Label>
                 <Popover>
