@@ -97,7 +97,6 @@ const FirstPage: FC<Props> = ({
         headers,
       }
     );
-    console.log(response.data.places);
     setPlaces(response.data.places);
 
     // 檢查新地點是否重複
