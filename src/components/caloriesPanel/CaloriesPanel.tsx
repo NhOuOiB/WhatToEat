@@ -27,6 +27,7 @@ interface Props {
 }
 
 const CaloriesPanel: FC<Props> = ({ setEvent }) => {
+  const [edit, setEdit] = useState<boolean>(false);
   // timepicker
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
@@ -168,7 +169,7 @@ const CaloriesPanel: FC<Props> = ({ setEvent }) => {
           )}
         </div>
       </div>
-      <div className="w-full h-full border rounded-xl p-2 flex flex-wrap sm:grid grid-cols-2 gap-2">
+      <div className="w-full h-full border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
         <div className="w-full h-1/2 sm:h-full bg-slate-300 flex flex-col justify-between items-center py-4">
           <div className="w-full flex flex-col items-center px-8">
             <div className="w-full">
@@ -244,12 +245,15 @@ const CaloriesPanel: FC<Props> = ({ setEvent }) => {
             <IoMdAdd />
           </Button>
         </div>
-        <div className="w-full h-1/2 sm:h-full bg-slate-300 flex">
-          <div className="min-w-full h-full rounded-md bg-transparent p-4">
+        <div className={`${style.card_container}`}>
+          <div className={`${style.card}`} onClick={() => setEdit(true)}>
             <div className="w-full h-full border"></div>
           </div>
-          <div className={style.card}>
-            <div className="w-full h-full border"></div>
+          <div
+            className={`${style.card} ${edit ? style.card_edit : style.card_reset}`}
+            onClick={() => setEdit(false)}
+          >
+            <div className="w-full h-full border border-sky-600"></div>
           </div>
         </div>
       </div>

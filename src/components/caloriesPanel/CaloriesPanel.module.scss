@@ -1,3 +1,79 @@
+.card_container {
+  @apply w-full h-1/2 sm:h-full flex relative;
+}
 .card {
-  @apply min-w-full h-full rounded-md bg-red-300 p-4 -skew-y-6;
+  @apply min-w-full h-full rounded-md p-4 transition duration-1000 cursor-pointer;
+
+  &:nth-child(1) {
+    @apply bg-black;
+    &:hover {
+      @apply transform;
+    }
+  }
+
+  &:nth-child(2) {
+    @apply bg-white border border-sky-800 absolute -z-10;
+  }
+}
+
+.card_edit {
+  animation: flip .6s ease-in-out forwards;
+}
+
+.card_reset {
+  animation: flip-back .6s ease-in-out forwards;
+}
+
+@-webkit-keyframes flip {
+  0% {
+    transform: translate(0%);
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: translate(0%);
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+}
+
+@-webkit-keyframes flip-back {
+  0% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: -10;
+  }
+}
+
+@keyframes flip-back {
+  0% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: -10;
+  }
 }
