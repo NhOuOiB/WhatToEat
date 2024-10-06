@@ -23,3 +23,8 @@ export interface Place {
     openNow: boolean;
   };
 }
+
+export type CaloriesRecord = {
+  title: string;
+  calories: string;
+};
