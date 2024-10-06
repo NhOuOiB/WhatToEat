@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import moment from 'moment';
 import style from './CaloriesPanel.module.scss';
+import { CaloriesRecord } from '@/types/type';
 // shadcn
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -24,10 +25,11 @@ import { getDatabase, ref, set, push, child, get } from 'firebase/database';
 
 interface Props {
   setEvent: React.Dispatch<React.SetStateAction<{ start: ''; end: ''; title: ''; calories: '' }[]>>;
+  edit: boolean;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CaloriesPanel: FC<Props> = ({ setEvent }) => {
-  const [edit, setEdit] = useState<boolean>(false);
+const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
   // timepicker
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
@@ -79,7 +81,7 @@ const CaloriesPanel: FC<Props> = ({ setEvent }) => {
 
   // firebase
   const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
-  const [newData, setNewData] = useState<{ title: ''; calories: '' }>({
+  const [newData, setNewData] = useState<CaloriesRecord>({
     title: '',
     calories: '',
   });
@@ -170,7 +172,7 @@ const CaloriesPanel: FC<Props> = ({ setEvent }) => {
         </div>
       </div>
       <div className="w-full h-full border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
-        <div className="w-full h-1/2 sm:h-full bg-slate-300 flex flex-col justify-between items-center py-4">
+        <div className="w-full h-1/2 sm:h-full flex flex-col justify-between items-center py-4 shadow">
           <div className="w-full flex flex-col items-center px-8">
             <div className="w-full">
               <Label htmlFor="title">標題</Label>
@@ -247,13 +249,87 @@ const CaloriesPanel: FC<Props> = ({ setEvent }) => {
         </div>
         <div className={`${style.card_container}`}>
           <div className={`${style.card}`} onClick={() => setEdit(true)}>
-            <div className="w-full h-full border"></div>
+            <div className="w-full h-full border-2 border-slate-900"></div>
           </div>
           <div
             className={`${style.card} ${edit ? style.card_edit : style.card_reset}`}
             onClick={() => setEdit(false)}
           >
-            <div className="w-full h-full border border-sky-600"></div>
+            <div className="w-full h-full border-2 border-gray-200 text-white">
+              <div
+                className="w-full flex flex-col items-center px-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="w-full">
+                  <Label htmlFor="edit_title">標題</Label>
+                  <Input
+                    id="edit_title"
+                    className="w-full mb-1"
+                    placeholder="輸入食物名稱或是早餐、午餐、晚餐"
+                    onChange={handleChange}
+                    value={newData.title}
+                  />
+                </div>
+                <div className="w-full">
+                  <Label htmlFor="edit_calories">卡路里</Label>
+                  <Input
+                    id="edit_calories"
+                    className="w-full mb-1"
+                    placeholder="輸入食物熱量"
+                    onChange={handleChange}
+                    value={newData.calories}
+                  />
+                </div>
+                <div className="w-full flex flex-col justify-center gap-1">
+                  <Label htmlFor="edit_time" className="text-sm">
+                    時間
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild id="edit_time">
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-full justify-start text-left mb-1 font-bold text-black',
+                          !date && 'text-muted-foreground'
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? moment(date).format(`YYYY-MM-DD HH:mm`) : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <DatePicker mode="single" selected={date} onSelect={setDate} />
+                      <hr className="mx-4 my-0" />
+                      <div className="px-4 my-4 flex justify-between">
+                        <div className="flex gap-2 items-center">
+                          <Clock className="h-5 w-5" />
+                          <p className="text-sm font-medium">Time</p>
+                        </div>
+                        <div className="font-medium">
+                          <div className="flex items-center gap-2">
+                            <TimePickerInput
+                              picker="hours"
+                              date={date}
+                              setDate={setDate}
+                              ref={hourRef}
+                              onRightFocus={() => minuteRef.current?.focus()}
+                            />
+                            <span>:</span>
+                            <TimePickerInput
+                              picker="minutes"
+                              date={date}
+                              setDate={setDate}
+                              ref={minuteRef}
+                              onLeftFocus={() => hourRef.current?.focus()}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
