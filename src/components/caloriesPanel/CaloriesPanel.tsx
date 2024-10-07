@@ -14,22 +14,42 @@ import { TimePickerInput } from '@/components/ui/time-picker-input.tsx';
 import { Clock, Calendar as CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { IoMdAdd } from 'react-icons/io';
 // calories search
 import { nutritionix_id, nutritionix_key } from '../../../utils/config';
 import axios from 'axios';
 // firebase
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../utils/config.ts';
-import { getDatabase, ref, set, push, child, get } from 'firebase/database';
+import { getDatabase, ref, set, push, child, get, update } from 'firebase/database';
+// react-icons
+import { IoMdAdd } from 'react-icons/io';
+import { BiSolidSave } from 'react-icons/bi';
 
 interface Props {
+  event: { start: ''; end: ''; title: ''; calories: '' }[];
   setEvent: React.Dispatch<React.SetStateAction<{ start: ''; end: ''; title: ''; calories: '' }[]>>;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  editData: CaloriesRecord;
+  setEditData: React.Dispatch<React.SetStateAction<CaloriesRecord>>;
+  editDate: Date | undefined;
+  setEditDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  recordList?: CaloriesRecord[];
+  setRecordList?: React.Dispatch<React.SetStateAction<CaloriesRecord[]>>;
 }
 
-const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
+const CaloriesPanel: FC<Props> = ({
+  event,
+  setEvent,
+  edit,
+  setEdit,
+  editData,
+  setEditData,
+  editDate,
+  setEditDate,
+  recordList,
+  setRecordList,
+}) => {
   // timepicker
   const minuteRef = React.useRef<HTMLInputElement>(null);
   const hourRef = React.useRef<HTMLInputElement>(null);
@@ -79,9 +99,17 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
     });
   };
 
+  const handleEditChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditData({
+      ...editData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   // firebase
   const [date, setDate] = React.useState<Date | undefined>(moment().toDate());
   const [newData, setNewData] = useState<CaloriesRecord>({
+    id: '',
     title: '',
     calories: '',
   });
@@ -109,12 +137,10 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
     }
 
     const newKey = push(child(dbRef, '/records/')).key;
-    console.log(newKey);
     if (!newKey) {
       console.error('Failed to generate a new key for the record.');
       return;
     }
-    console.log(date);
     set(ref(db, `records/${newKey}`), {
       id: newKey,
       title: newData.title,
@@ -129,6 +155,38 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
         console.error('Error writing new message to Firebase Database', error);
       });
   };
+
+  const updateRecord = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (
+      !editData ||
+      editData.title === '' ||
+      editData.calories === '' ||
+      !editDate ||
+      !editData.id
+    ) {
+      console.log('Please fill in the title, calories and date.');
+      return;
+    }
+
+    update(ref(db, `records/${editData.id}`), {
+      id: editData.id,
+      title: editData.title,
+      calories: editData.calories,
+      start: moment(editDate).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(editDate).format('YYYY-MM-DD HH:mm:ss'),
+    })
+      .then(() => {
+        console.log('更新成功');
+      })
+      .catch((error) => {
+        console.error('Error writing new message to Firebase Database', error);
+      });
+  };
+
+  useEffect(() => {
+    console.log(event);
+  }, []);
 
   return (
     <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
@@ -255,50 +313,62 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
             className={`${style.card} ${edit ? style.card_edit : style.card_reset}`}
             onClick={() => setEdit(false)}
           >
-            <div className="w-full h-full border-2 border-gray-200 text-white">
+            <div className="w-full h-full border-2 border-gray-200 flex flex-col justify-between items-center">
               <div
-                className="w-full flex flex-col items-center px-8"
+                className="w-4/5 2xl:w-3/5 h-fit flex flex-col items-center"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="w-full">
-                  <Label htmlFor="edit_title">標題</Label>
+                  <Label htmlFor="edit_title" className="text-white">
+                    標題
+                  </Label>
                   <Input
                     id="edit_title"
+                    name="title"
                     className="w-full mb-1"
                     placeholder="輸入食物名稱或是早餐、午餐、晚餐"
-                    onChange={handleChange}
-                    value={newData.title}
+                    onChange={handleEditChange}
+                    value={editData?.title}
+                    disabled={editData.id ? false : true}
                   />
                 </div>
                 <div className="w-full">
-                  <Label htmlFor="edit_calories">卡路里</Label>
+                  <Label htmlFor="edit_calories" className="text-white">
+                    卡路里
+                  </Label>
                   <Input
                     id="edit_calories"
+                    name="calories"
                     className="w-full mb-1"
                     placeholder="輸入食物熱量"
-                    onChange={handleChange}
-                    value={newData.calories}
+                    onChange={handleEditChange}
+                    value={editData?.calories}
+                    disabled={editData.id ? false : true}
                   />
                 </div>
                 <div className="w-full flex flex-col justify-center gap-1">
-                  <Label htmlFor="edit_time" className="text-sm">
+                  <Label htmlFor="edit_time" className="text-sm text-white">
                     時間
                   </Label>
                   <Popover>
-                    <PopoverTrigger asChild id="edit_time">
+                    <PopoverTrigger asChild id="edit_time" disabled={editData.id ? false : true}>
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-full justify-start text-left mb-1 font-bold text-black',
-                          !date && 'text-muted-foreground'
+                          'w-full justify-start text-left mb-1 font-bold',
+                          !editDate && 'text-muted-foreground'
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? moment(date).format(`YYYY-MM-DD HH:mm`) : <span>Pick a date</span>}
+                        {editDate ? (
+                          moment(editDate).format(`YYYY-MM-DD HH:mm`)
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <DatePicker mode="single" selected={date} onSelect={setDate} />
+                      <DatePicker mode="single" selected={editDate} onSelect={setEditDate} />
                       <hr className="mx-4 my-0" />
                       <div className="px-4 my-4 flex justify-between">
                         <div className="flex gap-2 items-center">
@@ -309,16 +379,16 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
                           <div className="flex items-center gap-2">
                             <TimePickerInput
                               picker="hours"
-                              date={date}
-                              setDate={setDate}
+                              date={editDate}
+                              setDate={setEditDate}
                               ref={hourRef}
                               onRightFocus={() => minuteRef.current?.focus()}
                             />
                             <span>:</span>
                             <TimePickerInput
                               picker="minutes"
-                              date={date}
-                              setDate={setDate}
+                              date={editDate}
+                              setDate={setEditDate}
                               ref={minuteRef}
                               onLeftFocus={() => hourRef.current?.focus()}
                             />
@@ -329,6 +399,14 @@ const CaloriesPanel: FC<Props> = ({ setEvent, edit, setEdit }) => {
                   </Popover>
                 </div>
               </div>
+              <Button
+                className={`w-20 bg-gray-200 hover:bg-gray-100 text-slate-900 mb-4 text-xl ${
+                  !editData.id && 'bg-opacity-50'
+                }`}
+                onClick={updateRecord}
+              >
+                <BiSolidSave />
+              </Button>
             </div>
           </div>
         </div>
