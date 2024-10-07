@@ -25,6 +25,7 @@ export interface Place {
 }
 
 export type CaloriesRecord = {
+  id: string;
   title: string;
   calories: string;
 };
