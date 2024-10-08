@@ -27,6 +27,9 @@ const CalendarPanel: FC<Props> = ({ event, setEdit, setEditData, setEditDate, se
         onSelectEvent={(e) => {
           setEditData(e);
           setEditDate(moment(e.start).toDate());
+          const eventsOnSameDay = findEventsOnSameDay(moment(e.start).toDate());
+          setSelectedDate(moment(e.start).toDate());
+          setRecordList(eventsOnSameDay);
           setEdit(true);
         }}
         onSelectSlot={(slotInfo) => {
