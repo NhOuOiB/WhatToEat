@@ -24,18 +24,24 @@ import { getDatabase, ref, set, push, child, get, update } from 'firebase/databa
 // react-icons
 import { IoMdAdd } from 'react-icons/io';
 import { BiSolidSave } from 'react-icons/bi';
+import { CgClose } from 'react-icons/cg';
 
 interface Props {
-  event: { start: ''; end: ''; title: ''; calories: '' }[];
-  setEvent: React.Dispatch<React.SetStateAction<{ start: ''; end: ''; title: ''; calories: '' }[]>>;
+  event: { id: string; start: string; end: string; title: string; calories: string }[];
+  setEvent: React.Dispatch<
+    React.SetStateAction<
+      { id: string; start: string; end: string; title: string; calories: string }[]
+    >
+  >;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   editData: CaloriesRecord;
   setEditData: React.Dispatch<React.SetStateAction<CaloriesRecord>>;
   editDate: Date | undefined;
   setEditDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-  recordList?: CaloriesRecord[];
-  setRecordList?: React.Dispatch<React.SetStateAction<CaloriesRecord[]>>;
+  recordList: CaloriesRecord[];
+  setRecordList: React.Dispatch<React.SetStateAction<CaloriesRecord[]>>;
+  selectedDate: Date;
 }
 
 const CaloriesPanel: FC<Props> = ({
@@ -49,6 +55,7 @@ const CaloriesPanel: FC<Props> = ({
   setEditDate,
   recordList,
   setRecordList,
+  selectedDate,
 }) => {
   // timepicker
   const minuteRef = React.useRef<HTMLInputElement>(null);
@@ -112,23 +119,32 @@ const CaloriesPanel: FC<Props> = ({
     id: '',
     title: '',
     calories: '',
+    start: '',
   });
 
   const app = initializeApp(JSON.parse(firebaseConfig));
   const db = getDatabase(app);
   const dbRef = ref(db, 'records');
 
-  useEffect(() => {
-    get(dbRef).then((snapshot) => {
+  const fetchData = async () => {
+    await get(dbRef).then((snapshot) => {
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        setEvent(Object.values(data));
+        const data: { id: string; start: string; end: string; title: string; calories: string }[] =
+          Object.values(snapshot.val());
+        setEvent(data);
+        const todayRecord = data.filter((record: CaloriesRecord) =>
+          moment(record.start).isSame(moment(), 'day')
+        );
+        setRecordList(todayRecord);
       } else {
         console.log('No data available');
       }
     });
-  }),
-    [];
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const addRecord = () => {
     if (!newData || newData.title === '' || newData.calories === '' || !date) {
@@ -149,7 +165,7 @@ const CaloriesPanel: FC<Props> = ({
       end: moment(date).format('YYYY-MM-DD HH:mm:ss'),
     })
       .then(() => {
-        setNewData({ title: '', calories: '' });
+        setNewData({ id: '', title: '', calories: '', start: '' });
       })
       .catch((error) => {
         console.error('Error writing new message to Firebase Database', error);
@@ -178,16 +194,14 @@ const CaloriesPanel: FC<Props> = ({
     })
       .then(() => {
         console.log('更新成功');
+        fetchData();
       })
       .catch((error) => {
         console.error('Error writing new message to Firebase Database', error);
       });
   };
 
-  useEffect(() => {
-    console.log(event);
-  }, []);
-
+  // console.log('recordList', recordList);
   return (
     <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
       <div className="w-full h-1/5 border rounded-xl flex justify-center items-center">
@@ -265,7 +279,7 @@ const CaloriesPanel: FC<Props> = ({
                       !date && 'text-muted-foreground'
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-2 min-w-4 w-4" />
                     {date ? moment(date).format(`YYYY-MM-DD HH:mm`) : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
@@ -306,8 +320,34 @@ const CaloriesPanel: FC<Props> = ({
           </Button>
         </div>
         <div className={`${style.card_container}`}>
-          <div className={`${style.card}`} onClick={() => setEdit(true)}>
-            <div className="w-full h-full border-2 border-slate-900"></div>
+          <div className={`${style.card}`}>
+            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-between items-center">
+              {recordList.length > 0 &&
+                recordList.map((record, i) => (
+                  <div
+                    className="w-full h-8 flex justify-center items-center gap-2"
+                    key={i}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <div className="w-8 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-center items-center">
+                      <CgClose />
+                    </div>
+                    <div
+                      className="w-3/5 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-between items-center px-4"
+                      onClick={() => {
+                        setEdit(true);
+                        setEditData(record);
+                      }}
+                    >
+                      <div>{record.title}</div>
+                      <div>{record.calories}kcal</div>
+                    </div>
+                  </div>
+                ))}
+              <div>{moment(selectedDate).format('MMM D')}</div>
+            </div>
           </div>
           <div
             className={`${style.card} ${edit ? style.card_edit : style.card_reset}`}
@@ -359,7 +399,7 @@ const CaloriesPanel: FC<Props> = ({
                           !editDate && 'text-muted-foreground'
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-2 min-w-4 w-4" />
                         {editDate ? (
                           moment(editDate).format(`YYYY-MM-DD HH:mm`)
                         ) : (
