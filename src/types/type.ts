@@ -28,4 +28,5 @@ export type CaloriesRecord = {
   id: string;
   title: string;
   calories: string;
+  start: string;
 };
