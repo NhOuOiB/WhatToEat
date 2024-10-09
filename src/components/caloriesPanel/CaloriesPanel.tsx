@@ -20,7 +20,7 @@ import axios from 'axios';
 // firebase
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../../utils/config.ts';
-import { getDatabase, ref, set, push, child, get, update } from 'firebase/database';
+import { getDatabase, ref, set, push, child, get, update, remove } from 'firebase/database';
 // react-icons
 import { IoMdAdd } from 'react-icons/io';
 import { BiSolidSave } from 'react-icons/bi';
@@ -132,10 +132,10 @@ const CaloriesPanel: FC<Props> = ({
         const data: { id: string; start: string; end: string; title: string; calories: string }[] =
           Object.values(snapshot.val());
         setEvent(data);
-        const todayRecord = data.filter((record: CaloriesRecord) =>
-          moment(record.start).isSame(moment(), 'day')
+        const selectedDateRecord = data.filter((record: CaloriesRecord) =>
+          moment(record.start).isSame(selectedDate, 'day')
         );
-        setRecordList(todayRecord);
+        setRecordList(selectedDateRecord);
       } else {
         console.log('No data available');
       }
@@ -166,6 +166,7 @@ const CaloriesPanel: FC<Props> = ({
     })
       .then(() => {
         setNewData({ id: '', title: '', calories: '', start: '' });
+        fetchData();
       })
       .catch((error) => {
         console.error('Error writing new message to Firebase Database', error);
@@ -194,6 +195,17 @@ const CaloriesPanel: FC<Props> = ({
     })
       .then(() => {
         console.log('更新成功');
+        fetchData();
+      })
+      .catch((error) => {
+        console.error('Error writing new message to Firebase Database', error);
+      });
+  };
+
+  const deleteRecord = (id: string) => {
+    remove(ref(db, `records/${id}`))
+      .then(() => {
+        console.log('刪除成功');
         fetchData();
       })
       .catch((error) => {
@@ -243,7 +255,7 @@ const CaloriesPanel: FC<Props> = ({
           )}
         </div>
       </div>
-      <div className="w-full h-full border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
+      <div className="w-full h-4/5 border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
         <div className="w-full h-1/2 sm:h-full flex flex-col justify-between items-center py-4 shadow">
           <div className="w-full flex flex-col items-center px-8">
             <div className="w-full">
@@ -264,6 +276,11 @@ const CaloriesPanel: FC<Props> = ({
                 placeholder="輸入食物熱量"
                 onChange={handleChange}
                 value={newData.calories}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    addRecord();
+                  }
+                }}
               />
             </div>
             <div className="w-full flex flex-col justify-center gap-1">
@@ -321,32 +338,44 @@ const CaloriesPanel: FC<Props> = ({
         </div>
         <div className={`${style.card_container}`}>
           <div className={`${style.card}`}>
-            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-between items-center">
-              {recordList.length > 0 &&
-                recordList.map((record, i) => (
-                  <div
-                    className="w-full h-8 flex justify-center items-center gap-2"
-                    key={i}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <div className="w-8 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-center items-center">
-                      <CgClose />
-                    </div>
+            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-center items-center gap-4 2xl:gap-8">
+              <div className="w-4/5 h-[17.7rem] overflow-scroll flex flex-col gap-4">
+                {recordList.length > 0 ? (
+                  recordList.map((record, i) => (
                     <div
-                      className="w-3/5 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-between items-center px-4"
-                      onClick={() => {
-                        setEdit(true);
-                        setEditData(record);
+                      className="w-full min-h-8 h-8 flex justify-center items-center gap-2"
+                      key={i}
+                      onClick={(e) => {
+                        e.stopPropagation();
                       }}
                     >
-                      <div>{record.title}</div>
-                      <div>{record.calories}kcal</div>
+                      <div
+                        className="w-8 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-center items-center"
+                        onClick={() => deleteRecord(record.id)}
+                      >
+                        <CgClose />
+                      </div>
+                      <div
+                        className="w-4/5 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-between items-center px-4"
+                        onClick={() => {
+                          setEdit(true);
+                          setEditData(record);
+                          setEditDate(moment(record.start).toDate());
+                        }}
+                      >
+                        <div className="w-1/2 truncate">{record.title}</div>
+                        <div className="w-1/2 flex justify-end">
+                          <div className="text-ellipsis overflow-hidden">{record.calories}</div>
+                          kcal
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              <div>{moment(selectedDate).format('MMM D')}</div>
+                  ))
+                ) : (
+                  <div className=""></div>
+                )}
+              </div>
+              <div className="h-fit text-xl">{moment(selectedDate).format('MMM D')}</div>
             </div>
           </div>
           <div
