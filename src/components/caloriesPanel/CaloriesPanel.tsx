@@ -213,10 +213,14 @@ const CaloriesPanel: FC<Props> = ({
       });
   };
 
+  useEffect(() => {
+    setDate(selectedDate);
+  }, [selectedDate]);
+
   // console.log('recordList', recordList);
   return (
     <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
-      <div className="w-full h-1/5 border rounded-xl flex justify-center items-center">
+      <div className="w-full min-h-1/5 h-1/5 border rounded-xl flex justify-center items-center">
         <div className="w-full lg:w-1/2 relative p-2 sm:p-0">
           <Label htmlFor="search">搜詢食物熱量</Label>
           <Input
@@ -255,7 +259,7 @@ const CaloriesPanel: FC<Props> = ({
           )}
         </div>
       </div>
-      <div className="w-full h-4/5 border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
+      <div className="w-full h-4/5 max-h-4/5 border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
         <div className="w-full h-1/2 sm:h-full flex flex-col justify-between items-center py-4 shadow">
           <div className="w-full flex flex-col items-center px-8">
             <div className="w-full">
@@ -338,8 +342,8 @@ const CaloriesPanel: FC<Props> = ({
         </div>
         <div className={`${style.card_container}`}>
           <div className={`${style.card}`}>
-            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-center items-center gap-4 2xl:gap-8">
-              <div className="w-4/5 h-[17.7rem] overflow-scroll flex flex-col gap-4">
+            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-evenly items-center gap-4 2xl:gap-8">
+              <div className="w-4/5 h-full max-h-[24rem] overflow-scroll flex flex-col gap-4">
                 {recordList.length > 0 ? (
                   recordList.map((record, i) => (
                     <div
@@ -350,13 +354,13 @@ const CaloriesPanel: FC<Props> = ({
                       }}
                     >
                       <div
-                        className="w-8 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-center items-center"
+                        className="w-8 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-center items-center cursor-pointer"
                         onClick={() => deleteRecord(record.id)}
                       >
                         <CgClose />
                       </div>
                       <div
-                        className="w-4/5 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-between items-center px-4"
+                        className="w-4/5 h-full bg-white hover:bg-gray-100 rounded-full shadow flex justify-between items-center px-4 cursor-pointer"
                         onClick={() => {
                           setEdit(true);
                           setEditData(record);
