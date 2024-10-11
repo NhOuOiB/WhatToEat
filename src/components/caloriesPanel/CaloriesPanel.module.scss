@@ -1,7 +1,7 @@
 .card_container {
   @apply w-full h-1/2 sm:h-full flex relative;
   .card {
-    @apply min-w-full w-full h-full rounded-md p-4 transition duration-1000;
+    @apply w-full h-full rounded-md p-4 transition duration-1000;
 
     &:nth-child(1) {
       @apply bg-gray-200 shadow;

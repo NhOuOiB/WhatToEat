@@ -219,8 +219,8 @@ const CaloriesPanel: FC<Props> = ({
 
   // console.log('recordList', recordList);
   return (
-    <div className="w-5/6 sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 border shadow rounded-xl flex flex-col justify-center items-center gap-4 p-4">
-      <div className="w-full min-h-1/5 h-1/5 border rounded-xl flex justify-center items-center">
+    <div className="w-full sm:w-2/3 md:w-1/2 h-screen sm:h-2/3 sm:border shadow rounded-xl flex flex-col justify-center items-center gap-4 sm:p-4">
+      <div className="w-full h-1/5 border rounded-xl sm:flex justify-center items-center hidden">
         <div className="w-full lg:w-1/2 relative p-2 sm:p-0">
           <Label htmlFor="search">搜詢食物熱量</Label>
           <Input
@@ -236,7 +236,7 @@ const CaloriesPanel: FC<Props> = ({
             <div
               className={`w-full ${
                 searchResult.length > 5 && 'max-h-[calc(14rem+2px)] overflow-auto'
-              } bg-white border rounded-md p-1 pb-0 absolute flex flex-col`}
+              } bg-white border rounded-md p-1 pb-0 absolute flex flex-col z-20`}
             >
               {searchResult?.length > 0 && !searching ? (
                 searchResult.map((item, i) => (
@@ -259,7 +259,7 @@ const CaloriesPanel: FC<Props> = ({
           )}
         </div>
       </div>
-      <div className="w-full h-4/5 max-h-4/5 border rounded-xl px-4 py-4 flex flex-wrap sm:grid grid-cols-2 gap-4">
+      <div className="w-full h-full sm:h-4/5 border rounded-xl p-4 flex flex-col sm:flex-row gap-4">
         <div className="w-full h-1/2 sm:h-full flex flex-col justify-between items-center py-4 shadow">
           <div className="w-full flex flex-col items-center px-8">
             <div className="w-full">
@@ -342,8 +342,8 @@ const CaloriesPanel: FC<Props> = ({
         </div>
         <div className={`${style.card_container}`}>
           <div className={`${style.card}`}>
-            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-evenly items-center gap-4 2xl:gap-8">
-              <div className="w-4/5 h-full max-h-[24rem] overflow-scroll flex flex-col gap-4">
+            <div className="w-full h-full border-2 border-slate-900 py-6 flex flex-col justify-center items-center gap-4 sm:gap-8">
+              <div className="w-4/5 h-full overflow-scroll flex flex-col gap-4">
                 {recordList.length > 0 ? (
                   recordList.map((record, i) => (
                     <div
