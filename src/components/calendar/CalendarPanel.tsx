@@ -19,7 +19,7 @@ const CalendarPanel: FC<Props> = ({ event, setEdit, setEditData, setEditDate, se
     return event.filter((e) => moment(e.start).isSame(date, 'day'));
   };
   return (
-    <div className="w-5/6 sm:w-2/3 md:w-5/12 h-screen sm:h-2/3 border shadow rounded-xl p-4">
+    <div className="w-full sm:w-2/3 md:w-5/12 h-screen sm:h-2/3 border shadow rounded-xl p-4">
       <Calendar
         localizer={localizer}
         views={['month', 'week']}
