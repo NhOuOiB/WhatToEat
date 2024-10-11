@@ -5,29 +5,13 @@ import ThirdPage from './page/ThirdPage';
 import './App.css';
 import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import Nav from './components/nav/Nav';
 
 
 const App: FC = () => {
   // 讓滾輪更平順
   const containerRef = useRef<HTMLDivElement>(null);
   const secondPageRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const handleWheel = (event: WheelEvent) => {
-  //     event.preventDefault();
-  //     containerRef.current?.scrollBy({
-  //       top: event.deltaY,
-  //       behavior: 'smooth',
-  //     });
-  //   };
-
-  //   const container = containerRef.current;
-  //   container?.addEventListener('wheel', handleWheel);
-
-  //   return () => {
-  //     container?.removeEventListener('wheel', handleWheel);
-  //   };
-  // }, []);
 
   // 取得使用者位置
   const [location, setLocation] = useState<{ latitude: number; longitude: number }>({
@@ -77,6 +61,7 @@ const App: FC = () => {
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
+      <Nav />
       <FirstPage
         location={location}
         selectedPlaces={selectedPlaces}
