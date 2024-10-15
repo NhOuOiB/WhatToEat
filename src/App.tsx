@@ -7,11 +7,12 @@ import { Place } from './types/type';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Nav from './components/nav/Nav';
 
-
 const App: FC = () => {
-  // 讓滾輪更平順
+  // 頁面位置
   const containerRef = useRef<HTMLDivElement>(null);
+  const firstPageRef = useRef<HTMLDivElement>(null);
   const secondPageRef = useRef<HTMLDivElement>(null);
+  const thirdPageRef = useRef<HTMLDivElement>(null);
 
   // 取得使用者位置
   const [location, setLocation] = useState<{ latitude: number; longitude: number }>({
@@ -61,7 +62,7 @@ const App: FC = () => {
 
   return (
     <div className="snap-y-mandatory no-scrollbar" ref={containerRef}>
-      <Nav />
+      <Nav firstPageRef={firstPageRef} secondPageRef={secondPageRef} thirdPageRef={thirdPageRef} />
       <FirstPage
         location={location}
         selectedPlaces={selectedPlaces}
@@ -69,9 +70,15 @@ const App: FC = () => {
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
         secondPageRef={secondPageRef}
+        firstPageRef={firstPageRef}
       />
-      <SecondPage location={location} selectedPlaces={selectedPlaces} selectedItem={selectedItem} secondPageRef={secondPageRef} />
-      <ThirdPage />
+      <SecondPage
+        location={location}
+        selectedPlaces={selectedPlaces}
+        selectedItem={selectedItem}
+        secondPageRef={secondPageRef}
+      />
+      <ThirdPage thirdPageRef={thirdPageRef} />
       <SpeedInsights />
     </div>
   );
