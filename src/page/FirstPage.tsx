@@ -15,6 +15,7 @@ interface Props {
   selectedItem: number;
   setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
   secondPageRef: React.RefObject<HTMLDivElement>;
+  firstPageRef: React.RefObject<HTMLDivElement>;
 }
 
 const FirstPage: FC<Props> = ({
@@ -24,6 +25,7 @@ const FirstPage: FC<Props> = ({
   selectedItem,
   setSelectedItem,
   secondPageRef,
+  firstPageRef,
 }) => {
   const [wheelType, setWheelType] = useState<string>('wheel');
   const [specialMode, setSpecialMode] = useState<boolean>(false);
@@ -116,7 +118,10 @@ const FirstPage: FC<Props> = ({
     setSelectedItem(-1);
   }, [wheelType]);
   return (
-    <div className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start">
+    <div
+      className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start"
+      ref={firstPageRef}
+    >
       <SettingPanel
         condition={condition}
         setCondition={setCondition}
