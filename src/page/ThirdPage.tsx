@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import CalendarPanel from '../components/calendar/CalendarPanel.tsx';
 import CaloriesPanel from '@/components/caloriesPanel/CaloriesPanel.tsx';
 import { CaloriesRecord } from '@/types/type';
 
-const ThirdPage = () => {
+interface Props {
+  thirdPageRef: React.RefObject<HTMLDivElement>;
+}
+
+const ThirdPage: FC<Props> = ({ thirdPageRef }) => {
   const [event, setEvent] = useState<
     { id: string; start: string; end: string; title: string; calories: string }[]
   >([]);
@@ -17,9 +21,12 @@ const ThirdPage = () => {
   const [editDate, setEditDate] = React.useState<Date | undefined>(undefined);
   const [recordList, setRecordList] = useState<CaloriesRecord[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  
+
   return (
-    <div className="h-fit sm:h-screen snap-start flex flex-col xl:flex-row justify-center items-center sm:gap-6">
+    <div
+      className="h-fit sm:h-screen snap-start flex flex-col xl:flex-row justify-center items-center sm:gap-6"
+      ref={thirdPageRef}
+    >
       <CalendarPanel
         event={event}
         setEdit={setEdit}
