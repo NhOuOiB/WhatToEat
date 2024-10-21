@@ -1,0 +1,70 @@
+.hamburger_menu {
+  @apply min-w-12 h-full rounded-full flex flex-col justify-center items-center gap-1 overflow-hidden relative;
+  .line {
+    @apply w-1/2 h-0.5 bg-slate-900 transition-all duration-300;
+  }
+  &:hover {
+    .line:nth-child(1) {
+      position: absolute;
+      animation: line_one_rotate 3s ease-in-out forwards;
+    }
+    .line:nth-child(2) {
+      @apply translate-x-12;
+    }
+    .line:nth-child(3) {
+      @apply -rotate-45;
+    }
+  }
+}
+
+@-webkit-keyframes line_one_rotate {
+  0% {
+    
+  }
+  50% {
+    @apply rotate-180;
+  }
+  100% {
+    @apply rotate-45;
+  }
+}
+
+@keyframes line_one_rotate {
+  0% {
+    @apply absolute;
+  }
+  50% {
+    @apply rotate-180;
+  }
+  100% {
+    @apply rotate-45;
+  }
+}
+
+@-webkit-keyframes rotate-back {
+  0% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: -10;
+  }
+}
+
+@keyframes rotate-back {
+  0% {
+    transform: translate(0%);
+    z-index: 10;
+  }
+  50% {
+    transform: translate(110%);
+  }
+  100% {
+    transform: translate(0%);
+    z-index: -10;
+  }
+}
