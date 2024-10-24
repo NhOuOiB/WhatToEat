@@ -25,7 +25,7 @@ const Nav: FC<Props> = ({ firstPageRef, secondPageRef, thirdPageRef }) => {
   }, []);
   return (
     <div className="w-fit h-fit absolute left-4 top-4 flex items-center">
-      <div className="w-12 hover:w-[17.4rem] h-12 border shadow rounded-full transition-all duration-300 bg-white flex items-center gap-2 overflow-hidden">
+      <div className={`${style.nav}`}>
         <div className={`${style.hamburger_menu}`}>
           <div className={`${style.line}`}></div>
           <div className={`${style.line}`}></div>
