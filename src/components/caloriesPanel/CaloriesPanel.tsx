@@ -45,7 +45,6 @@ interface Props {
 }
 
 const CaloriesPanel: FC<Props> = ({
-  event,
   setEvent,
   edit,
   setEdit,
@@ -216,8 +215,6 @@ const CaloriesPanel: FC<Props> = ({
   useEffect(() => {
     setDate(selectedDate);
   }, [selectedDate]);
-
-  // console.log('recordList', recordList);
   return (
     <div className="w-full sm:w-5/6 md:w-3/4 xl:w-1/2 h-screen sm:h-3/5 xl:h-2/3 sm:border shadow rounded-xl flex flex-col justify-center items-center gap-4 sm:p-4 snap-start">
       <div className="w-full h-1/5 border rounded-xl sm:flex justify-center items-center hidden">

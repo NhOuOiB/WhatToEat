@@ -23,7 +23,7 @@ const CalendarPanel: FC<Props> = ({ event, setEdit, setEditData, setEditDate, se
       <div className="w-full h-5/6 sm:h-full border sm:border-none shadow sm:shadow-none rounded-xl p-4 sm:p-0">
         <Calendar
           localizer={localizer}
-          views={['month', 'week']}
+          views={['month']}
           events={event}
           onSelectEvent={(e) => {
             setEditData(e);
