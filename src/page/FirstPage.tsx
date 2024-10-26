@@ -121,6 +121,7 @@ const FirstPage: FC<Props> = ({
     <div
       className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start"
       ref={firstPageRef}
+      id='firstPage'
     >
       <SettingPanel
         condition={condition}

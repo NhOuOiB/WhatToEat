@@ -26,6 +26,7 @@ const ThirdPage: FC<Props> = ({ thirdPageRef }) => {
     <div
       className="h-fit sm:h-screen snap-start flex flex-col xl:flex-row justify-center items-center sm:gap-6"
       ref={thirdPageRef}
+      id='thirdPage'
     >
       <CalendarPanel
         event={event}
