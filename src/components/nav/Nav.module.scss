@@ -1,5 +1,5 @@
 .nav {
-  @apply w-12 hover:w-[17.4rem] h-12 border shadow rounded-full transition-all duration-300 bg-white flex items-center gap-2 overflow-hidden;
+  @apply w-12 hover:w-[17.4rem] h-12 border shadow rounded-full transition-all duration-300 bg-white flex items-center gap-2 overflow-hidden z-50;
   .line:nth-child(1) {
     @apply absolute top-4;
   }

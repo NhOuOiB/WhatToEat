@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import style from './Nav.module.scss'
 
 interface Props {
@@ -8,9 +8,38 @@ interface Props {
 }
 
 const Nav: FC<Props> = ({ firstPageRef, secondPageRef, thirdPageRef }) => {
+  const [pageNow, setPageNow] = useState('firstPage');
   const scrollToRef = (ref: React.RefObject<HTMLDivElement>) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          console.log('Entry:', entry.target.id);
+          console.log('Entry boundingClientRect:', entry.boundingClientRect);
+          console.log('Entry rootBounds:', entry.rootBounds);
+          if (entry.isIntersecting) {
+            setPageNow(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // 當元素 50% 可見時觸發
+      }
+    );
+
+    if (firstPageRef.current) observer.observe(firstPageRef.current);
+    if (secondPageRef.current) observer.observe(secondPageRef.current);
+    if (thirdPageRef.current) observer.observe(thirdPageRef.current);
+    
+    return () => {
+      observer.disconnect();
+    };
+  }
+    , [firstPageRef, secondPageRef, thirdPageRef]);
+  console.log(pageNow);
   return (
     <div className="w-fit h-fit absolute left-4 top-4 flex items-center">
       <div className={`${style.nav}`}>
@@ -20,19 +49,25 @@ const Nav: FC<Props> = ({ firstPageRef, secondPageRef, thirdPageRef }) => {
           <div className={`${style.line}`}></div>
         </div>
         <div
-          className="border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner"
+          className={`border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner ${
+            pageNow === 'firstPage' ? 'shadow-inner bg-slate-50' : ''
+          }`}
           onClick={() => scrollToRef(firstPageRef)}
         >
           轉盤
         </div>
         <div
-          className="border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner"
+          className={`border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner ${
+            pageNow === 'secondPage' ? 'shadow-inner bg-slate-50' : ''
+          }`}
           onClick={() => scrollToRef(secondPageRef)}
         >
           地圖
         </div>
         <div
-          className="border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner"
+          className={`border py-1 px-4 rounded-full text-nowrap cursor-pointer hover:shadow-inner ${
+            pageNow === 'thirdPage' ? 'shadow-inner bg-slate-50' : ''
+          }`}
           onClick={() => scrollToRef(thirdPageRef)}
         >
           記錄
