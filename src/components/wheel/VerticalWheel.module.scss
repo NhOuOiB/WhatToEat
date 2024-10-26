@@ -1,5 +1,5 @@
 .container {
-  @apply w-11/12 sm:w-3/4 xl:w-1/2 h-[158px] flex justify-center items-center relative overflow-hidden border-2 border-gray-800 rounded-xl relative;
+  @apply w-11/12 sm:w-3/4 xl:w-1/2 h-[158px] flex justify-center items-center relative overflow-hidden border-2 border-gray-800 rounded-xl;
   .cover {
     @apply w-full h-full flex justify-center items-center absolute z-10 bg-[#f5f2e2];
   }
