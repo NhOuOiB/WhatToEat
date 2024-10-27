@@ -17,9 +17,6 @@ const Nav: FC<Props> = ({ firstPageRef, secondPageRef, thirdPageRef }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log('Entry:', entry.target.id);
-          console.log('Entry boundingClientRect:', entry.boundingClientRect);
-          console.log('Entry rootBounds:', entry.rootBounds);
           if (entry.isIntersecting) {
             setPageNow(entry.target.id);
           }
@@ -39,7 +36,6 @@ const Nav: FC<Props> = ({ firstPageRef, secondPageRef, thirdPageRef }) => {
     };
   }
     , [firstPageRef, secondPageRef, thirdPageRef]);
-  console.log(pageNow);
   return (
     <div className="w-fit h-fit absolute left-4 top-4 flex items-center">
       <div className={`${style.nav}`}>
