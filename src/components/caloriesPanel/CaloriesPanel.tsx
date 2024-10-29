@@ -240,6 +240,14 @@ const CaloriesPanel: FC<Props> = ({
                   <div
                     className="w-full min-h-10 border rounded-md flex justify-between items-center px-3 text-sm transition hover:bg-[#e6e6e6] hover:shadow-inner cursor-pointer mb-1"
                     key={i}
+                    onMouseDown={() => {
+                      setNewData({
+                        ...newData,
+                        calories: item.nf_calories,
+                      });
+                      setShow(false);
+                    }
+                  }
                   >
                     <p className="w-48 truncate">{item.food_name}</p>
                     <p>{item.nf_calories} kcal</p>
