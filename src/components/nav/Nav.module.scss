@@ -1,3 +1,4 @@
+$distant: 23px;
 .nav {
   @apply w-12 hover:w-[17.4rem] h-12 border shadow rounded-full transition-all duration-300 bg-white flex items-center gap-2 overflow-hidden z-50;
   .line:nth-child(1) {
@@ -8,17 +9,18 @@
   .line:nth-child(3) {
     @apply absolute bottom-4;
   }
-  
 
   &:hover {
     .line:nth-child(1) {
-      @apply top-[23px] rotate-45;
+      @apply rotate-45;
+      top: $distant;
     }
     .line:nth-child(2) {
       @apply translate-x-12;
     }
     .line:nth-child(3) {
-      @apply top-[23px] -rotate-45;
+      @apply -rotate-45;
+      bottom: $distant;
     }
   }
   .hamburger_menu {
