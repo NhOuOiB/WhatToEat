@@ -8,16 +8,17 @@
   .line:nth-child(3) {
     @apply absolute bottom-4;
   }
+  
 
   &:hover {
     .line:nth-child(1) {
-      @apply top-[22.45px] rotate-45;
+      @apply top-[23px] rotate-45;
     }
     .line:nth-child(2) {
       @apply translate-x-12;
     }
     .line:nth-child(3) {
-      @apply bottom-[22.45px] -rotate-45;
+      @apply top-[23px] -rotate-45;
     }
   }
   .hamburger_menu {
