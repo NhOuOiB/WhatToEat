@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useCallback } from 'react';
 import SettingPanel from '../components/settingPanel/SettingPanel';
 import WheelPanel from '../components/wheelPanel/WheelPanel';
 import VerticalWheelPanel from '../components/wheelPanel/VerticalWheelPanel.tsx';
@@ -40,6 +40,32 @@ const FirstPage: FC<Props> = ({
   // Wheel
   const [rotation, setRotation] = useState<number>(0);
 
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const debouncedSetSelectedItem = useCallback(
+    debounce((item: number) => {
+      setSelectedItem(item);
+    }, 3000),
+    []
+  );
+
+  const debouncedScroll = useCallback(
+    debounce(() => {
+      secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 4000),
+    []
+  );
+
   const spin = () => {
     setSelectedItem(-1);
     const newRotation = rotation - Math.floor(Math.random() * 360 + 3600);
@@ -50,13 +76,8 @@ const FirstPage: FC<Props> = ({
     const relativeRotation = (Math.abs(newRotation) + itemAngle / 2) % 360; // 計算多餘的旋轉角度，+ itemAngle / 2 是因為指針指到正中間
     const selectedItem = Math.floor(relativeRotation / itemAngle); // 計算指針指到的項目索引
 
-    setTimeout(() => {
-      setSelectedItem(selectedItem);
-    }, 3000);
-
-    setTimeout(() => {
-      secondPageRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 4000);
+    debouncedSetSelectedItem(selectedItem);
+    debouncedScroll();
   };
 
   // Google Places API
@@ -121,7 +142,7 @@ const FirstPage: FC<Props> = ({
     <div
       className="w-full md:h-screen flex flex-col md:flex-row justify-center items-center md:gap-10 bg-gray-200 md:px-6 md:py-2 snap-start"
       ref={firstPageRef}
-      id='firstPage'
+      id="firstPage"
     >
       <SettingPanel
         condition={condition}
