@@ -94,15 +94,15 @@ const Wheel: FC<WheelProps> = ({ rotation, condition, spin, selectedPlaces }) =>
   ];
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="max-h-full flex flex-col items-center gap-1">
       {/* 轉盤指針 */}
-      <div className=" w-6 h-10 relative flex justify-center">
+      <div className=" w-6 min-h-10 relative flex justify-center">
         <div className="w-0 h-full border border-sky-800 absolute"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.8rem] border-sky-800 absolute bottom-0"></div>
         <div className="w-full border border-b-0 border-x-[0.8rem] border-x-transparent border-t-[.6rem] border-gray-200 absolute bottom-1"></div>
       </div>
       <div
-        className="w-[22rem] h-[22rem] sm:w-[32rem] sm:h-[32rem] md:w-[22rem] md:h-[22rem] lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
+        className="w-[22rem] min-h-[22rem] sm:w-[32rem] sm:min-h-[32rem] md:w-[22rem] md:min-h-[22rem] lg:w-[28rem] lg:min-h-[28rem] xl:w-[32rem] xl:min-h-[32rem] rounded-full overflow-hidden shadow-md cursor-pointer"
         onClick={() => {
           if (selectedPlaces.length >= condition.min) spin();
         }}

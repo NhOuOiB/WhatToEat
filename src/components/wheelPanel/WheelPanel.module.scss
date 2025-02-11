@@ -10,7 +10,7 @@
 
   .wheelPanel {
     transform-style: preserve-3d;
-    @apply w-full h-full flex flex-col justify-center items-center gap-12 shadow rounded-3xl relative transition-transform duration-100 ease-out;
+    @apply w-full h-full flex flex-col justify-center items-center gap-12 py-8 shadow rounded-3xl relative transition-transform duration-100 ease-out overflow-y-scroll;
 
     .transparentBg {
       @apply absolute top-0 left-0 w-full h-full bg-white bg-[#ffffff0d] rounded-3xl border-t border-b border-[#ffffff1a] overflow-hidden -z-10;

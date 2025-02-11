@@ -57,194 +57,196 @@ const SettingPanel: React.FC<SettingPanelProps> = ({
     []
   );
   return (
-    <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 flex flex-col justify-between bg-[#ffffff] rounded-3xl shadow-md ">
-      <div className="flex flex-col gap-8 sm:gap-10">
-        <div className="flex flex-col gap-4">
-          <Label htmlFor="">轉盤樣式</Label>
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              className={`px-6 py-4 text-3xl relative text-gray-500 ${
-                wheelType === 'wheel' && !specialMode && 'text-white'
-              }`}
-              onClick={() => {
-                setCondition({ ...condition, ['min']: 2, ['max']: 8 });
-                setWheelType('wheel');
-                if (wheelType === 'wheel') setSpecialMode(!specialMode);
-              }}
-            >
-              {wheelType === 'wheel' && specialMode ? (
-                <SpinnerIconGradient />
-              ) : (
-                <PiSpinnerBallDuotone />
-              )}
-            </Button>
-            <Button
-              className={`px-6 py-4 text-2xl ${
-                wheelType !== 'verticalWheel' ? 'text-gray-500' : ''
-              }`}
-              onClick={() => {
-                setCondition({ ...condition, ['min']: 6, ['max']: 10 });
-                setWheelType('verticalWheel');
-              }}
-            >
-              <IconContext.Provider value={{ className: 'rotate-90' }}>
-                <BiCarousel />
-              </IconContext.Provider>
-            </Button>
-            <Button
-              className={`px-6 py-4 text-2xl ${
-                wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''
-              }`}
-              onClick={() => {
-                setCondition({ ...condition, ['min']: 10, ['max']: 20 });
-                setWheelType('horizontalWheel');
-              }}
-            >
-              <BiCarousel />
-            </Button>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          <Label htmlFor="">優先順序</Label>
-          <div className="grid grid-cols-4 gap-2">
-            <Button
-              className={`px-6 py-4 text-md ${
-                condition.rankPreference !== 'POPULARITY' && 'text-gray-500'
-              }`}
-              onClick={() => setCondition({ ...condition, ['rankPreference']: 'POPULARITY' })}
-            >
-              評分
-            </Button>
-            <Button
-              className={`px-6 py-4 text-md ${
-                condition.rankPreference !== 'DISTANCE' && 'text-gray-500'
-              }`}
-              onClick={() => setCondition({ ...condition, ['rankPreference']: 'DISTANCE' })}
-            >
-              距離
-            </Button>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          <Label htmlFor="">美食類型</Label>
-          <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {restaurantTypes.map((type, index) => (
+    <div className="w-full md:w-1/3 xl:w-1/4 2xl:w-1/4 min-[1980px]:w-1/5 h-screen md:h-5/6 p-10 bg-[#ffffff] rounded-3xl shadow-md ">
+      <div className="h-full flex flex-col justify-between gap-8 sm:gap-10 overflow-y-scroll no-scrollbar">
+        <div className="flex flex-col gap-8 sm:gap-10">
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="">轉盤樣式</Label>
+            <div className="grid grid-cols-2 gap-2">
               <Button
-                className={`px-6 py-4 text-md ${
-                  condition.includedTypes !== type.includedTypes && 'text-gray-500'
+                className={`px-6 py-4 text-3xl relative text-gray-500 ${
+                  wheelType === 'wheel' && !specialMode && 'text-white'
                 }`}
                 onClick={() => {
-                  if (condition.includedTypes === type.includedTypes) {
-                    setCondition({ ...condition, ['includedTypes']: 'restaurant' });
-                    return;
-                  } else {
-                    setCondition({ ...condition, ['includedTypes']: type.includedTypes });
-                  }
+                  setCondition({ ...condition, ['min']: 2, ['max']: 8 });
+                  setWheelType('wheel');
+                  if (wheelType === 'wheel') setSpecialMode(!specialMode);
                 }}
-                key={index}
               >
-                {type.chinese}
+                {wheelType === 'wheel' && specialMode ? (
+                  <SpinnerIconGradient />
+                ) : (
+                  <PiSpinnerBallDuotone />
+                )}
               </Button>
-            ))}
+              <Button
+                className={`px-6 py-4 text-2xl ${
+                  wheelType !== 'verticalWheel' ? 'text-gray-500' : ''
+                }`}
+                onClick={() => {
+                  setCondition({ ...condition, ['min']: 6, ['max']: 10 });
+                  setWheelType('verticalWheel');
+                }}
+              >
+                <IconContext.Provider value={{ className: 'rotate-90' }}>
+                  <BiCarousel />
+                </IconContext.Provider>
+              </Button>
+              <Button
+                className={`px-6 py-4 text-2xl ${
+                  wheelType !== 'horizontalWheel' ? 'text-gray-500' : ''
+                }`}
+                onClick={() => {
+                  setCondition({ ...condition, ['min']: 10, ['max']: 20 });
+                  setWheelType('horizontalWheel');
+                }}
+              >
+                <BiCarousel />
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="">優先順序</Label>
+            <div className="grid grid-cols-4 gap-2">
+              <Button
+                className={`px-6 py-4 text-md ${
+                  condition.rankPreference !== 'POPULARITY' && 'text-gray-500'
+                }`}
+                onClick={() => setCondition({ ...condition, ['rankPreference']: 'POPULARITY' })}
+              >
+                評分
+              </Button>
+              <Button
+                className={`px-6 py-4 text-md ${
+                  condition.rankPreference !== 'DISTANCE' && 'text-gray-500'
+                }`}
+                onClick={() => setCondition({ ...condition, ['rankPreference']: 'DISTANCE' })}
+              >
+                距離
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="">美食類型</Label>
+            <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+              {restaurantTypes.map((type, index) => (
+                <Button
+                  className={`px-6 py-4 text-md ${
+                    condition.includedTypes !== type.includedTypes && 'text-gray-500'
+                  }`}
+                  onClick={() => {
+                    if (condition.includedTypes === type.includedTypes) {
+                      setCondition({ ...condition, ['includedTypes']: 'restaurant' });
+                      return;
+                    } else {
+                      setCondition({ ...condition, ['includedTypes']: type.includedTypes });
+                    }
+                  }}
+                  key={index}
+                >
+                  {type.chinese}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <Label htmlFor="count">店家距離</Label>
+              <span className="text-sm">{condition.distance} m</span>
+            </div>
+            <Slider
+              value={[condition.distance]}
+              max={10000}
+              min={500}
+              step={500}
+              onValueChange={(value) => setCondition({ ...condition, ['distance']: value[0] })}
+            />
           </div>
         </div>
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <Label htmlFor="count">店家距離</Label>
-            <span className="text-sm">{condition.distance} m</span>
-          </div>
-          <Slider
-            value={[condition.distance]}
-            max={10000}
-            min={500}
-            step={500}
-            onValueChange={(value) => setCondition({ ...condition, ['distance']: value[0] })}
-          />
-        </div>
-      </div>
-      <Dialog>
-        <DialogTrigger
-          className={`w-full h-10 bg-[#0f172A] text-white mb-4 flex justify-center items-center rounded-md ${
-            selectedPlaces?.length < condition.min && 'animate-bounce'
-          }`}
-          onClick={fetchPlaces}
-        >
-          挑選店家
-        </DialogTrigger>
-        <DialogContent className="w-5/6 h-5/6 sm:h-[52rem]">
-          <DialogHeader className="overflow-hidden">
-            <DialogTitle className="">
-              挑選喜歡的店家{' '}
-              <span className="text-sm text-gray-600">
-                (至少 {condition.min} ~ {condition.max} 家)
-              </span>
-            </DialogTitle>
-            {places ? (
-              <div className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
-                {places?.length === 0
-                  ? Array.from({ length: 20 }).map((_, index) => (
-                      <div
-                        className={`w-full sm:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
-                        key={index}
-                      >
-                        <Checkbox className={`bg-white text-gray-500`} />
-                        <Skeleton key={index} className="w-5/6 h-5" />
-                      </div>
-                    ))
-                  : places?.map((item) => {
-                      const selected = selectedPlaces.some((place) => place.id === item.id);
-                      return (
+        <Dialog>
+          <DialogTrigger
+            className={`w-full min-h-10 bg-[#0f172A] text-white flex justify-center items-center rounded-md ${
+              selectedPlaces?.length < condition.min && 'xl:animate-bounce'
+            }`}
+            onClick={fetchPlaces}
+          >
+            挑選店家
+          </DialogTrigger>
+          <DialogContent className="w-5/6 h-5/6 sm:h-[52rem]">
+            <DialogHeader className="overflow-hidden">
+              <DialogTitle className="">
+                挑選喜歡的店家{' '}
+                <span className="text-sm text-gray-600">
+                  (至少 {condition.min} ~ {condition.max} 家)
+                </span>
+              </DialogTitle>
+              {places ? (
+                <div className="h-full flex flex-col items-center gap-2 overflow-scroll no-scrollbar">
+                  {places?.length === 0
+                    ? Array.from({ length: 20 }).map((_, index) => (
                         <div
-                          className="w-full sm:w-2/3 flex justify-center items-center gap-2 relative"
-                          key={item.id}
+                          className={`w-full sm:w-2/3 flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border`}
+                          key={index}
                         >
-                          {item.regularOpeningHours?.openNow ? (
-                            <span className="absolute flex justify-center items-center h-full w-2 left-0">
-                              <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
-                            </span>
-                          ) : (
-                            <span className="absolute flex h-full w-2 left-0">
-                              <span className="relative inline-flex rounded-l h-full w-full bg-gray-400"></span>
-                            </span>
-                          )}
+                          <Checkbox className={`bg-white text-gray-500`} />
+                          <Skeleton key={index} className="w-5/6 h-5" />
+                        </div>
+                      ))
+                    : places?.map((item) => {
+                        const selected = selectedPlaces.some((place) => place.id === item.id);
+                        return (
                           <div
-                            className={`w-full md:w-full flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border ${
-                              selectedPlaces.length === condition.max && !selected
-                                ? 'bg-gray-300 text-gray-500 border-transparent'
-                                : !selected
-                                ? 'bg-white text-gray-800 border border-gray-400'
-                                : 'bg-gray-900 text-white border-transparent'
-                            }`}
-                            onClick={() => {
-                              if (selectedPlaces.some((place) => place.id === item.id)) {
-                                setSelectedPlaces(
-                                  selectedPlaces.filter((place) => place.id !== item.id)
-                                );
-                              } else {
-                                if (selectedPlaces.length === condition.max) return;
-                                setSelectedPlaces([...selectedPlaces, item]);
-                              }
-                            }}
+                            className="w-full sm:w-2/3 flex justify-center items-center gap-2 relative"
                             key={item.id}
                           >
-                            <Checkbox className={`bg-white text-gray-500`} checked={selected} />
-                            <p className="w-48 text-sm text-right truncate">
-                              {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
-                            </p>
+                            {item.regularOpeningHours?.openNow ? (
+                              <span className="absolute flex justify-center items-center h-full w-2 left-0">
+                                <span className="animate-ping absolute inline-flex h-3/4 w-full rounded-l bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-l h-full w-full bg-emerald-400"></span>
+                              </span>
+                            ) : (
+                              <span className="absolute flex h-full w-2 left-0">
+                                <span className="relative inline-flex rounded-l h-full w-full bg-gray-400"></span>
+                              </span>
+                            )}
+                            <div
+                              className={`w-full md:w-full flex justify-between items-center px-4 py-[0.65rem] rounded-md cursor-pointer transition border ${
+                                selectedPlaces.length === condition.max && !selected
+                                  ? 'bg-gray-300 text-gray-500 border-transparent'
+                                  : !selected
+                                  ? 'bg-white text-gray-800 border border-gray-400'
+                                  : 'bg-gray-900 text-white border-transparent'
+                              }`}
+                              onClick={() => {
+                                if (selectedPlaces.some((place) => place.id === item.id)) {
+                                  setSelectedPlaces(
+                                    selectedPlaces.filter((place) => place.id !== item.id)
+                                  );
+                                } else {
+                                  if (selectedPlaces.length === condition.max) return;
+                                  setSelectedPlaces([...selectedPlaces, item]);
+                                }
+                              }}
+                              key={item.id}
+                            >
+                              <Checkbox className={`bg-white text-gray-500`} checked={selected} />
+                              <p className="w-48 text-sm text-right truncate">
+                                {item.displayName.text.split('｜')[0].split('(')[0].split('（')[0]}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-              </div>
-            ) : (
-              <DialogDescription className="h-full flex justify-center items-center text-2xl">
-                此範圍沒有店家
-              </DialogDescription>
-            )}
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+                        );
+                      })}
+                </div>
+              ) : (
+                <DialogDescription className="h-full flex justify-center items-center text-2xl">
+                  此範圍沒有店家
+                </DialogDescription>
+              )}
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

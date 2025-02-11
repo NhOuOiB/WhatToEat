@@ -57,7 +57,7 @@ const WheelPanel: React.FC<WheelPanelProps> = ({
       ref={panelRef}
     >
       <div
-        className={styles.wheelPanel}
+        className={`${styles.wheelPanel} no-scrollbar`}
         style={{ transform: `rotateX(${calcX}deg) rotateY(${calcY}deg)` }}
       >
         <div className={specialMode ? styles.transparentBg : 'absolute'}></div>
